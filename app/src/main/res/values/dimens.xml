@@ -16,4 +16,8 @@
     <dimen name="height_bottom_nav_view_main">56dp</dimen>
     <dimen name="size_bottom_nav_icon">36dp</dimen>
 
+    <!-- Profile  -->
+    <dimen name="height_profile_header">92dp</dimen>
+    <dimen name="radius_profile_avatar">60dp</dimen>
+
 </resources>
