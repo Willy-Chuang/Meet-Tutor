@@ -13,4 +13,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ViewDialog">
+        <item name="android:windowBackground">#00ffffff</item>
+    </style>
+
 </resources>

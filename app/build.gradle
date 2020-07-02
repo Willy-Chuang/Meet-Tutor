@@ -75,4 +75,7 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
+
+    // Calendar
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
 }
