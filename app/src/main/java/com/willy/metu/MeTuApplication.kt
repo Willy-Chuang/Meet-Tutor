@@ -8,7 +8,7 @@ import kotlin.properties.Delegates
 class MeTuApplication : Application() {
 
     // Depends on the flavor,
-    val repository: MeTuRepository
+    val meTuRepository: MeTuRepository
         get() = ServiceLocator.provideRepository(this)
 
     companion object {

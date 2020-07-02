@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <dimen name="elevation_all">4dp</dimen>
+    <dimen name="height_all_bottom_layout">80dp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="height_toolbar">80dp</dimen>
+    <dimen name="height_status_bar_origin">24dp</dimen>
+
+    <!-- Nav view of Drawer -->
+    <dimen name="width_drawer">304dp</dimen>
+
+    <!-- Bottom Navigation -->
+    <dimen name="height_bottom_nav_view_main">56dp</dimen>
+    <dimen name="size_bottom_nav_icon">36dp</dimen>
+
+</resources>

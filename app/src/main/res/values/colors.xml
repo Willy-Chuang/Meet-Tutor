@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#FFC75A</color>
+    <color name="colorPrimaryDark">#F3B130</color>
+    <color name="colorAccent">#5BD2BF</color>
+
+    <!-- White Series -->
+    <color name="white">#ffffff</color>
+
+    <!-- Black Series -->
+    <color name="black">#000000</color>
+    <color name="black_3f3a3a">#3f3a3a</color>
+
 </resources>
