@@ -16,11 +16,11 @@ class CurrentDayDecorator(context: Activity?, currentDay: CalendarDay) : DayView
     }
 
     override fun decorate(view: DayViewFacade) {
-        view.setSelectionDrawable(drawable!!)
+        view.addSpan(DotSpan)
     }
 
     init {
         // You can set background for Decorator via drawable here
-        drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_nav_profile)
+        drawable = ContextCompat.getDrawable(context!!, R.drawable.current_date_dot)
     }
 }
