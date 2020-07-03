@@ -25,7 +25,6 @@ import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
-//import com.willy.metu.util.Logger
 import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {

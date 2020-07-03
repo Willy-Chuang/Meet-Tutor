@@ -5,14 +5,15 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prolificinteractive.materialcalendarview.CalendarMode
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.databinding.BottomSheetLayoutBinding
 import com.willy.metu.databinding.FragmentCalendarBinding
 import kotlinx.android.synthetic.main.bottom_sheet_calendar.*
 
@@ -20,6 +21,7 @@ class CalendarFragment : Fragment() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
     private lateinit var binding: FragmentCalendarBinding
+    lateinit var widget: MaterialCalendarView
 
 
 
@@ -35,6 +37,17 @@ class CalendarFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
+        widget.setOnDateChangedListener { widget, date, selected ->
+            if(selected) {
+                Toast.makeText(
+                    MeTuApplication.appContext,
+                    "current date : ${date.date}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
 
         bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(persistent_bottom_sheet)

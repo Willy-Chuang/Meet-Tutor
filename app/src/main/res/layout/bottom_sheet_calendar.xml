@@ -16,7 +16,7 @@
         android:background="@drawable/bg_dialog_corner"
         android:orientation="vertical"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="120dp"
+        app:behavior_peekHeight="232dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
