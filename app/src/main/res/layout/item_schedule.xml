@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="event"
+            type="com.willy.metu.data.Event" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_card_corner">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/label_schedule_time"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@color/water_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <TextView
+                    android:id="@+id/title_weekday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="THU"/>
+
+                <TextView
+                    android:id="@+id/title_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@id/title_weekday"
+                    app:layout_constraintTop_toBottomOf="@id/title_weekday"
+                    tools:text="APR 13"/>
+
+                <TextView
+                    android:id="@+id/title_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@id/title_date"
+                    app:layout_constraintTop_toBottomOf="@id/title_date"
+                    tools:text="14 : 00"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@id/label_schedule_time">
+
+            <TextView
+                android:id="@+id/text_event_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black_3f3a3a"
+                android:maxLines="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Kotlin Meetup: AppworkSchool"/>
+    
+            <TextView
+                android:id="@+id/text_event_attendee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:textColor="@color/black_3f3a3a"
+                app:layout_constraintStart_toStartOf="@id/text_event_topic"
+                app:layout_constraintTop_toBottomOf="@id/text_event_topic"
+                tools:text="Wayne Chen"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

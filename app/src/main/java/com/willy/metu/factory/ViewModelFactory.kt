@@ -3,6 +3,7 @@ package com.willy.metu.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.MainViewModel
+import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.data.source.MeTuRepository
 
 @Suppress("UNCHECKED_CAST")
@@ -12,6 +13,8 @@ class ViewModelFactory constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
+                isAssignableFrom(CalendarBottomSheetViewModel::class.java) ->
+                    CalendarBottomSheetViewModel(meTuRepository)
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(meTuRepository)
                 else ->

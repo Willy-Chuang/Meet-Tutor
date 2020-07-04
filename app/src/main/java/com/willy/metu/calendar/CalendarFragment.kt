@@ -1,6 +1,8 @@
 package com.willy.metu.calendar
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,13 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -27,8 +35,8 @@ class CalendarFragment : Fragment() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
     private lateinit var binding: FragmentCalendarBinding
+    private lateinit var widget: MaterialCalendarView
     private val oneDayDecorator: OneDayDecorator = OneDayDecorator()
-    lateinit var widget: MaterialCalendarView
 
 
     override fun onCreateView(
@@ -42,6 +50,29 @@ class CalendarFragment : Fragment() {
         val calendarView = binding.calendarView
         val calendar = Calendar.getInstance()
         calendarView.setCurrentDate(LocalDate.now())
+//
+//        val  db = FirebaseFirestore.getInstance()
+//        // Create a new user with a first and last name
+//        val user: MutableMap<String, Any> = HashMap()
+//        user["first"] = "Ada"
+//        user["last"] = "Lovelace"
+//        user["born"] = 1815
+//
+//
+//        // Add a new document with a generated ID
+//        db.collection("users")
+//            .add(user)
+//            .addOnSuccessListener(OnSuccessListener<DocumentReference> { documentReference ->
+//                Log.d(
+//                    "DocumentSnapshot " + documentReference.id,""
+//                )
+//            })
+//            .addOnFailureListener(OnFailureListener { e ->
+//                Log.w(
+//                    "Error adding document",
+//                    e
+//                )
+//            })
 
 
 
@@ -55,16 +86,20 @@ class CalendarFragment : Fragment() {
         super.onStart()
 
         val activity = activity
+        val calendar = LocalDate.now()
+
+//        findNavController().navigate(R.id.calendarBottomSheet)
 
         widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
 
         widget.addDecorators(HighlightWeekendsDecorator())
 
         // Set Indicator of current date
-        widget.addDecorators(CurrentDayDecorator(activity, CalendarDay.today()))
+        widget.setSelectedDate(calendar)
 
         // Add Dot to a date
-        widget.addDecorators(SingleDateDecorator(R.color.red,CalendarDay.from(2020,7,13)))
+//        widget.addDecorators(SingleDateDecorator(R.color.red,CalendarDay.from(2020,7,13)))
+        widget.addDecorators(SingleDateDecorator(MeTuApplication.appContext.resources.getColor(R.color.red), CalendarDay.from(2020,7,13)))
 
         // Get the current selected date
         widget.setOnDateChangedListener { widget, date, selected ->

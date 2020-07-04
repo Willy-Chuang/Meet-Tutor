@@ -6,6 +6,12 @@
     <data>
         <import type="android.view.View"/>
         <variable name="dialog" type="com.willy.metu.calendar.CalendarBottomSheet"/>
+        <variable
+            name="viewModel"
+            type="com.willy.metu.calendar.CalendarBottomSheetViewModel" />
+        <variable
+            name="isLiveDataDesign"
+            type="Boolean" />
 
     </data>
 
@@ -23,47 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
         <TextView
-            android:id="@+id/text_1"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:text="This is Bottom Sheet La"
-            android:textSize="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TEST"
+            android:textSize="56sp" />
 
-        <TextView
-            android:id="@+id/text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:text="This is Bottom Sheet La"
-            android:textSize="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_1"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/text_3"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:text="This is Bottom Sheet La"
-            android:textSize="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_2"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/text_4"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:text="This is Bottom Sheet La"
-            android:textSize="36dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_3"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:events="@{isLiveDataDesign ? viewModel.liveEvents : viewModel.events}"
+            tools:listitem="@layout/item_schedule"/>
 
         </LinearLayout>
 
