@@ -29,18 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="TEST"
-            android:textSize="56sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:events="@{isLiveDataDesign ? viewModel.liveEvents : viewModel.events}"
-            tools:listitem="@layout/item_schedule"/>
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recycler_schedule"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:events="@{isLiveDataDesign ? viewModel.liveEvents : viewModel.events}"-->
+<!--            tools:listitem="@layout/item_schedule"/>-->
 
         </LinearLayout>
 

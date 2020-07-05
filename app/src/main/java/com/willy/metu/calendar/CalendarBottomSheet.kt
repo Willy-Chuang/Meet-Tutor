@@ -32,18 +32,18 @@ class CalendarBottomSheet : BottomSheetDialogFragment(){
         binding.lifecycleOwner = viewLifecycleOwner
         binding.dialog = this
         isCancelable = false
-        binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
-        binding.recyclerSchedule.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-
-        val adapter = CalendarBottomSheetAdapter()
-        binding.recyclerSchedule.adapter = adapter
-
-        viewModel.liveEvents.observe(viewLifecycleOwner, Observer {
-            Logger.d("viewModel.liveArticles.observe, it=$it")
-            it?.let {
-                binding.viewModel = viewModel
-            }
-        })
+//        binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
+//        binding.recyclerSchedule.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//
+//        val adapter = CalendarBottomSheetAdapter()
+//        binding.recyclerSchedule.adapter = adapter
+//
+//        viewModel.liveEvents.observe(viewLifecycleOwner, Observer {
+//            Logger.d("viewModel.liveArticles.observe, it=$it")
+//            it?.let {
+//                binding.viewModel = viewModel
+//            }
+//        })
 
 
 

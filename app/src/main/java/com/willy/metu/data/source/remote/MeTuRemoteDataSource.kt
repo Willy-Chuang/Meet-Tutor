@@ -13,7 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 
 object MeTuRemoteDataSource : MeTuDataSource {
 
-    private const val PATH_EVENTS = "events"
+    private const val PATH_EVENTS = "event"
     private const val KEY_CREATED_TIME = "createdTime"
 
     override suspend fun getEvents(): Result<List<Event>> = suspendCoroutine { continuation ->

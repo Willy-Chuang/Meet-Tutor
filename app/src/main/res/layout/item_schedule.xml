@@ -10,16 +10,19 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/bg_card_corner">
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/label_schedule_time"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@color/water_blue"
+            android:background="@drawable/bg_card_left_corner"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -80,13 +83,14 @@
                 android:id="@+id/text_event_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black_3f3a3a"
                 android:maxLines="2"
+                android:text="@{event.title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Kotlin Meetup: AppworkSchool"/>
@@ -105,5 +109,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

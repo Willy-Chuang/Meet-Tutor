@@ -11,7 +11,10 @@ import androidx.annotation.NonNull
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,15 +26,15 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentCalendarBinding
-import com.willy.metu.util.CurrentDayDecorator
-import com.willy.metu.util.HighlightWeekendsDecorator
-import com.willy.metu.util.OneDayDecorator
-import com.willy.metu.util.SingleDateDecorator
+import com.willy.metu.ext.getVmFactory
+import com.willy.metu.util.*
 import kotlinx.android.synthetic.main.bottom_sheet_calendar.*
 import org.threeten.bp.LocalDate
 import java.util.*
 
 class CalendarFragment : Fragment() {
+
+    private val viewModel by viewModels<CalendarBottomSheetViewModel> {getVmFactory()}
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
     private lateinit var binding: FragmentCalendarBinding
@@ -50,6 +53,28 @@ class CalendarFragment : Fragment() {
         val calendarView = binding.calendarView
         val calendar = Calendar.getInstance()
         calendarView.setCurrentDate(LocalDate.now())
+        binding.viewModel = viewModel
+        binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
+        binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
+//        binding.recyclerSchedule.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+
+        val adapter = CalendarBottomSheetAdapter()
+        binding.recyclerSchedule.adapter = adapter
+
+        viewModel.liveEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Logger.d("viewModel.liveEvent.observe, it=$it")
+            it?.let {
+//                adapter.submitList(it)
+                binding.viewModel = viewModel
+            }
+        })
+
+//        viewModel.liveEvents.observe(viewLifecycleOwner, Observer {
+//            Logger.d("viewModel.liveArticles.observe, it=$it")
+//            it?.let {
+//                binding.viewModel = viewModel
+//            }
+//        })
 //
 //        val  db = FirebaseFirestore.getInstance()
 //        // Create a new user with a first and last name
