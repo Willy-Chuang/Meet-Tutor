@@ -10,16 +10,11 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -47,7 +42,6 @@ class CalendarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val calendarView = binding.calendarView
@@ -56,7 +50,6 @@ class CalendarFragment : Fragment() {
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
-//        binding.recyclerSchedule.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
@@ -64,43 +57,18 @@ class CalendarFragment : Fragment() {
         viewModel.liveEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             Logger.d("viewModel.liveEvent.observe, it=$it")
             it?.let {
-//                adapter.submitList(it)
                 binding.viewModel = viewModel
             }
         })
 
-//        viewModel.liveEvents.observe(viewLifecycleOwner, Observer {
-//            Logger.d("viewModel.liveArticles.observe, it=$it")
-//            it?.let {
-//                binding.viewModel = viewModel
-//            }
-//        })
-//
-//        val  db = FirebaseFirestore.getInstance()
-//        // Create a new user with a first and last name
-//        val user: MutableMap<String, Any> = HashMap()
-//        user["first"] = "Ada"
-//        user["last"] = "Lovelace"
-//        user["born"] = 1815
-//
-//
-//        // Add a new document with a generated ID
-//        db.collection("users")
-//            .add(user)
-//            .addOnSuccessListener(OnSuccessListener<DocumentReference> { documentReference ->
-//                Log.d(
-//                    "DocumentSnapshot " + documentReference.id,""
-//                )
-//            })
-//            .addOnFailureListener(OnFailureListener { e ->
-//                Log.w(
-//                    "Error adding document",
-//                    e
-//                )
-//            })
+        val test = TimeUtil.stampToWeekday(1593932797000)
+        Logger.i(test)
 
+        val testa = TimeUtil.stampToDayOfMonth(1593932797000)
+        Logger.i(testa)
 
-
+        val testb = TimeUtil.stampToMonth(1593932797000)
+        Logger.i(testb)
 
 
         return binding.root
@@ -113,7 +81,6 @@ class CalendarFragment : Fragment() {
         val activity = activity
         val calendar = LocalDate.now()
 
-//        findNavController().navigate(R.id.calendarBottomSheet)
 
         widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
 
@@ -123,7 +90,6 @@ class CalendarFragment : Fragment() {
         widget.setSelectedDate(calendar)
 
         // Add Dot to a date
-//        widget.addDecorators(SingleDateDecorator(R.color.red,CalendarDay.from(2020,7,13)))
         widget.addDecorators(SingleDateDecorator(MeTuApplication.appContext.resources.getColor(R.color.red), CalendarDay.from(2020,7,13)))
 
         // Get the current selected date

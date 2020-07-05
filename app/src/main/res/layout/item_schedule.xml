@@ -45,7 +45,21 @@
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    weekday="@{event.eventTime}"
                     tools:text="THU"/>
+
+                <TextView
+                    android:id="@+id/title_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@id/title_weekday"
+                    app:layout_constraintTop_toBottomOf="@id/title_weekday"
+                    month="@{event.eventTime}"
+                    tools:text="APR"/>
 
                 <TextView
                     android:id="@+id/title_date"
@@ -55,9 +69,10 @@
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/white"
                     android:layout_marginTop="2dp"
-                    app:layout_constraintStart_toStartOf="@id/title_weekday"
+                    app:layout_constraintStart_toEndOf="@id/title_weekday"
                     app:layout_constraintTop_toBottomOf="@id/title_weekday"
-                    tools:text="APR 13"/>
+                    day="@{event.eventTime}"
+                    tools:text="13"/>
 
                 <TextView
                     android:id="@+id/title_time"
@@ -67,8 +82,9 @@
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/white"
                     android:layout_marginTop="2dp"
-                    app:layout_constraintStart_toStartOf="@id/title_date"
-                    app:layout_constraintTop_toBottomOf="@id/title_date"
+                    app:layout_constraintStart_toStartOf="@id/title_month"
+                    app:layout_constraintTop_toBottomOf="@id/title_month"
+                    time="@{event.eventTime}"
                     tools:text="14 : 00"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
