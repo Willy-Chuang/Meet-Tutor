@@ -13,13 +13,31 @@ object TimeUtil {
 
     @JvmStatic
     fun stampToDate(time: Long): String {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return simpleDateFormat.format(Date(time))
+    }
+
+    @JvmStatic
+    fun stampToYear(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy")
+        return simpleDateFormat.format(Date(time))
+    }
+
+    @JvmStatic
+    fun stampToMonthInt(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("MM")
+        return simpleDateFormat.format(Date(time))
+    }
+
+    @JvmStatic
+    fun stampToDay(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("dd")
         return simpleDateFormat.format(Date(time))
     }
 
     @JvmStatic
     fun dateToStamp(date: String, locale: Locale): Long {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", locale)
         return simpleDateFormat.parse(date).time
     }
 

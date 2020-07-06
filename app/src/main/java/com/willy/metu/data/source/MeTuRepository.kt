@@ -11,8 +11,8 @@ interface MeTuRepository {
 
     fun getLiveSelectedEvents(): MutableLiveData<List<SelectedEvent>>
 
-    suspend fun getAllEvents(user: Long): Result<List<Events>>
+    suspend fun getAllEvents(user: String): Result<List<Events>>
 
-    fun getLiveAllEvents(user: Long): MutableLiveData<List<Events>>
+    fun getLiveAllEvents(user: String): MutableLiveData<List<Events>>
 
 }

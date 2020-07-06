@@ -40,7 +40,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         binding.viewModel = viewModel
 
         //Setup switch - show time if all-day disabled (default: true)
-        val AlldaySwitch = binding.switchAllDay as Switch
+        val AlldaySwitch = binding.switchAllDay
         AlldaySwitch.setOnClickListener {
             if (AlldaySwitch.isChecked) {
                 binding.textStartTime.visibility = View.GONE

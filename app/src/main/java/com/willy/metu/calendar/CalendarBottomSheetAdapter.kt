@@ -5,24 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.willy.metu.data.Events
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.databinding.ItemScheduleBinding
 
-class CalendarBottomSheetAdapter() : ListAdapter<SelectedEvent, RecyclerView.ViewHolder>(DiffCallback){
+class CalendarBottomSheetAdapter() : ListAdapter<Events, RecyclerView.ViewHolder>(DiffCallback){
 
     class EventViewHolder(private var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(selectedEvent: SelectedEvent) {
-            binding.event = selectedEvent
+        fun bind(Events: Events) {
+            binding.event = Events
             binding.executePendingBindings()
         }
     }
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<SelectedEvent>() {
-        override fun areItemsTheSame(oldItem: SelectedEvent, newItem: SelectedEvent): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Events>() {
+        override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: SelectedEvent, newItem: SelectedEvent): Boolean {
+        override fun areContentsTheSame(oldItem: Events, newItem: Events): Boolean {
             return oldItem.id == newItem.id
         }
 
@@ -41,7 +42,7 @@ class CalendarBottomSheetAdapter() : ListAdapter<SelectedEvent, RecyclerView.Vie
 
         when(holder) {
             is EventViewHolder -> {
-                holder.bind((getItem(position) as SelectedEvent))
+                holder.bind((getItem(position) as Events))
             }
         }
     }

@@ -18,11 +18,11 @@ class DefaultMeTuRepository(
         return remoteDataSource.getLiveSelectedEvents()
     }
 
-    override suspend fun getAllEvents(user: Long): Result<List<Events>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getAllEvents(user: String): Result<List<Events>> {
+        return remoteDataSource.getAllEvents(user)
     }
 
-    override fun getLiveAllEvents(user: Long): MutableLiveData<List<Events>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getLiveAllEvents(user: String): MutableLiveData<List<Events>> {
+        return remoteDataSource.getLiveAllEvents(user)
     }
 }

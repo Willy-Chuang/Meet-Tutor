@@ -4,12 +4,13 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.calendar.CalendarBottomSheetAdapter
+import com.willy.metu.data.Events
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.util.TimeUtil
 
 @BindingAdapter("events")
-fun bindRecyclerView(recyclerView: RecyclerView, selectedEventItem: List<SelectedEvent>?){
-    selectedEventItem?.let{
+fun bindRecyclerView(recyclerView: RecyclerView, EventsItem: List<Events>?){
+    EventsItem?.let{
         recyclerView.adapter?.apply {
             when (this) {
                 is CalendarBottomSheetAdapter -> submitList(it)

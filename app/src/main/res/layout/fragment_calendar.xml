@@ -32,6 +32,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:mcv_selectionColor="@color/colorAccent"
+                app:mcv_dateTextAppearance="@style/calendarDateText"
                 app:mcv_showOtherDates="all" />
 
 
@@ -57,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="16dp"
-                    app:events="@{isLiveDataDesign ? viewModel.liveEvents : viewModel.events }"
+                    events="@{isLiveDataDesign ? viewModel.allLiveEvents : viewModel.allEvents }"
                     tools:listitem="@layout/item_schedule"/>
 
                 <ImageView

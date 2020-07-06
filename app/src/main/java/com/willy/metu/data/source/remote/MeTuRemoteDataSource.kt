@@ -66,7 +66,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override suspend fun getAllEvents(user: Long): Result<List<Events>> = suspendCoroutine { continuation ->
+    override suspend fun getAllEvents(user: String): Result<List<Events>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)
             .whereArrayContains("attendees",user)
@@ -91,7 +91,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
             }
     }
 
-    override fun getLiveAllEvents(user: Long): MutableLiveData<List<Events>> {
+    override fun getLiveAllEvents(user: String): MutableLiveData<List<Events>> {
         val liveData = MutableLiveData<List<Events>>()
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)

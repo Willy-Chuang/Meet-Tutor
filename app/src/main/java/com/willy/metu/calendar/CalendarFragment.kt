@@ -1,6 +1,7 @@
 package com.willy.metu.calendar
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -62,10 +63,20 @@ class CalendarFragment : Fragment() {
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
 
-        viewModel.liveEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Logger.d("viewModel.liveEvent.observe, it=$it")
+        viewModel.allLiveEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Logger.d("viewModel.allEvents.observe, it=$it")
             it?.let {
                 binding.viewModel = viewModel
+
+                it.forEach() { event ->
+                    val year = TimeUtil.stampToYear(event.eventTime).toInt()
+                    val month = TimeUtil.stampToMonthInt(event.eventTime).toInt()
+                    val day = TimeUtil.stampToDay(event.eventTime).toInt()
+
+                    addDotDecoration(year,month,day)
+
+                }
+
             }
         })
 
@@ -100,12 +111,12 @@ class CalendarFragment : Fragment() {
         widget.setSelectedDate(calendar)
 
         // Add Dot to a date
-        widget.addDecorators(
-            SingleDateDecorator(
-                MeTuApplication.appContext.resources.getColor(R.color.red),
-                CalendarDay.from(2020, 7, 13)
-            )
-        )
+//        widget.addDecorators(
+//            SingleDateDecorator(
+//                MeTuApplication.appContext.resources.getColor(R.color.red),
+//                CalendarDay.from(2020, 7, 13)
+//            )
+//        )
 
         // Get the current selected date
         widget.setOnDateChangedListener { widget, date, selected ->
@@ -113,11 +124,26 @@ class CalendarFragment : Fragment() {
 
                 oneDayDecorator.setDate(date.date)
 
+//                val getLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    resources.configuration.locales
+//                } else {
+//                    resources.configuration.locales
+//                }
+
+                val toTimeStamp = TimeUtil.dateToStamp(date.date.toString(), Locale.TAIWAN)
+
+//                Toast.makeText(
+//                    MeTuApplication.appContext,
+//                    "current date : ${date.date}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+
                 Toast.makeText(
                     MeTuApplication.appContext,
-                    "current date : ${date.date}",
+                    "current date : ${toTimeStamp}",
                     Toast.LENGTH_SHORT
                 ).show()
+
             }
         }
 
@@ -197,6 +223,15 @@ class CalendarFragment : Fragment() {
             }
 
 
+    }
+
+    fun addDotDecoration(year: Int,month: Int, day: Int){
+        widget.addDecorators(
+            SingleDateDecorator(
+                MeTuApplication.appContext.resources.getColor(R.color.red),
+                CalendarDay.from(year, month, day)
+            )
+        )
     }
 }
 
