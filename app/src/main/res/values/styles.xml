@@ -13,4 +13,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ViewDialog">
+        <item name="android:windowBackground">#00ffffff</item>
+    </style>
+
+    <style name="AddEventDialog">
+        <item name="android:windowBackground">@color/translucent_80</item>
+    </style>
+
+    <style name="calendarDateText">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/roboto</item>
+    </style>
+
 </resources>

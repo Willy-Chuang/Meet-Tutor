@@ -5,21 +5,80 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.willy.metu.calendar.CalendarBottomSheetViewModel" />
+        <variable
+            name="isLiveDataDesign"
+            type="Boolean" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/noto_sans"
-            android:text="This is Calendar Fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/colorPrimary">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mcv_selectionColor="@color/colorAccent"
+                app:mcv_dateTextAppearance="@style/calendarDateText"
+                app:mcv_showOtherDates="all" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/persistent_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="540dp"
+            android:background="@drawable/bg_bottom_dialog_corner"
+            android:orientation="vertical"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="232dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp"
+                    events="@{isLiveDataDesign ? viewModel.allLiveEvents : viewModel.allEvents }"
+                    tools:listitem="@layout/item_schedule"/>
+
+                <ImageView
+                    android:id="@+id/button_add_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/bg_colored_round_corner"
+                    app:srcCompat="@drawable/ic_add_white_24"
+                    app:layout_constraintTop_toBottomOf="@id/recycler_schedule"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
