@@ -12,12 +12,12 @@
         tools:layout="@layout/fragment_calendar"/>
 
     <dialog
-        android:id="@+id/calendarBottomSheet"
-        android:name="com.willy.metu.calendar.CalendarBottomSheet"
+        android:id="@+id/post_event_dialog"
+        android:name="com.willy.metu.calendar.PostEventDialogFragment"
         android:label="CalendarBottomSheet"
-        tools:layout="@layout/bottom_sheet_calendar"/>
+        tools:layout="@layout/dialog_post_event"/>
 
-    <action android:id="@+id/navigate_to_calendar_bottom_sheet"
-        app:destination="@id/calendarBottomSheet"/>
+    <action android:id="@+id/navigate_to_post_event_dialog"
+        app:destination="@id/post_event_dialog"/>
 
 </navigation>

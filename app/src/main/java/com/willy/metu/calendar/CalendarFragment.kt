@@ -11,30 +11,35 @@ import androidx.annotation.NonNull
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.willy.metu.MeTuApplication
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentCalendarBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.*
-import kotlinx.android.synthetic.main.bottom_sheet_calendar.*
+import kotlinx.android.synthetic.main.dialog_post_event.*
+import kotlinx.android.synthetic.main.fragment_calendar.*
 import org.threeten.bp.LocalDate
 import java.util.*
 
 class CalendarFragment : Fragment() {
 
-    private val viewModel by viewModels<CalendarBottomSheetViewModel> {getVmFactory()}
+    private val viewModel by viewModels<CalendarBottomSheetViewModel> { getVmFactory() }
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<NestedScrollView>
     private lateinit var binding: FragmentCalendarBinding
     private lateinit var widget: MaterialCalendarView
     private val oneDayDecorator: OneDayDecorator = OneDayDecorator()
+    private val db = FirebaseFirestore.getInstance()
 
 
     override fun onCreateView(
@@ -50,6 +55,9 @@ class CalendarFragment : Fragment() {
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
+        binding.buttonAddEvent.setOnClickListener{
+            findNavController().navigate(NavigationDirections.navigateToPostEventDialog())
+        }
 
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
@@ -69,6 +77,8 @@ class CalendarFragment : Fragment() {
 
         val testb = TimeUtil.stampToMonth(1593932797000)
         Logger.i(testb)
+
+        firebaseQueryTest()
 
 
         return binding.root
@@ -90,7 +100,12 @@ class CalendarFragment : Fragment() {
         widget.setSelectedDate(calendar)
 
         // Add Dot to a date
-        widget.addDecorators(SingleDateDecorator(MeTuApplication.appContext.resources.getColor(R.color.red), CalendarDay.from(2020,7,13)))
+        widget.addDecorators(
+            SingleDateDecorator(
+                MeTuApplication.appContext.resources.getColor(R.color.red),
+                CalendarDay.from(2020, 7, 13)
+            )
+        )
 
         // Get the current selected date
         widget.setOnDateChangedListener { widget, date, selected ->
@@ -168,6 +183,20 @@ class CalendarFragment : Fragment() {
         widget.invalidateDecorators()
     }
 
+    fun firebaseQueryTest() {
+        db.collection("event")
+            .whereArrayContains("attendees", "willy")
+            .whereGreaterThan("eventTime",1594000000000)
+            .whereLessThan("eventTime",1595000000000)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d("eventByUserName", "${document.id} => ${document.data}")
 
+                }
+            }
+
+
+    }
 }
 

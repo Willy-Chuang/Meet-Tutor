@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Event(
+data class SelectedEvent(
     var id: String = "",
     var tag: String = "",
     var createdTime: Long = -1,

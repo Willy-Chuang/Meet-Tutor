@@ -1,20 +1,28 @@
 package com.willy.metu.data.source
 
 import androidx.lifecycle.MutableLiveData
-import com.willy.metu.data.Event
+import com.willy.metu.data.Events
+import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
-import com.willy.metu.data.source.local.MeTuLocalDataSource
 
 class DefaultMeTuRepository(
     private val remoteDataSource: MeTuDataSource,
     private val localDataSource: MeTuDataSource
 ) : MeTuRepository {
 
-    override suspend fun getEvents(): Result<List<Event>> {
-        return remoteDataSource.getEvents()
+    override suspend fun getSelectedEvents(): Result<List<SelectedEvent>> {
+        return remoteDataSource.getSelectedEvents()
     }
 
-    override fun getLiveEvents(): MutableLiveData<List<Event>> {
-        return remoteDataSource.getLiveEvents()
+    override fun getLiveSelectedEvents(): MutableLiveData<List<SelectedEvent>> {
+        return remoteDataSource.getLiveSelectedEvents()
+    }
+
+    override suspend fun getAllEvents(user: Long): Result<List<Events>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLiveAllEvents(user: Long): MutableLiveData<List<Events>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

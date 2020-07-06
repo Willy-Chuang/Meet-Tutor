@@ -4,7 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Event
+import com.willy.metu.data.Events
+import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
 import com.willy.metu.data.source.MeTuDataSource
 import com.willy.metu.util.Logger
@@ -16,17 +17,17 @@ object MeTuRemoteDataSource : MeTuDataSource {
     private const val PATH_EVENTS = "event"
     private const val KEY_CREATED_TIME = "createdTime"
 
-    override suspend fun getEvents(): Result<List<Event>> = suspendCoroutine { continuation ->
+    override suspend fun getSelectedEvents(): Result<List<SelectedEvent>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = mutableListOf<Event>()
+                    val list = mutableListOf<SelectedEvent>()
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
 
-                        val event = document.toObject(Event::class.java)
+                        val event = document.toObject(SelectedEvent::class.java)
                     }
                     continuation.resume(Result.Success(list))
                 } else {
@@ -40,8 +41,8 @@ object MeTuRemoteDataSource : MeTuDataSource {
             }
     }
 
-    override fun getLiveEvents(): MutableLiveData<List<Event>> {
-        val liveData = MutableLiveData<List<Event>>()
+    override fun getLiveSelectedEvents(): MutableLiveData<List<SelectedEvent>> {
+        val liveData = MutableLiveData<List<SelectedEvent>>()
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)
             .addSnapshotListener { snapshot, exception ->
@@ -51,11 +52,62 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                 }
 
-                val list = mutableListOf<Event>()
+                val list = mutableListOf<SelectedEvent>()
                 for (document in snapshot!!) {
                     Logger.d(document.id + " => " + document.data)
 
-                    val event = document.toObject(Event::class.java)
+                    val event = document.toObject(SelectedEvent::class.java)
+                    list.add(event)
+                }
+                liveData.value = list
+            }
+
+        return liveData
+
+    }
+
+    override suspend fun getAllEvents(user: Long): Result<List<Events>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+            .collection(PATH_EVENTS)
+            .whereArrayContains("attendees",user)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val list = mutableListOf<Events>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val event = document.toObject(Events::class.java)
+                    }
+                    continuation.resume(Result.Success(list))
+                } else {
+                    task.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                }
+            }
+    }
+
+    override fun getLiveAllEvents(user: Long): MutableLiveData<List<Events>> {
+        val liveData = MutableLiveData<List<Events>>()
+        FirebaseFirestore.getInstance()
+            .collection(PATH_EVENTS)
+            .whereArrayContains("attendees",user)
+            .addSnapshotListener { snapshot, exception ->
+                Logger.i("add SnapshotListener detected")
+
+                exception?.let {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                }
+
+                val list = mutableListOf<Events>()
+                for (document in snapshot!!) {
+                    Logger.d(document.id + " => " + document.data)
+
+                    val event = document.toObject(Events::class.java)
                     list.add(event)
                 }
                 liveData.value = list

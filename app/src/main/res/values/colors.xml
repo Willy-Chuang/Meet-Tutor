@@ -10,9 +10,13 @@
     <!-- Black Series -->
     <color name="black">#000000</color>
     <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_12_alpha">#E0E0E0</color>
 
     <color name="the_weekend">#228BC34A</color>
     <color name="red">#FF8A80</color>
     <color name="water_blue">#80D8FF</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="translucent_80">#cc000000</color>
 
 </resources>

@@ -41,13 +41,13 @@
             android:id="@+id/persistent_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="540dp"
-            android:background="@drawable/bg_dialog_corner"
+            android:background="@drawable/bg_bottom_dialog_corner"
             android:orientation="vertical"
             app:behavior_hideable="false"
             app:behavior_peekHeight="232dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -60,7 +60,21 @@
                     app:events="@{isLiveDataDesign ? viewModel.liveEvents : viewModel.events }"
                     tools:listitem="@layout/item_schedule"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/button_add_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/bg_colored_round_corner"
+                    app:srcCompat="@drawable/ic_add_white_24"
+                    app:layout_constraintTop_toBottomOf="@id/recycler_schedule"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 

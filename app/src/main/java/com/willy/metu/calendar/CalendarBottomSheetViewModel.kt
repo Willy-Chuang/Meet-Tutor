@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Event
+import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -17,17 +17,17 @@ import com.willy.metu.data.Result
 
 class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : ViewModel() {
 
-    private val _event = MutableLiveData<Event>()
+    private val _event = MutableLiveData<SelectedEvent>()
 
-    val event: LiveData<Event>
+    val selectedEvent: LiveData<SelectedEvent>
         get() = _event
 
-    private var _events = MutableLiveData<List<Event>>()
+    private var _events = MutableLiveData<List<SelectedEvent>>()
 
-    val events : LiveData<List<Event>>
+    val events : LiveData<List<SelectedEvent>>
         get() = _events
 
-    var liveEvents = MutableLiveData<List<Event>>()
+    var liveEvents = MutableLiveData<List<SelectedEvent>>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -70,7 +70,7 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getEvents()
+            val result = repository.getSelectedEvents()
 
             _events.value = when (result) {
                 is Result.Success -> {
@@ -98,7 +98,7 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
     }
 
     fun getLiveEventsResult(){
-        liveEvents = repository.getLiveEvents()
+        liveEvents = repository.getLiveSelectedEvents()
         _status.value = LoadApiStatus.DONE
     }
 

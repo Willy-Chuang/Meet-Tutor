@@ -6,7 +6,7 @@
     <data>
         <variable
             name="event"
-            type="com.willy.metu.data.Event" />
+            type="com.willy.metu.data.SelectedEvent" />
 
     </data>
 

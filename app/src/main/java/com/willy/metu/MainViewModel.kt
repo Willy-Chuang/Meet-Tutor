@@ -32,6 +32,11 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     val outlineProvider = ProfileAvatarOutlineProvider()
 
+    private val _refresh = MutableLiveData<Boolean>()
+
+    val refresh: LiveData<Boolean>
+        get() = _refresh
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -51,6 +56,18 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+    }
+
+    fun refresh() {
+        if (!MeTuApplication.instance.isLiveDataDesign()) {
+            _refresh.value = true
+        }
+    }
+
+    fun onRefreshed() {
+        if (!MeTuApplication.instance.isLiveDataDesign()) {
+            _refresh.value = null
+        }
     }
 
 }
