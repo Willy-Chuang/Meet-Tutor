@@ -53,17 +53,18 @@ class CalendarFragment : Fragment() {
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
-        binding.buttonAddEvent.setOnClickListener{
-            findNavController().navigate(NavigationDirections.navigateToPostEventDialog())
-        }
+//        binding.buttonAddEvent.setOnClickListener{
+//            findNavController().navigate(NavigationDirections.navigateToPostEventDialog())
+//        }
 
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
 
+        // Add dots based on my events
+
         viewModel.allLiveEvents.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.allEvents.observe, it=$it")
             it?.let {
-//                binding.viewModel = viewModel
 
                 it.forEach() { event ->
                     val year = TimeUtil.stampToYear(event.eventTime).toInt()
@@ -81,6 +82,14 @@ class CalendarFragment : Fragment() {
             Logger.d("Sorted Event List : $it")
             it?.let {
                 binding.viewModel = viewModel
+            }
+
+        })
+
+        viewModel.navigationToPostDialog.observe(viewLifecycleOwner, Observer {
+
+            binding.buttonAddEvent.setOnClickListener{ view ->
+                findNavController().navigate(NavigationDirections.navigateToPostEventDialog(it))
             }
 
         })
@@ -117,6 +126,9 @@ class CalendarFragment : Fragment() {
                 //Create a sorted list of event based on the current date
 
                 viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(toTimeStamp)
+
+                viewModel.navigationToPostDialog.value = toTimeStamp
+
 
                 Logger.d("${viewModel.selectedLiveEvent.value}")
                 Logger.d("$toTimeStamp")
@@ -181,15 +193,6 @@ class CalendarFragment : Fragment() {
         binding.calendarView.state().edit()
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
-    }
-
-    fun onDateSelected(
-        @NonNull widget: MaterialCalendarView,
-        @NonNull date: CalendarDay,
-        selected: Boolean
-    ) { //If you change a decorate, you need to invalidate decorators
-        oneDayDecorator.setDate(date.date)
-        widget.invalidateDecorators()
     }
 
     fun firebaseQueryTest() {

@@ -15,7 +15,11 @@
         android:id="@+id/post_event_dialog"
         android:name="com.willy.metu.calendar.PostEventDialogFragment"
         android:label="CalendarBottomSheet"
-        tools:layout="@layout/dialog_post_event"/>
+        tools:layout="@layout/dialog_post_event">
+        <argument
+            android:name="selectedDate"
+            app:argType="long" />
+    </dialog>
 
     <action android:id="@+id/navigate_to_post_event_dialog"
         app:destination="@id/post_event_dialog"/>

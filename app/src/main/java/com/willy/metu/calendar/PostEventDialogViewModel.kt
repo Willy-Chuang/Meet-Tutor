@@ -7,11 +7,12 @@ import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
+import com.willy.metu.util.TimeUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class PostEventDialogViewModel(private val repository: MeTuRepository) : ViewModel() {
+class PostEventDialogViewModel(private val repository: MeTuRepository, private val selectedDate : Long) : ViewModel() {
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -19,6 +20,8 @@ class PostEventDialogViewModel(private val repository: MeTuRepository) : ViewMod
         get() = _leave
 
     val title = MutableLiveData<String>()
+
+    val date = TimeUtil.stampToDate(selectedDate)
 
 
     private val _event = MutableLiveData<SelectedEvent>()

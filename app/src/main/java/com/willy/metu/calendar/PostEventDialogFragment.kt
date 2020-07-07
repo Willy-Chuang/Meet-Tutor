@@ -20,7 +20,7 @@ import java.util.*
 
 class PostEventDialogFragment : AppCompatDialogFragment() {
 
-    private val viewModel by viewModels<PostEventDialogViewModel> { getVmFactory() }
+    private val viewModel by viewModels<PostEventDialogViewModel> { getVmFactory(PostEventDialogFragmentArgs.fromBundle(requireArguments()).selectedDate) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,9 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                 binding.textEndTime.visibility = View.VISIBLE
             }
         }
+
+        //Set up date from safe arg
+        binding.textDate.text = viewModel.date
 
         //Setup Time Picker
         binding.textStartTime.setOnClickListener {

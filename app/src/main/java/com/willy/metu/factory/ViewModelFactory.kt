@@ -18,8 +18,8 @@ class ViewModelFactory constructor(
                     CalendarBottomSheetViewModel(meTuRepository)
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(meTuRepository)
-                isAssignableFrom(PostEventDialogViewModel::class.java) ->
-                    PostEventDialogViewModel(meTuRepository)
+//                isAssignableFrom(PostEventDialogViewModel::class.java) ->
+//                    PostEventDialogViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
