@@ -1,7 +1,5 @@
 package com.willy.metu.calendar
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -26,11 +22,12 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentCalendarBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.ext.sortByTimeStamp
 import com.willy.metu.util.*
-import kotlinx.android.synthetic.main.dialog_post_event.*
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import org.threeten.bp.LocalDate
 import java.util.*
+import androidx.lifecycle.Observer
 
 class CalendarFragment : Fragment() {
 
@@ -63,10 +60,10 @@ class CalendarFragment : Fragment() {
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
 
-        viewModel.allLiveEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.allLiveEvents.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.allEvents.observe, it=$it")
             it?.let {
-                binding.viewModel = viewModel
+//                binding.viewModel = viewModel
 
                 it.forEach() { event ->
                     val year = TimeUtil.stampToYear(event.eventTime).toInt()
@@ -80,14 +77,13 @@ class CalendarFragment : Fragment() {
             }
         })
 
-        val test = TimeUtil.stampToWeekday(1593932797000)
-        Logger.i(test)
+        viewModel.selectedLiveEvent.observe(viewLifecycleOwner, Observer {
+            Logger.d("Sorted Event List : $it")
+            it?.let {
+                binding.viewModel = viewModel
+            }
 
-        val testa = TimeUtil.stampToDayOfMonth(1593932797000)
-        Logger.i(testa)
-
-        val testb = TimeUtil.stampToMonth(1593932797000)
-        Logger.i(testb)
+        })
 
         firebaseQueryTest()
 
@@ -110,33 +106,20 @@ class CalendarFragment : Fragment() {
         // Set Indicator of current date
         widget.setSelectedDate(calendar)
 
-        // Add Dot to a date
-//        widget.addDecorators(
-//            SingleDateDecorator(
-//                MeTuApplication.appContext.resources.getColor(R.color.red),
-//                CalendarDay.from(2020, 7, 13)
-//            )
-//        )
-
         // Get the current selected date
         widget.setOnDateChangedListener { widget, date, selected ->
             if (selected) {
 
                 oneDayDecorator.setDate(date.date)
 
-//                val getLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    resources.configuration.locales
-//                } else {
-//                    resources.configuration.locales
-//                }
-
                 val toTimeStamp = TimeUtil.dateToStamp(date.date.toString(), Locale.TAIWAN)
 
-//                Toast.makeText(
-//                    MeTuApplication.appContext,
-//                    "current date : ${date.date}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
+                //Create a sorted list of event based on the current date
+
+                viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(toTimeStamp)
+
+                Logger.d("${viewModel.selectedLiveEvent.value}")
+                Logger.d("$toTimeStamp")
 
                 Toast.makeText(
                     MeTuApplication.appContext,
@@ -221,7 +204,6 @@ class CalendarFragment : Fragment() {
 
                 }
             }
-
 
     }
 

@@ -8,18 +8,6 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="calendarBottomSheet">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="54" />
-                            <option name="y" value="30" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="calendarFragment">
                     <value>
                       <LayoutPositions>
@@ -32,9 +20,21 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="navigate_to_calendar_bottom_sheet">
+                  <entry key="navigate_to_post_event_dialog">
                     <value>
                       <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="post_event_dialog">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="49" />
+                            <option name="y" value="30" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
                     </value>
                   </entry>
                 </map>

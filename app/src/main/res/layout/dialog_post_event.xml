@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:alpha="0.5"
-                app:srcCompat="@drawable/ic_face_black_24"
+                app:srcCompat="@drawable/ic_location_on_black_24"
                 app:layout_constraintTop_toBottomOf="@id/title_location"
                 app:layout_constraintStart_toStartOf="@id/title_location"/>
 
@@ -264,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:alpha="0.5"
-                app:srcCompat="@drawable/ic_face_black_24"
+                app:srcCompat="@drawable/ic_notes_black_24"
                 app:layout_constraintTop_toBottomOf="@id/title_description"
                 app:layout_constraintStart_toStartOf="@id/title_description"/>
 
@@ -282,13 +282,29 @@
                 app:layout_constraintTop_toTopOf="@id/image_description"
                 app:layout_constraintBottom_toBottomOf="@id/image_description"/>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/text_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height=""/>-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginVertical="16dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="SAVE"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:background="@drawable/bg_colored_round_corner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

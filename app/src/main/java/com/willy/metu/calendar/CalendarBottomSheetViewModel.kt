@@ -27,6 +27,19 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
     var allLiveEvents = MutableLiveData<List<Events>>()
 
+    //Query Selected Events
+
+    private var _selectedEvents = MutableLiveData<List<Events>>()
+
+    val selectedEvent : LiveData<List<Events>>
+        get() = _selectedEvents
+
+    val selectedLiveEvent = MutableLiveData<List<Events>>()
+
+    //Get value of selectedDate as timestamp
+
+    var currentDate = MutableLiveData<Long>()
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 

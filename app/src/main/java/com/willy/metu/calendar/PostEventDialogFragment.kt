@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -17,7 +16,6 @@ import com.willy.metu.R
 import com.willy.metu.databinding.DialogPostEventBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
-import kotlinx.android.synthetic.main.dialog_post_event.*
 import java.util.*
 
 class PostEventDialogFragment : AppCompatDialogFragment() {
