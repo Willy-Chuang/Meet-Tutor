@@ -82,6 +82,10 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
         }
 
+        viewModel.startTime.observe(viewLifecycleOwner, Observer {
+            Log.i("TIMEEE","${it}")
+        })
+
         binding.textSelectEndTime.setOnClickListener {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -144,7 +148,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     pos: Int,
                     id: Long
                 ) {
-                    if (parent != null) {
+                    if (parent != null && pos != 0) {
                         viewModel.invitation.value = parent.selectedItem.toString()
                         Toast.makeText(
                             MeTuApplication.appContext,
@@ -168,7 +172,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     pos: Int,
                     id: Long
                 ) {
-                    if (parent != null) {
+                    if (parent != null && pos != 0) {
                         viewModel.type.value = parent.selectedItem.toString()
                         Toast.makeText(
                             MeTuApplication.appContext,
@@ -181,11 +185,18 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
         val adapter = CalendarBottomSheetAdapter()
 
+
+        // Setup post button with error handling
+
         binding.buttonSave.setOnClickListener{
+            if (viewModel.checkIfComplete()) {
             val event = viewModel.getEvent("willy")
             Logger.d("$event")
             viewModel.post(event)
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()} else {
+                Toast.makeText(MeTuApplication.appContext,
+                        "Please complete the form", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

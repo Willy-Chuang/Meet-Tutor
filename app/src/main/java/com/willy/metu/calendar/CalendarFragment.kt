@@ -41,14 +41,13 @@ class CalendarFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val calendarView = binding.calendarView
-        val calendar = Calendar.getInstance()
         calendarView.setCurrentDate(LocalDate.now())
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
@@ -68,7 +67,7 @@ class CalendarFragment : Fragment() {
                     val month = TimeUtil.stampToMonthInt(event.eventTime).toInt()
                     val day = TimeUtil.stampToDay(event.eventTime).toInt()
 
-                    addDotDecoration(year,month,day)
+                    addDotDecoration(year, month, day)
 
                 }
 
@@ -86,7 +85,7 @@ class CalendarFragment : Fragment() {
 
         viewModel.navigationToPostDialog.observe(viewLifecycleOwner, Observer {
 
-            binding.buttonAddEvent.setOnClickListener{ view ->
+            binding.buttonAddEvent.setOnClickListener { view ->
                 findNavController().navigate(NavigationDirections.navigateToPostEventDialog(it))
             }
 
@@ -124,9 +123,9 @@ class CalendarFragment : Fragment() {
                 viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(timeStamp)
 
 
-                }
-
             }
+
+        }
         )
 
 
@@ -148,11 +147,6 @@ class CalendarFragment : Fragment() {
                 Logger.d("${viewModel.selectedLiveEvent.value}")
                 Logger.d("$toTimeStamp")
 
-                Toast.makeText(
-                    MeTuApplication.appContext,
-                    "current date : ${toTimeStamp}",
-                    Toast.LENGTH_SHORT
-                ).show()
 
             }
         }
@@ -165,7 +159,7 @@ class CalendarFragment : Fragment() {
         bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(persistent_bottom_sheet)
 
         bottomSheetBehavior.setBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
+                BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(p0: View, p1: Float) {
             }
 
@@ -198,39 +192,41 @@ class CalendarFragment : Fragment() {
         })
     }
 
+    // Change the layout of calendar
+
     fun changeToWeek() {
         binding.calendarView.state().edit()
-            .setCalendarDisplayMode(CalendarMode.WEEKS)
-            .commit()
+                .setCalendarDisplayMode(CalendarMode.WEEKS)
+                .commit()
     }
 
     fun changeToMonth() {
         binding.calendarView.state().edit()
-            .setCalendarDisplayMode(CalendarMode.MONTHS)
-            .commit()
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit()
     }
 
     fun firebaseQueryTest() {
         db.collection("event")
-            .whereArrayContains("attendees", "willy")
-            .whereGreaterThan("eventTime",1594000000000)
-            .whereLessThan("eventTime",1595000000000)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d("eventByUserName", "${document.id} => ${document.data}")
+                .whereArrayContains("attendees", "willy")
+                .whereGreaterThan("eventTime", 1594000000000)
+                .whereLessThan("eventTime", 1595000000000)
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        Log.d("eventByUserName", "${document.id} => ${document.data}")
 
+                    }
                 }
-            }
 
     }
 
-    fun addDotDecoration(year: Int,month: Int, day: Int){
+    fun addDotDecoration(year: Int, month: Int, day: Int) {
         widget.addDecorators(
-            SingleDateDecorator(
-                MeTuApplication.appContext.resources.getColor(R.color.red),
-                CalendarDay.from(year, month, day)
-            )
+                SingleDateDecorator(
+                        MeTuApplication.appContext.resources.getColor(R.color.red),
+                        CalendarDay.from(year, month, day)
+                )
         )
     }
 }

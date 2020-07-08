@@ -1,5 +1,6 @@
 package com.willy.metu.calendar
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,8 +19,8 @@ import kotlinx.coroutines.launch
 import com.willy.metu.data.Result
 
 class PostEventDialogViewModel(
-    private val repository: MeTuRepository,
-    private val selectedDate: Long
+        private val repository: MeTuRepository,
+        private val selectedDate: Long
 ) : ViewModel() {
 
     private val _leave = MutableLiveData<Boolean>()
@@ -29,7 +30,6 @@ class PostEventDialogViewModel(
 
     val date = TimeUtil.stampToDate(selectedDate)
 
-    val selectedAttendee = MutableLiveData<String>()
 
     private val _event = MutableLiveData<SelectedEvent>()
 
@@ -98,16 +98,16 @@ class PostEventDialogViewModel(
 
 
         return Event(
-            id = "",
-            location = location.value.toString(),
-            title = title.value.toString(),
-            description = description.value.toString(),
-            attendees = attendees,
-            eventTime = eventTime.value ?: -1,
-            invitation = invitation,
-            startTime = if (isAllDay.value == true) startTime.value ?: -1 else -1,
-            endTime = if (isAllDay.value == true) startTime.value ?: -1 else -1,
-            tag = type.value.toString()
+                id = "",
+                location = location.value.toString(),
+                title = title.value.toString(),
+                description = description.value.toString(),
+                attendees = attendees,
+                eventTime = eventTime.value ?: -1,
+                invitation = invitation,
+                startTime = if (isAllDay.value == false) startTime.value ?: -1 else -1,
+                endTime = if (isAllDay.value == false) endTime.value ?: -1 else -1,
+                tag = type.value.toString()
         )
     }
 
@@ -147,6 +147,15 @@ class PostEventDialogViewModel(
 
     fun onLeft() {
         _leave.value = null
+    }
+
+    fun checkIfComplete(): Boolean {
+
+        return !(title.value == null ||
+                eventTime.value == null ||
+                invitation.value == null ||
+                type.value == null ||
+                location.value == null)
     }
 
 }

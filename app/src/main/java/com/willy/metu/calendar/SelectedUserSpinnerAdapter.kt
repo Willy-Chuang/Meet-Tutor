@@ -1,6 +1,7 @@
 package com.willy.metu.calendar
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ class SelectedUserSpinnerAdapter (private val strings: Array<String>) : BaseAdap
 
         if(position == 0){
             binding.user = MeTuApplication.instance.resources.getString(R.string.spinner_select_member)
+            binding.textSpinnerTitle.setTextColor(MeTuApplication.appContext.resources.getColor(R.color.black_12_alpha))
+
         } else {
             binding.user = strings[position-1]
         }
