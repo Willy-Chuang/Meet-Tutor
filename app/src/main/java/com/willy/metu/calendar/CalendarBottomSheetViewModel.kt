@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Events
-import com.willy.metu.data.SelectedEvent
+import com.willy.metu.data.Event
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -20,12 +19,12 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
     //Get all events with user as attendee
 
-    private var _allEvents = MutableLiveData<List<Events>>()
+    private var _allEvents = MutableLiveData<List<Event>>()
 
-    val allEvents : LiveData<List<Events>>
+    val allEvent : LiveData<List<Event>>
         get() = _allEvents
 
-    var allLiveEvents = MutableLiveData<List<Events>>()
+    var allLiveEvents = MutableLiveData<List<Event>>()
 
     //Selected date for safe arg
 
@@ -34,12 +33,12 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
     //Query Selected Events
 
-    private var _selectedEvents = MutableLiveData<List<Events>>()
+    private var _selectedEvents = MutableLiveData<List<Event>>()
 
-    val selectedEvent : LiveData<List<Events>>
+    val selectedEvent : LiveData<List<Event>>
         get() = _selectedEvents
 
-    val selectedLiveEvent = MutableLiveData<List<Events>>()
+    val selectedLiveEvent = MutableLiveData<List<Event>>()
 
     //Get value of selectedDate as timestamp
 

@@ -53,9 +53,6 @@ class CalendarFragment : Fragment() {
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
-//        binding.buttonAddEvent.setOnClickListener{
-//            findNavController().navigate(NavigationDirections.navigateToPostEventDialog())
-//        }
 
         val adapter = CalendarBottomSheetAdapter()
         binding.recyclerSchedule.adapter = adapter
@@ -81,6 +78,7 @@ class CalendarFragment : Fragment() {
         viewModel.selectedLiveEvent.observe(viewLifecycleOwner, Observer {
             Logger.d("Sorted Event List : $it")
             it?.let {
+                adapter.notifyDataSetChanged()
                 binding.viewModel = viewModel
             }
 
@@ -114,6 +112,23 @@ class CalendarFragment : Fragment() {
 
         // Set Indicator of current date
         widget.setSelectedDate(calendar)
+
+        viewModel.navigationToPostDialog.value = TimeUtil.dateToStamp(calendar.toString(), Locale.TAIWAN)
+
+        // Set value to selectedEvent for recyclerView to pop
+        viewModel.allLiveEvents.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.allEvents.observe, it=$it")
+            it?.let {
+                val timeStamp = TimeUtil.dateToStamp(widget.selectedDate!!.date.toString(), Locale.TAIWAN)
+
+                viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(timeStamp)
+
+
+                }
+
+            }
+        )
+
 
         // Get the current selected date
         widget.setOnDateChangedListener { widget, date, selected ->

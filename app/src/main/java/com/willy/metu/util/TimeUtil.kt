@@ -41,6 +41,12 @@ object TimeUtil {
         return simpleDateFormat.parse(date).time
     }
 
+    @JvmStatic
+    fun timeToStamp(time: String, locale: Locale): Long {
+        val simpleDateFormat = SimpleDateFormat("HH:mm", locale)
+        return simpleDateFormat.parse(time).time
+    }
+
     fun stampToWeekday(time: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time

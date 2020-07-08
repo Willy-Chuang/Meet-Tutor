@@ -3,4 +3,24 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="you_shall_not_pass">You Shall Not Pass</string>
+    <string name="spinner_select_member">Select Member</string>
+    <string name="spinner_select_type">Select Type</string>
+
+    <string-array name="followed_users_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+    <string-array name="tag_array">
+        <item>Reading</item>
+        <item>Class</item>
+        <item>Group Study</item>
+    </string-array>
+
 </resources>

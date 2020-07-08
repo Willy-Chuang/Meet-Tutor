@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Events
+import com.willy.metu.data.Event
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
 import com.willy.metu.data.source.MeTuDataSource
@@ -66,18 +66,18 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override suspend fun getAllEvents(user: String): Result<List<Events>> = suspendCoroutine { continuation ->
+    override suspend fun getAllEvents(user: String): Result<List<Event>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)
             .whereArrayContains("attendees",user)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = mutableListOf<Events>()
+                    val list = mutableListOf<Event>()
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
 
-                        val event = document.toObject(Events::class.java)
+                        val event = document.toObject(Event::class.java)
                     }
                     continuation.resume(Result.Success(list))
                 } else {
@@ -91,8 +91,8 @@ object MeTuRemoteDataSource : MeTuDataSource {
             }
     }
 
-    override fun getLiveAllEvents(user: String): MutableLiveData<List<Events>> {
-        val liveData = MutableLiveData<List<Events>>()
+    override fun getLiveAllEvents(user: String): MutableLiveData<List<Event>> {
+        val liveData = MutableLiveData<List<Event>>()
         FirebaseFirestore.getInstance()
             .collection(PATH_EVENTS)
             .whereArrayContains("attendees",user)
@@ -103,11 +103,11 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                 }
 
-                val list = mutableListOf<Events>()
+                val list = mutableListOf<Event>()
                 for (document in snapshot!!) {
                     Logger.d(document.id + " => " + document.data)
 
-                    val event = document.toObject(Events::class.java)
+                    val event = document.toObject(Event::class.java)
                     list.add(event)
                 }
                 liveData.value = list
@@ -115,5 +115,30 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         return liveData
 
+    }
+
+    override suspend fun postEvent(event: Event): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
+        val document = events.document()
+        event.id = document.id
+
+        document
+            .set(event)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Logger.i("Post: $event")
+
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                }
+            }
     }
 }

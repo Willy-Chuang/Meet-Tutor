@@ -6,7 +6,7 @@
     <data>
         <variable
             name="event"
-            type="com.willy.metu.data.Events" />
+            type="com.willy.metu.data.Event" />
 
     </data>
 
@@ -75,17 +75,16 @@
                     tools:text="13"/>
 
                 <TextView
-                    android:id="@+id/title_time"
+                    android:id="@+id/title_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="@{event.tag}"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/white"
                     android:layout_marginTop="2dp"
                     app:layout_constraintStart_toStartOf="@id/title_month"
                     app:layout_constraintTop_toBottomOf="@id/title_month"
-                    time="@{event.eventTime}"
-                    tools:text="14 : 00"/>
+                    tools:text="Reading"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -112,16 +111,61 @@
                 tools:text="Kotlin Meetup: AppworkSchool"/>
     
             <TextView
-                android:id="@+id/text_event_attendee"
+                android:id="@+id/text_event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto"
+                android:textStyle="normal"
                 android:textSize="16sp"
+                android:text="@{event.location}"
                 android:textColor="@color/black_3f3a3a"
                 app:layout_constraintStart_toStartOf="@id/text_event_topic"
                 app:layout_constraintTop_toBottomOf="@id/text_event_topic"
-                tools:text="Wayne Chen"/>
+                tools:text="Yuan Shan Starbucks"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_time_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/text_event_location"
+                app:layout_constraintTop_toBottomOf="@id/text_event_location">
+
+                <TextView
+                    android:id="@+id/text_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text =""
+                    time="@{event.startTime}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="14:00"/>
+
+                <TextView
+                    android:id="@+id/divider_time_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text=" - "
+                    app:layout_constraintStart_toEndOf="@id/text_start_time"
+                    app:layout_constraintTop_toTopOf="@id/text_start_time"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/text_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text=""
+                    time="@{event.endTime}"
+                    app:layout_constraintStart_toEndOf="@id/divider_time_section"
+                    app:layout_constraintTop_toTopOf="@id/text_start_time"
+                    tools:text="16:00"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

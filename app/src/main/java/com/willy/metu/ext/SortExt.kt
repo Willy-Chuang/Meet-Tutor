@@ -1,11 +1,14 @@
 package com.willy.metu.ext
 
-import com.willy.metu.data.Events
+import com.willy.metu.data.Event
 
-fun List<Events>?.sortByTimeStamp (selectedTime: Long) : List<Events>{
+fun List<Event>?.sortByTimeStamp (selectedTime: Long) : List<Event>{
 
     return this?.filter{
-        selectedTime < it.eventTime && it.eventTime < selectedTime + 86400000
+        it?.let {
+            selectedTime <= it.eventTime && it.eventTime < selectedTime + 86400000
+        }
+
     }
         ?: listOf()
 
