@@ -23,4 +23,71 @@
         <item>Group Study</item>
     </string-array>
 
+    <string-array name="location_array">
+        <item>Taipei</item>
+        <item>New Taipei</item>
+        <item>Taoyuan</item>
+        <item>Taichung</item>
+        <item>Kaohsiung</item>
+    </string-array>
+
+    <string-array name="taipei_array">
+        <item>Songshan</item>
+        <item>Xinyi</item>
+        <item>Da’an</item>
+        <item>Zhongshan</item>
+        <item>Zhongzheng</item>
+        <item>Datong</item>
+        <item>Wanhua</item>
+        <item>Wenshan</item>
+        <item>Nangang</item>
+        <item>Neihu</item>
+        <item>Shilin</item>
+        <item>Beitou</item>
+    </string-array>
+
+    <string-array name="new_taipei_array">
+        <item>Banqiao</item>
+        <item>Sanchong</item>
+        <item>Zhonghe</item>
+        <item>Yonghe</item>
+        <item>Xinzhuang</item>
+        <item>Xindian</item>
+        <item>Luzhou</item>
+    </string-array>
+
+    <string-array name="taoyuan_array">
+        <item>Zhongli</item>
+        <item>Daxi</item>
+        <item>Yangmei</item>
+        <item>Luzhu</item>
+        <item>Guishan</item>
+        <item>Bade</item>
+        <item>Longtan</item>
+    </string-array>
+
+    <string-array name="taichung_array">
+        <item>Central</item>
+        <item>East</item>
+        <item>South</item>
+        <item>West</item>
+        <item>North</item>
+        <item>Xitun</item>
+        <item>Nantun</item>
+        <item>Beitun</item>
+        <item>Fengyuan</item>
+        <item>Dajia</item>
+        <item>Houli</item>
+    </string-array>
+
+    <string-array name="kaohsiung_array">
+        <item>Zuoying</item>
+        <item>Nanzi</item>
+        <item>Sanmin</item>
+        <item>Qijin</item>
+        <item>Xiaogang</item>
+        <item>Fengshan</item>
+        <item>Gangshan</item>
+    </string-array>
+
 </resources>

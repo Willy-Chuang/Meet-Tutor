@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@+id/calendarFragment">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.willy.metu.calendar.CalendarFragment"
         android:label="CalendarFragment"
         tools:layout="@layout/fragment_calendar"/>
+
+    <action
+        android:id="@+id/navigate_to_calendar_Fragment"
+        app:destination="@id/calendarFragment"/>
 
     <dialog
         android:id="@+id/post_event_dialog"
@@ -23,5 +27,29 @@
 
     <action android:id="@+id/navigate_to_post_event_dialog"
         app:destination="@id/post_event_dialog"/>
+
+    <fragment
+        android:id="@+id/startPairingFragment"
+        android:name="com.willy.metu.pair.StartPairingFragment"
+        android:label="StartPairingFragment"
+        tools:layout="@layout/fragment_start_pairing"/>
+
+    <action
+        android:id="@+id/navigate_to_pairing_fragment"
+        app:destination="@id/startPairingFragment"/>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.willy.metu.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.willy.metu.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <action
+        android:id="@+id/navigate_to_home_fragment"
+        app:destination="@id/homeFragment"/>
+
 
 </navigation>

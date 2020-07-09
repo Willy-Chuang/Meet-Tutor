@@ -2,6 +2,7 @@ package com.willy.metu.util
 
 enum class CurrentFragmentType(val value : String) {
     CALENDAR("Calendar"),
-    PAIR("")
-
+    PAIR("Pairing"),
+    PAIRONE(""),
+    HOME("Home")
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willy.metu.data.Event
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
+import com.willy.metu.data.User
 
 interface MeTuRepository {
 
@@ -11,10 +12,16 @@ interface MeTuRepository {
 
     fun getLiveSelectedEvents(): MutableLiveData<List<SelectedEvent>>
 
-    suspend fun getAllEvents(user: String): Result<List<Event>>
+    suspend fun getAllEvents(event: String): Result<List<Event>>
 
-    fun getLiveAllEvents(user: String): MutableLiveData<List<Event>>
+    fun getLiveAllEvents(event: String): MutableLiveData<List<Event>>
 
     suspend fun postEvent(event: Event): Result<Boolean>
+
+    suspend fun postUser(user: User): Result<Boolean>
+
+    suspend fun updateUser (user: User): Result<Boolean>
+
+    fun getLiveUser (userToken: String): Result<User>
 
 }

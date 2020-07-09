@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willy.metu.data.Event
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
+import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuDataSource
 
 class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
@@ -26,6 +27,18 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
     }
 
     override suspend fun postEvent(event: Event): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun postUser(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun updateUser(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLiveUser(userToken: String): Result<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

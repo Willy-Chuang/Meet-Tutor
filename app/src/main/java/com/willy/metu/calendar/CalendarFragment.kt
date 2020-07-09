@@ -107,8 +107,6 @@ class CalendarFragment : Fragment() {
 
         widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
 
-        widget.addDecorators(HighlightWeekendsDecorator())
-
         // Set Indicator of current date
         widget.setSelectedDate(calendar)
 

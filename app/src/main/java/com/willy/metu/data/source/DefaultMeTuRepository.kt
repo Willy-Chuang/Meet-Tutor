@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.willy.metu.data.Event
 import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
+import com.willy.metu.data.User
 
 class DefaultMeTuRepository(
     private val remoteDataSource: MeTuDataSource,
@@ -28,5 +29,17 @@ class DefaultMeTuRepository(
 
     override suspend fun postEvent(event: Event): Result<Boolean> {
         return remoteDataSource.postEvent(event)
+    }
+
+    override suspend fun postUser(user: User): Result<Boolean> {
+        return remoteDataSource.postUser(user)
+    }
+
+    override suspend fun updateUser(user: User): Result<Boolean> {
+        return remoteDataSource.updateUser(user)
+    }
+
+    override fun getLiveUser(userToken: String): Result<User> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

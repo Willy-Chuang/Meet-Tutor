@@ -4,9 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -22,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.databinding.ActivityMainBinding
@@ -41,6 +40,20 @@ class MainActivity : BaseActivity() {
     private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
+        when (item.itemId){
+            R.id.navigation_home -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_pairing -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPairingFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
 
     // get the height of status bar from system
     private val statusBarHeight: Int
@@ -59,6 +72,7 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -66,9 +80,46 @@ class MainActivity : BaseActivity() {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         })
 
+        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_home
+                viewModel.onHomeNavigated()
+            }
+        })
+
+//        viewModel.navigateToPairingByBottomNav.observe(this, Observer {
+//            it?.let {
+//                binding.bottomNavView.selectedItemId = R.
+//            }
+//        })
+
         setupToolbar()
         setupDrawer()
+        setupBottomNav()
         setupNavController()
+    }
+
+    // Setup side menu for an icon of calendar
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.toolbar_menu, menu)
+
+        // If the current fragment is already calendar, won't inflate
+        viewModel.currentFragmentType.observe(this, Observer{ type ->
+            type?.let {
+                menu.findItem(R.id.calendarFragment).isVisible = it != CurrentFragmentType.CALENDAR
+            }
+
+        })
+        return viewModel.currentFragmentType.value != CurrentFragmentType.CALENDAR
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+            findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -119,9 +170,15 @@ class MainActivity : BaseActivity() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
+                R.id.startPairingFragment -> CurrentFragmentType.PAIR
+                R.id.homeFragment -> CurrentFragmentType.HOME
                 else -> viewModel.currentFragmentType.value
             }
         }
+    }
+
+    private fun setupBottomNav(){
+        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     private fun setupDrawer() {

@@ -12,11 +12,25 @@
     <color name="black_3f3a3a">#3f3a3a</color>
     <color name="black_12_alpha">#E0E0E0</color>
 
+    <!-- Gray Series -->
+    <color name="gray_646464">#646464</color>
+    <color name="gray_888888">#888888</color>
+    <color name="gray_999999">#999999</color>
+    <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_f0f0f0">#f0f0f0</color>
+    <color name="gray_f5f5f5">#f5f5f5</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_navigation_item_normal">@color/gray_999999</color>
+    <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
+
     <color name="the_weekend">#228BC34A</color>
     <color name="red">#FF1744</color>
     <color name="water_blue">#80D8FF</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
+
+
 
 </resources>
