@@ -70,7 +70,7 @@
                 android:layout_height="@dimen/height_bottom_nav_view_main"
                 android:background="@color/white"
                 android:elevation="@dimen/elevation_all"
-                android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.CALENDAR ) ? View.GONE : View.VISIBLE}"
+                android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.CALENDAR || viewModel.currentFragmentType == CurrentFragmentType.PAIRONE ) ? View.GONE : View.VISIBLE}"
                 app:itemIconTint="@drawable/bottom_nav_item_selector"
                 app:labelVisibilityMode="unlabeled"
                 app:layout_constraintBottom_toBottomOf="parent"

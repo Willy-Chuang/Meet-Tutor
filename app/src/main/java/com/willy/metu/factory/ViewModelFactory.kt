@@ -6,6 +6,8 @@ import com.willy.metu.MainViewModel
 import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.calendar.PostEventDialogViewModel
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.pair.QuestionnaireOneFragment
+import com.willy.metu.pair.QuestionnaireOneViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory constructor(
@@ -18,8 +20,8 @@ class ViewModelFactory constructor(
                     CalendarBottomSheetViewModel(meTuRepository)
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(meTuRepository)
-//                isAssignableFrom(PostEventDialogViewModel::class.java) ->
-//                    PostEventDialogViewModel(meTuRepository)
+                isAssignableFrom(QuestionnaireOneViewModel::class.java) ->
+                    QuestionnaireOneViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

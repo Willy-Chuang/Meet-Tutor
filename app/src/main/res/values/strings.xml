@@ -5,6 +5,8 @@
     <string name="you_shall_not_pass">You Shall Not Pass</string>
     <string name="spinner_select_member">Select Member</string>
     <string name="spinner_select_type">Select Type</string>
+    <string name="spinner_select_category">Select Category</string>
+    <string name="spinner_select_subject">Select Subject</string>
 
     <string-array name="followed_users_array">
         <item>Mercury</item>
@@ -21,6 +23,60 @@
         <item>Reading</item>
         <item>Class</item>
         <item>Group Study</item>
+    </string-array>
+
+    <string-array name="major_subject_array">
+        <item>Language</item>
+        <item>Curriculum</item>
+        <item>Music</item>
+        <item>Art</item>
+        <item>Sport</item>
+        <item>Exam</item>
+    </string-array>
+
+    <string-array name="default_array">
+
+    </string-array>
+
+    <string-array name="language_array">
+        <item>English</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>German</item>
+        <item>Spanish</item>
+    </string-array>
+
+    <string-array name="curriculum_array">
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+    </string-array>
+
+    <string-array name="music_array">
+        <item>Piano</item>
+        <item>Violin</item>
+        <item>Flute</item>
+        <item>Singing</item>
+    </string-array>
+
+    <string-array name="art_array">
+        <item>Sketch</item>
+        <item>Digital Painting</item>
+        <item>Oil Painting</item>
+    </string-array>
+
+    <string-array name="sport_array">
+        <item>Yoga</item>
+        <item>CrossFit</item>
+        <item>Swimming</item>
+    </string-array>
+
+    <string-array name="exam_array">
+        <item>TOIEC</item>
+        <item>TOFEL</item>
+        <item>IELTS</item>
+        <item>JLPT</item>
     </string-array>
 
     <string-array name="location_array">

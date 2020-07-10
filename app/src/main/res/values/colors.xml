@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFC75A</color>
+    <color name="colorPrimary">#FFE561</color>
     <color name="colorPrimaryDark">#F3B130</color>
-    <color name="colorAccent">#5BD2BF</color>
+    <color name="colorAccent">#91C4F7</color>
+    <color name="colorPrimaryAlpha">#80ffff93</color>
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
@@ -10,7 +11,11 @@
     <!-- Black Series -->
     <color name="black">#000000</color>
     <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_87_alpha">#1F1F1F</color>
+    <color name="black_54_alpha">#6F6F6F</color>
     <color name="black_12_alpha">#E0E0E0</color>
+
+
 
     <!-- Gray Series -->
     <color name="gray_646464">#646464</color>
@@ -25,8 +30,9 @@
     <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
 
     <color name="the_weekend">#228BC34A</color>
-    <color name="red">#FF1744</color>
+    <color name="red">#FF9689</color>
     <color name="water_blue">#80D8FF</color>
+    <color name="orange">#FF9689</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>

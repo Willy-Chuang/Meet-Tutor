@@ -50,6 +50,28 @@
     <action
         android:id="@+id/navigate_to_home_fragment"
         app:destination="@id/homeFragment"/>
+    <fragment
+        android:id="@+id/questionnaireOneFragment"
+        android:name="com.willy.metu.pair.QuestionnaireOneFragment"
+        android:label="QuestionnaireOneFragment"
+        app:exitAnim="@android:anim/slide_out_right"
+        tools:layout="@layout/fragment_questionnaire_one"/>
+    <action
+        android:id="@+id/navigate_to_question_one"
+        app:destination="@id/questionnaireOneFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
+    <fragment
+        android:id="@+id/questionnaireTwoFragment"
+        android:name="com.willy.metu.pair.QuestionnaireTwoFragment"
+        android:label="QuestionnaireTwoFragment"
+        tools:layout="@layout/fragment_questionnaire_two"/>
+
+    <action
+        android:id="@+id/navigate_to_question_two"
+        app:destination="@id/questionnaireTwoFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
 
 
 </navigation>

@@ -163,7 +163,7 @@ class MainActivity : BaseActivity() {
     }
 
     /**
-     * Set up [NavController.addOnDestinationChangedListener] to record the current fragment, it better than another design
+     * Set up [NavController.addOnDestinationChangedListener] to record the current fragment
      * which is change the [CurrentFragmentType] enum value by [MainViewModel] at [onCreateView]
      */
     private fun setupNavController() {
@@ -172,6 +172,7 @@ class MainActivity : BaseActivity() {
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
                 R.id.startPairingFragment -> CurrentFragmentType.PAIR
                 R.id.homeFragment -> CurrentFragmentType.HOME
+                R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
                 else -> viewModel.currentFragmentType.value
             }
         }
