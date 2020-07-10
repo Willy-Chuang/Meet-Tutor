@@ -2,6 +2,8 @@ package com.willy.metu.ext
 
 import androidx.fragment.app.Fragment
 import com.willy.metu.MeTuApplication
+import com.willy.metu.data.Answers
+import com.willy.metu.factory.AnswerViewModelFactory
 import com.willy.metu.factory.PostEventDialogViewModelFactory
 import com.willy.metu.factory.ViewModelFactory
 
@@ -13,4 +15,9 @@ fun Fragment.getVmFactory(): ViewModelFactory {
 fun Fragment.getVmFactory(selectedDate: Long): PostEventDialogViewModelFactory {
     val repository = (requireContext().applicationContext as MeTuApplication).meTuRepository
     return PostEventDialogViewModelFactory(repository, selectedDate)
+}
+
+fun Fragment.getVmFactory(selectedAnswers: Answers): AnswerViewModelFactory {
+    val repository = (requireContext().applicationContext as MeTuApplication).meTuRepository
+    return AnswerViewModelFactory(repository, selectedAnswers)
 }

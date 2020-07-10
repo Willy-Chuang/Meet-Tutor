@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="8" />
-                            <option name="y" value="1" />
+                            <option name="x" value="7" />
+                            <option name="y" value="15" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-218" />
-                            <option name="y" value="314" />
+                            <option name="x" value="-210" />
+                            <option name="y" value="19" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,8 +37,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-231" />
-                            <option name="y" value="7" />
+                            <option name="x" value="-406" />
+                            <option name="y" value="22" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -69,12 +69,17 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_question_two">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="post_event_dialog">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
+                            <option name="x" value="251" />
                             <option name="y" value="12" />
                           </Point>
                         </option>
@@ -88,6 +93,18 @@
                           <Point>
                             <option name="x" value="261" />
                             <option name="y" value="319" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="questionnaireThreeFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="686" />
+                            <option name="y" value="322" />
                           </Point>
                         </option>
                       </LayoutPositions>

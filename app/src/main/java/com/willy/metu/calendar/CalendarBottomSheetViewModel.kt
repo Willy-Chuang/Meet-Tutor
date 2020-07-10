@@ -27,7 +27,6 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
     var allLiveEvents = MutableLiveData<List<Event>>()
 
     //Selected date for safe arg
-
     val navigationToPostDialog = MutableLiveData<Long>()
 
 

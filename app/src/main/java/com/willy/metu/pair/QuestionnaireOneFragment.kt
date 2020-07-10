@@ -12,14 +12,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.willy.metu.MainActivity
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
+import com.willy.metu.data.Answers
 import com.willy.metu.databinding.FragmentQuestionnaireOneBinding
 import com.willy.metu.databinding.FragmentStartPairingBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.util.Logger
 
 class QuestionnaireOneFragment : Fragment() {
 
@@ -30,9 +33,16 @@ class QuestionnaireOneFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentQuestionnaireOneBinding.inflate(inflater, container, false)
-        binding.spinnerSubjectMajor.adapter = MajorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.major_subject_array))
-        binding.spinnerSubjectMinor.adapter = MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.default_array))
+        val majorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_category)
+        val minorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_subject)
+        val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
+        val majorContent = MeTuApplication.instance.resources.getStringArray(R.array.major_subject_array)
 
+        //Setup Spinner
+        binding.spinnerSubjectMajor.adapter = QuestionSpinnerAdapter(majorContent, majorIndicator)
+        binding.spinnerSubjectMinor.adapter = QuestionSpinnerAdapter(defaultContent, minorIndicator)
+
+        //When main category is selected, change the related content of subject
         binding.spinnerSubjectMajor.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -54,17 +64,65 @@ class QuestionnaireOneFragment : Fragment() {
                         }
                         if (parent != null && pos != 0) {
                             viewModel.selectedMajorSubject.value = parent.selectedItem.toString()
+                            viewModel.navigateToQuestionTwo.value?.category = parent.selectedItem.toString()
                         }
 
                     }
                 }
 
-        binding.buttonNext.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToQuestionTwo())
-        }
+        binding.spinnerSubjectMinor.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                    }
+
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            pos: Int,
+                            id: Long
+                    ) {
+                        if (parent != null && pos != 0) {
+                            viewModel.selectedMinorSubject.value = parent.selectedItem.toString()
+                            viewModel.navigateToQuestionTwo.value?.subject = parent.selectedItem.toString()
+                            Toast.makeText(
+                                    MeTuApplication.appContext,
+                                    parent.selectedItem.toString(),
+                                    Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+
+        // Setup leave sequence with a dialog
         binding.actionLeave.setOnClickListener {
             setDialog()
+        }
 
+        viewModel.selectedMajorSubject.observe(viewLifecycleOwner, Observer {
+            viewModel.navigateToQuestionTwo.value!!.category = it
+            Logger.d(it)
+        })
+        viewModel.selectedMinorSubject.observe(viewLifecycleOwner, Observer {
+            //            viewModel.navigateToQuestionTwo.value!!.subject = it
+            Logger.d(it)
+        })
+
+        viewModel.navigateToQuestionTwo.observe(viewLifecycleOwner, Observer {
+            Logger.d(it.category)
+
+        })
+        binding.buttonNext.setOnClickListener { view ->
+            if (viewModel.selectedMajorSubject.value == null) {
+                Toast.makeText(MeTuApplication.appContext,"Please select a category",Toast.LENGTH_SHORT).show()
+            } else if (viewModel.selectedMinorSubject.value== null) {
+                Toast.makeText(MeTuApplication.appContext,"Please select a subject",Toast.LENGTH_SHORT).show()
+            } else {
+                findNavController().navigate(NavigationDirections.navigateToQuestionTwo(Answers(
+                        category = viewModel.selectedMajorSubject.value.toString(),
+                        subject = viewModel.selectedMinorSubject.value.toString()
+                )))
+            }
         }
 
 
@@ -83,7 +141,7 @@ class QuestionnaireOneFragment : Fragment() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)
         alertDialogBuilder.setTitle("Sure To Leave?")
-        alertDialogBuilder.setMessage("Leaving will lead to losing the record of the questionnaire")
+        alertDialogBuilder.setMessage("Leaving will lead to losing record of the questionnaire")
         alertDialogBuilder.setPositiveButton("sure", DialogInterface.OnClickListener { which, i -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) })
         alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, i -> which.cancel() })
         alertDialogBuilder.show()

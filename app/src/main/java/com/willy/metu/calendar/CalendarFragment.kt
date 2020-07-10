@@ -47,8 +47,9 @@ class CalendarFragment : Fragment() {
     ): View? {
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
-        val calendarView = binding.calendarView
-        calendarView.setCurrentDate(LocalDate.now())
+        widget = binding.calendarView as MaterialCalendarView
+        val calendar = LocalDate.now()
+        widget.setCurrentDate(LocalDate.now())
         binding.viewModel = viewModel
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
@@ -74,6 +75,27 @@ class CalendarFragment : Fragment() {
             }
         })
 
+        // Get the current selected date
+        widget.setOnDateChangedListener { widget, date, selected ->
+            if (selected) {
+
+                oneDayDecorator.setDate(date.date)
+
+                val toTimeStamp = TimeUtil.dateToStamp(date.date.toString(), Locale.TAIWAN)
+
+                //Create a sorted list of event based on the current date
+
+                viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(toTimeStamp)
+
+                viewModel.navigationToPostDialog.value = toTimeStamp
+
+                Logger.d("${viewModel.selectedLiveEvent.value}")
+                Logger.d("$toTimeStamp")
+
+
+            }
+        }
+
         viewModel.selectedLiveEvent.observe(viewLifecycleOwner, Observer {
             Logger.d("Sorted Event List : $it")
             it?.let {
@@ -90,22 +112,6 @@ class CalendarFragment : Fragment() {
             }
 
         })
-
-        firebaseQueryTest()
-
-
-        return binding.root
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        val activity = activity
-        val calendar = LocalDate.now()
-
-
-        widget = view?.findViewById(R.id.calendarView) as MaterialCalendarView
 
         // Set Indicator of current date
         widget.setSelectedDate(calendar)
@@ -127,29 +133,13 @@ class CalendarFragment : Fragment() {
         )
 
 
-        // Get the current selected date
-        widget.setOnDateChangedListener { widget, date, selected ->
-            if (selected) {
 
-                oneDayDecorator.setDate(date.date)
+        return binding.root
 
-                val toTimeStamp = TimeUtil.dateToStamp(date.date.toString(), Locale.TAIWAN)
+    }
 
-                //Create a sorted list of event based on the current date
-
-                viewModel.selectedLiveEvent.value = viewModel.allLiveEvents.value.sortByTimeStamp(toTimeStamp)
-
-                viewModel.navigationToPostDialog.value = toTimeStamp
-
-
-                Logger.d("${viewModel.selectedLiveEvent.value}")
-                Logger.d("$toTimeStamp")
-
-
-            }
-        }
-
-        // Add Dot Span to the date
+    override fun onStart() {
+        super.onStart()
 
 
         // Identify BottomSheetBehavior to present different calendar layout
@@ -165,25 +155,19 @@ class CalendarFragment : Fragment() {
                 print(state)
                 when (state) {
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-
                     }
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-
                         changeToMonth()
-
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
 //                        Handler().postDelayed({changeToMonth()},200)
-
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         changeToWeek()
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
-
                     }
                     BottomSheetBehavior.STATE_SETTLING -> {
-
                     }
                 }
             }
@@ -202,21 +186,6 @@ class CalendarFragment : Fragment() {
         binding.calendarView.state().edit()
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit()
-    }
-
-    fun firebaseQueryTest() {
-        db.collection("event")
-                .whereArrayContains("attendees", "willy")
-                .whereGreaterThan("eventTime", 1594000000000)
-                .whereLessThan("eventTime", 1595000000000)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        Log.d("eventByUserName", "${document.id} => ${document.data}")
-
-                    }
-                }
-
     }
 
     fun addDotDecoration(year: Int, month: Int, day: Int) {

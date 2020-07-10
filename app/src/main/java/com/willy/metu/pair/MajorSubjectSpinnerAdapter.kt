@@ -9,14 +9,14 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.databinding.ItemFollowedUserSpinnerBinding
 
-class MajorSubjectSpinnerAdapter (private val strings: Array<String>) : BaseAdapter() {
+class QuestionSpinnerAdapter (private val strings: Array<String>, val indicator: String) : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val binding = ItemFollowedUserSpinnerBinding.inflate(LayoutInflater.from(parent?.context),parent,false)
 
         if(position == 0){
-            binding.user = MeTuApplication.instance.resources.getString(R.string.spinner_select_category)
+            binding.user = indicator
             binding.textSpinnerTitle.setTextColor(MeTuApplication.appContext.resources.getColor(R.color.black_12_alpha))
         } else {
             binding.user = strings[position-1]

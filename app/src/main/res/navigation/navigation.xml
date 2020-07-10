@@ -65,11 +65,31 @@
         android:id="@+id/questionnaireTwoFragment"
         android:name="com.willy.metu.pair.QuestionnaireTwoFragment"
         android:label="QuestionnaireTwoFragment"
-        tools:layout="@layout/fragment_questionnaire_two"/>
+        tools:layout="@layout/fragment_questionnaire_two">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
 
     <action
         android:id="@+id/navigate_to_question_two"
         app:destination="@id/questionnaireTwoFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
+
+    <fragment
+        android:id="@+id/questionnaireThreeFragment"
+        android:name="com.willy.metu.pair.QuestionnaireThreeFragment"
+        android:label="QuestionnaireThreeFragment"
+        tools:layout="@layout/fragment_questionnaire_three">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_question_three"
+        app:destination="@id/questionnaireThreeFragment"
         app:enterAnim="@android:anim/slide_in_left"
         app:exitAnim="@android:anim/slide_out_right"/>
 
