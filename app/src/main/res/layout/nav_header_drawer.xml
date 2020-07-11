@@ -24,7 +24,7 @@
             android:outlineProvider="@{viewModel.outlineProvider}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_nav_profile"/>
+            imageUrl="@{viewModel.user.image}" />
 
         <TextView
             android:id="@+id/drawer_user_name"
@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto"
-            android:text="Willy Chuang"
+            android:text="@{viewModel.user.name}"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="visible"

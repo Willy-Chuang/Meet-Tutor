@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/nav_personal_info"
-        android:icon="@drawable/ic_location_on_black_24"
+        android:icon="@drawable/ic_face_black_24"
         android:title="Personal Info"/>
 
     <item
         android:id="@+id/nav_follow_list"
-        android:icon="@drawable/ic_face_black_24"
+        android:icon="@drawable/ic_favorite_black_24"
         android:title="Wishlist"/>
 
 

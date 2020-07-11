@@ -106,6 +106,9 @@ class LoginActivity : AppCompatActivity() {
             Log.i("userLogin", user.displayName.toString())
             Log.i("userLogin", user.providerData.toString())
             Log.i("userLogin", user.photoUrl.toString())
+            UserManager.user.name = user.displayName.toString()
+            UserManager.user.email = user.email.toString()
+            UserManager.user.image = user.photoUrl.toString()
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }

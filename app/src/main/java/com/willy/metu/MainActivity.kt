@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.databinding.ActivityMainBinding
 import com.willy.metu.databinding.NavHeaderDrawerBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.login.UserManager
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
@@ -87,11 +88,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-//        viewModel.navigateToPairingByBottomNav.observe(this, Observer {
-//            it?.let {
-//                binding.bottomNavView.selectedItemId = R.
-//            }
-//        })
+        viewModel.setupUser(UserManager.user)
 
         setupToolbar()
         setupDrawer()

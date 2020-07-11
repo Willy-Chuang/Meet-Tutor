@@ -8,8 +8,7 @@ import com.willy.metu.data.User
 
 object UserManager {
 
-    val userName = "user_name"
-    val userToken = "user_token"
+    var user = User()
 
 
 }
