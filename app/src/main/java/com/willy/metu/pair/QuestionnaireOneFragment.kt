@@ -70,6 +70,7 @@ class QuestionnaireOneFragment : Fragment() {
                     }
                 }
 
+        //Passing Value to Subject livedata
         binding.spinnerSubjectMinor.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -100,11 +101,9 @@ class QuestionnaireOneFragment : Fragment() {
         }
 
         viewModel.selectedMajorSubject.observe(viewLifecycleOwner, Observer {
-            viewModel.navigateToQuestionTwo.value!!.category = it
             Logger.d(it)
         })
         viewModel.selectedMinorSubject.observe(viewLifecycleOwner, Observer {
-            //            viewModel.navigateToQuestionTwo.value!!.subject = it
             Logger.d(it)
         })
 
@@ -112,6 +111,8 @@ class QuestionnaireOneFragment : Fragment() {
             Logger.d(it.category)
 
         })
+
+        //Setup next button to navigate to the next question, passing the selected answers along
         binding.buttonNext.setOnClickListener { view ->
             if (viewModel.selectedMajorSubject.value == null) {
                 Toast.makeText(MeTuApplication.appContext,"Please select a category",Toast.LENGTH_SHORT).show()
@@ -142,7 +143,7 @@ class QuestionnaireOneFragment : Fragment() {
         alertDialogBuilder.setCancelable(true)
         alertDialogBuilder.setTitle("Sure To Leave?")
         alertDialogBuilder.setMessage("Leaving will lead to losing record of the questionnaire")
-        alertDialogBuilder.setPositiveButton("sure", DialogInterface.OnClickListener { which, i -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) })
+        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { which, i -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) })
         alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, i -> which.cancel() })
         alertDialogBuilder.show()
 

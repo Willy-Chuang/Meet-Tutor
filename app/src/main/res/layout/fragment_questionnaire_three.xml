@@ -59,5 +59,66 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/title_select_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="You would prefer"
+            android:textColor="@color/black_87_alpha"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintTop_toBottomOf="@id/progress_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/button_male"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="Male"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_select_gender"/>
+        <Button
+            android:id="@+id/button_female"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="Female"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_male"/>
+
+        <Button
+            android:id="@+id/button_skip"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_colored_round_corner"
+            android:text="SKIP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_finish"/>
+
+        <Button
+            android:id="@+id/button_finish"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_colored_round_corner"
+            android:text="Finish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
