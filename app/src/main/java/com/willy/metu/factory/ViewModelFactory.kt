@@ -6,6 +6,7 @@ import com.willy.metu.MainViewModel
 import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.calendar.PostEventDialogViewModel
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.login.LoginViewModel
 import com.willy.metu.pair.QuestionnaireOneFragment
 import com.willy.metu.pair.QuestionnaireOneViewModel
 
@@ -22,6 +23,8 @@ class ViewModelFactory constructor(
                     MainViewModel(meTuRepository)
                 isAssignableFrom(QuestionnaireOneViewModel::class.java) ->
                     QuestionnaireOneViewModel(meTuRepository)
+                isAssignableFrom(LoginViewModel::class.java) ->
+                    LoginViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

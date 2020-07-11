@@ -7,17 +7,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.willy.metu.component.ProfileAvatarOutlineProvider
+import com.willy.metu.data.Event
+import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.login.UserManager
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
+import com.willy.metu.util.ServiceLocator.repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
+class MainViewModel (private val repository: MeTuRepository): ViewModel(){
 
     // user: MainViewModel has User info to provide Drawer UI
     private val _user = MutableLiveData<User>()
@@ -56,6 +61,18 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
 
     val navigateToPairingByBottomNav: LiveData<Boolean>
         get() = _navigateToPairingByBottomNav
+
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -103,6 +120,7 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
         Logger.i("MainViewModel=${this}")
         Logger.i("=============")
     }
+
 
 //    fun checkUser() {
 //        if (user.value == null) {

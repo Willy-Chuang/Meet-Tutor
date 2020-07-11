@@ -148,15 +148,12 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         val document = users.document()
+        user.id = document.id
 
-        document.collection("users")
-                .add(user)
+        document
+                .set(user)
                 .addOnSuccessListener { documentReference ->
-                    Logger.d("DocumentSnapshot added with ID: ${documentReference.id}")
-                    user.id = documentReference.id
-                    document.collection("users")
-                            .document(documentReference.id)
-                            .update("id", documentReference.id)
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
                 }
                 .addOnFailureListener { e ->
                     Logger.w("Error adding document $e")

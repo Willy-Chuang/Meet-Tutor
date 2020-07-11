@@ -14,17 +14,23 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 import android.content.pm.PackageManager
+import android.os.Handler
 import android.util.Base64
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.MainActivity
 import com.willy.metu.MainViewModel
 import com.willy.metu.R
+import com.willy.metu.data.User
+import com.willy.metu.ext.getVmFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 
 class LoginActivity : AppCompatActivity() {
+
+    val viewModel by viewModels<LoginViewModel> { getVmFactory() }
     var auth : FirebaseAuth? = null
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
@@ -103,12 +109,14 @@ class LoginActivity : AppCompatActivity() {
 
     fun moveMainPage(user:FirebaseUser?){
         if(user != null){
-            Log.i("userLogin", user.displayName.toString())
-            Log.i("userLogin", user.providerData.toString())
-            Log.i("userLogin", user.photoUrl.toString())
-            UserManager.user.name = user.displayName.toString()
-            UserManager.user.email = user.email.toString()
-            UserManager.user.image = user.photoUrl.toString()
+            var currentUser = User(image = user.photoUrl.toString(),
+                    email = user.email.toString(),
+                    name = user.displayName.toString())
+
+
+            UserManager.user = currentUser
+            viewModel.postUser(currentUser)
+
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
