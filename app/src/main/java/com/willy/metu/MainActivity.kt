@@ -122,13 +122,14 @@ class MainActivity : BaseActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.toolbar_menu, menu)
 
-        // If the current fragment is already calendar, won't inflate
+        // If the current fragment is -- ,calendar button won't inflate
         viewModel.currentFragmentType.observe(this, Observer{ type ->
             type?.let {
 
                 when (it) {
                     CurrentFragmentType.CALENDAR -> menu.findItem(R.id.calendarFragment).isVisible = false
                     CurrentFragmentType.PROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    CurrentFragmentType.EDITPROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
                     else ->  menu.findItem(R.id.calendarFragment).isVisible = true
                 }
             }
@@ -196,6 +197,7 @@ class MainActivity : BaseActivity() {
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.editProfileFragment -> CurrentFragmentType.EDITPROFILE
                 else -> viewModel.currentFragmentType.value
             }
         }

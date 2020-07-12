@@ -177,8 +177,17 @@ object MeTuRemoteDataSource : MeTuDataSource {
     }
 
 
-    override suspend fun updateUser(user: User): Result<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+        users.document(user.id)
+                .set(user)
+                .addOnSuccessListener { documentReference ->
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                }
+                .addOnFailureListener { e ->
+                    Logger.w("Error adding document $e")
+                }
+
     }
 
     override fun getLiveUser(userToken: String): Result<User> {

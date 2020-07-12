@@ -40,7 +40,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
 
                     window?.let {
-                        val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets.displayCutout
+                        val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets?.displayCutout
 //                        Logger.d("displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
 //                        Logger.d("displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
 //                        Logger.d("displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")

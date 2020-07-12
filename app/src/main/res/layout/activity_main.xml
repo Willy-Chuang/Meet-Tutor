@@ -62,6 +62,18 @@
                     android:textStyle="bold"
                     android:layout_gravity ="right"/>
 
+                <TextView
+                    android:id="@+id/button_toolbar_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="SAVE"
+                    android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.EDITPROFILE ? View.VISIBLE : View.GONE}"
+                    android:textSize="16dp"
+                    android:textColor="@color/black_87_alpha"
+                    android:textStyle="bold"
+                    android:layout_gravity ="right"/>
+
             </androidx.appcompat.widget.Toolbar>
 
             <fragment

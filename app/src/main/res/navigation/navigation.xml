@@ -103,5 +103,15 @@
         android:id="@+id/navigate_to_profile"
         app:destination="@id/profileFragment"/>
 
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.willy.metu.profile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
+
+    <action
+        android:id="@+id/navigate_to_edit_profile_fragment"
+        app:destination="@id/editProfileFragment"/>
+
 
 </navigation>

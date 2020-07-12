@@ -23,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryAlpha">
+            android:background="@color/black_default_bg">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/calendarView"
@@ -33,7 +33,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mcv_selectionColor="@color/colorAccent"
+                app:mcv_selectionColor="@color/colorPrimary"
                 app:mcv_dateTextAppearance="@style/calendarDateText"
                 app:mcv_showOtherDates="all" />
 
