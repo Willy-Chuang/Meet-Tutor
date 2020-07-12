@@ -6,5 +6,6 @@ enum class CurrentFragmentType(val value : String) {
     PAIRONE(""),
     PAIRTWO(""),
     PAIRTHREE(""),
-    HOME("Home")
+    HOME("Home"),
+    PROFILE("Profile")
 }

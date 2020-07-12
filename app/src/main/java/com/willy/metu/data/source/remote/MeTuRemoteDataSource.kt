@@ -150,14 +150,29 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val document = users.document()
         user.id = document.id
 
-        document
-                .set(user)
-                .addOnSuccessListener { documentReference ->
-                    Logger.d("DocumentSnapshot added with ID: ${users}")
+        users.whereEqualTo("email", user.email)
+                .get()
+                .addOnSuccessListener {result ->
+                    if(result.isEmpty) {
+                        document
+                                .set(user)
+                                .addOnSuccessListener { documentReference ->
+                                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Logger.w("Error adding document $e")
+                                }
+                    } else {
+                        for( myDocument in result) {
+                            var originID = myDocument.getString("id")
+                            if (originID != null) {
+                                user.id = originID
+                            }
+                        }
+                    }
+
                 }
-                .addOnFailureListener { e ->
-                    Logger.w("Error adding document $e")
-                }
+
 
     }
 

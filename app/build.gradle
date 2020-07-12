@@ -89,7 +89,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //Glide
-    // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
     kapt "com.github.bumptech.glide:compiler:$version_glide"
+
+    //CircleImage
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

@@ -21,6 +21,8 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.internal.NavigationMenuItemView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.databinding.ActivityMainBinding
@@ -30,6 +32,7 @@ import com.willy.metu.login.UserManager
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
 
@@ -41,6 +44,7 @@ class MainActivity : BaseActivity() {
     private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    //Setup bottom navigation destination
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         when (item.itemId){
             R.id.navigation_home -> {
@@ -53,6 +57,18 @@ class MainActivity : BaseActivity() {
             }
         }
         false
+    }
+
+    //Setup drawer navigation destination
+    private val onDrawerItemSelectedListener = NavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId){
+            R.id.profileFragment -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfile())
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+
     }
 
 
@@ -72,6 +88,10 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
+        binding.buttonToolbarEdit.setOnClickListener {
+            viewModel.isPress.value = true
+        }
 
 
         // observe current fragment change, only for show info
@@ -105,7 +125,12 @@ class MainActivity : BaseActivity() {
         // If the current fragment is already calendar, won't inflate
         viewModel.currentFragmentType.observe(this, Observer{ type ->
             type?.let {
-                menu.findItem(R.id.calendarFragment).isVisible = it != CurrentFragmentType.CALENDAR
+
+                when (it) {
+                    CurrentFragmentType.CALENDAR -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    CurrentFragmentType.PROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    else ->  menu.findItem(R.id.calendarFragment).isVisible = true
+                }
             }
 
         })
@@ -170,6 +195,7 @@ class MainActivity : BaseActivity() {
                 R.id.startPairingFragment -> CurrentFragmentType.PAIR
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
                 else -> viewModel.currentFragmentType.value
             }
         }

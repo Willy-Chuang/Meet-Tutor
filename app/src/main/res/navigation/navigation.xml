@@ -93,5 +93,15 @@
         app:enterAnim="@android:anim/slide_in_left"
         app:exitAnim="@android:anim/slide_out_right"/>
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.willy.metu.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+
+    <action
+        android:id="@+id/navigate_to_profile"
+        app:destination="@id/profileFragment"/>
+
 
 </navigation>

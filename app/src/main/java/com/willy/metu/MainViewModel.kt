@@ -7,20 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.willy.metu.component.ProfileAvatarOutlineProvider
-import com.willy.metu.data.Event
-import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
-import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
-import com.willy.metu.util.ServiceLocator.repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class MainViewModel (private val repository: MeTuRepository): ViewModel(){
 
@@ -30,6 +25,10 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
     val user: LiveData<User>
         get() = _user
 
+    // Edit button is pressed
+
+    val isPress = MutableLiveData<Boolean>()
+
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
@@ -37,6 +36,7 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
     val currentDrawerToggleType: LiveData<DrawerToggleType> = Transformations.map(currentFragmentType) {
         when (it) {
             CurrentFragmentType.CALENDAR -> DrawerToggleType.BACK
+            CurrentFragmentType.PROFILE -> DrawerToggleType.BACK
             else -> DrawerToggleType.NORMAL
         }
     }
