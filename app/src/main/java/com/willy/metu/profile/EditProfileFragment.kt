@@ -10,9 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
+import com.willy.metu.MainViewModel
 import com.willy.metu.MeTuApplication
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentEditProfileBinding
 import com.willy.metu.ext.getVmFactory
@@ -29,8 +33,13 @@ class EditProfileFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+        //Initialized viewModel for layout
         binding.viewModel = viewModel
 
+        //Call mainViewModel to observe if the save button is pressed
+        val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        //Set variables for content
         val cityIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_city)
         val districtIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_district)
         val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
@@ -39,7 +48,7 @@ class EditProfileFragment : Fragment() {
         val newTaipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.new_taipei_array)
         val taoyuanContent = MeTuApplication.instance.resources.getStringArray(R.array.taoyuan_array)
         val taichungContent = MeTuApplication.instance.resources.getStringArray(R.array.taichung_array)
-        val kaohsiung_array = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
+        val kaohsiungContent = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
 
 
         //Setup chip group for tag selection
@@ -108,7 +117,7 @@ class EditProfileFragment : Fragment() {
                             2 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(newTaipeiContent, districtIndicator)
                             3 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taoyuanContent, districtIndicator)
                             4 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taichungContent, districtIndicator)
-                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiung_array, districtIndicator)
+                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiungContent, districtIndicator)
                         }
                         if (parent != null && pos != 0) {
                             viewModel.selectedCity.value = parent.selectedItem.toString()
@@ -142,6 +151,7 @@ class EditProfileFragment : Fragment() {
 
 
 
+        //Observers for editable components
         viewModel.selectedTags.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
@@ -164,6 +174,22 @@ class EditProfileFragment : Fragment() {
 
         viewModel.introduction.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
+        })
+
+        //Observer for save button, when pressed send update user info (With empty handel)
+        mainViewModel.saveIsPressed.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                if(viewModel.checkIfComplete()){
+
+                    viewModel.updateUser(viewModel.getUserInfo())
+                    findNavController().navigate(NavigationDirections.navigateToProfile())
+                    mainViewModel.saveIsPressed.value = false
+
+                }else{
+                    Toast.makeText(MeTuApplication.appContext,"Finishing the info would help when pairing",Toast.LENGTH_SHORT).show()
+
+                }
+            }
         })
 
 

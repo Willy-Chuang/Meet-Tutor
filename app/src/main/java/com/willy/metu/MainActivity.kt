@@ -3,7 +3,6 @@ package com.willy.metu
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -11,20 +10,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.NavigationMenuItemView
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.databinding.ActivityMainBinding
 import com.willy.metu.databinding.NavHeaderDrawerBinding
 import com.willy.metu.ext.getVmFactory
@@ -32,7 +25,6 @@ import com.willy.metu.login.UserManager
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
 
@@ -89,8 +81,12 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
+
         binding.buttonToolbarEdit.setOnClickListener {
-            viewModel.isPress.value = true
+            viewModel.editIsPressed.value = true
+        }
+        binding.buttonToolbarSave.setOnClickListener {
+            viewModel.saveIsPressed.value = true
         }
 
 

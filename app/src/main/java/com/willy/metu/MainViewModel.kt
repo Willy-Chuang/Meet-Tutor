@@ -27,7 +27,8 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
 
     // Edit button is pressed
 
-    val isPress = MutableLiveData<Boolean>()
+    val editIsPressed = MutableLiveData<Boolean>()
+    val saveIsPressed = MutableLiveData<Boolean>()
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()

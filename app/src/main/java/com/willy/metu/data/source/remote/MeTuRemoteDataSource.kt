@@ -147,7 +147,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     override suspend fun postUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
 
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
-        val document = users.document()
+        val document = users.document(user.email)
         user.id = document.id
 
         users.whereEqualTo("email", user.email)
@@ -164,14 +164,15 @@ object MeTuRemoteDataSource : MeTuDataSource {
                                 }
                     } else {
                         for( myDocument in result) {
-                            var originID = myDocument.getString("id")
-                            if (originID != null) {
-                                user.id = originID
+//                            var originID = myDocument.getString("id")
+//                            if (originID != null) {
+//                                user.id = originID
+                            Logger.d("Already initialized")
                             }
                         }
                     }
 
-                }
+
 
 
     }
@@ -179,7 +180,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     override suspend fun updateUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
-        users.document(user.id)
+        users.document(user.email)
                 .set(user)
                 .addOnSuccessListener { documentReference ->
                     Logger.d("DocumentSnapshot added with ID: ${users}")

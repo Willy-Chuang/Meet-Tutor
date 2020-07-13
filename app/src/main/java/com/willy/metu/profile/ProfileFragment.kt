@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.willy.metu.MainViewModel
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentProfileBinding
@@ -34,10 +33,10 @@ class ProfileFragment : Fragment() {
         }
 
         // When Edit button is pressed, navigate to edit mode
-        mainViewModel.isPress.observe(viewLifecycleOwner, Observer {
+        mainViewModel.editIsPressed.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 findNavController().navigate(NavigationDirections.navigateToEditProfileFragment())
-                mainViewModel.isPress.value = false
+                mainViewModel.editIsPressed.value = false
             }
 
         })
