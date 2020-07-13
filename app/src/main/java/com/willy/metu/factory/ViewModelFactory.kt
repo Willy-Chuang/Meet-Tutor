@@ -10,6 +10,7 @@ import com.willy.metu.login.LoginViewModel
 import com.willy.metu.pair.QuestionnaireOneFragment
 import com.willy.metu.pair.QuestionnaireOneViewModel
 import com.willy.metu.profile.EditProfileViewModel
+import com.willy.metu.profile.ProfileViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory constructor(
@@ -28,6 +29,8 @@ class ViewModelFactory constructor(
                     LoginViewModel(meTuRepository)
                 isAssignableFrom(EditProfileViewModel::class.java) ->
                     EditProfileViewModel(meTuRepository)
+                isAssignableFrom(ProfileViewModel::class.java) ->
+                    ProfileViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

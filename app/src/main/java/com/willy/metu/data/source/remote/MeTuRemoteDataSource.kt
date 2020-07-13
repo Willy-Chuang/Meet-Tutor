@@ -164,9 +164,6 @@ object MeTuRemoteDataSource : MeTuDataSource {
                                 }
                     } else {
                         for( myDocument in result) {
-//                            var originID = myDocument.getString("id")
-//                            if (originID != null) {
-//                                user.id = originID
                             Logger.d("Already initialized")
                             }
                         }
@@ -191,7 +188,33 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override fun getLiveUser(userToken: String): Result<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getUser(userEmail: String): Result<User> = suspendCoroutine { continuation ->
+
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+        val document = users.document(userEmail)
+
+        users.whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        var list = User()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val user = document.toObject(User::class.java)
+                            list = user
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+
+
     }
 }

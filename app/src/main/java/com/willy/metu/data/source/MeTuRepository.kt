@@ -22,6 +22,6 @@ interface MeTuRepository {
 
     suspend fun updateUser (user: User): Result<Boolean>
 
-    fun getLiveUser (userToken: String): Result<User>
+    suspend fun getUser (userEmail: String): Result<User>
 
 }

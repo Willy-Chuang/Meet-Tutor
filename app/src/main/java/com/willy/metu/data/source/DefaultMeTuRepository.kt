@@ -39,7 +39,7 @@ class DefaultMeTuRepository(
         return remoteDataSource.updateUser(user)
     }
 
-    override fun getLiveUser(userToken: String): Result<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getUser(userEmail: String): Result<User> {
+        return remoteDataSource.getUser(userEmail)
     }
 }

@@ -5,6 +5,9 @@
 
     <data>
         <import type="com.willy.metu.login.UserManager"/>
+        <variable
+            name="viewModel"
+            type="com.willy.metu.profile.ProfileViewModel" />
 
     </data>
 
@@ -66,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text=""
+                    android:text="@{viewModel.personalInfo.city}"
                     app:layout_constraintStart_toEndOf="@id/image_profile_location"
                     app:layout_constraintTop_toTopOf="@id/image_profile_location"
                     app:layout_constraintBottom_toBottomOf="@id/image_profile_location"
@@ -83,7 +86,7 @@
                     android:id="@+id/text_profile_district"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="@{viewModel.personalInfo.district}"
                     app:layout_constraintStart_toEndOf="@id/divider_profile_location"
                     app:layout_constraintTop_toTopOf="@id/image_profile_location"
                     app:layout_constraintBottom_toBottomOf="@id/image_profile_location"
@@ -95,6 +98,7 @@
                 android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
                 app:chipSpacingVertical="2dp"
                 app:layout_constraintTop_toBottomOf="@id/layout_profile_location"
                 app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:text=""
+                    android:text="@{viewModel.personalInfo.identity}"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black_87_alpha"
@@ -189,7 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text=""
+                    android:text="@{viewModel.personalInfo.gender}"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black_87_alpha"
@@ -227,11 +231,12 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
+                android:id="@+id/text_profile_introduction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="24dp"
-                android:text=""
+                android:text="@{viewModel.personalInfo.introduction}"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/black_87_alpha"
