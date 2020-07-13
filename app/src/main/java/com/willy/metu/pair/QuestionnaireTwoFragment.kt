@@ -39,6 +39,13 @@ class QuestionnaireTwoFragment : Fragment(){
         val districtIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_district)
         val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
         val cityContent = MeTuApplication.instance.resources.getStringArray(R.array.city_array)
+        val taipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.taipei_array)
+        val newTaipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.new_taipei_array)
+        val taoyuanContent = MeTuApplication.instance.resources.getStringArray(R.array.taoyuan_array)
+        val taichungContent = MeTuApplication.instance.resources.getStringArray(R.array.taichung_array)
+        val kaohsiung_array = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
+
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         viewModel.navigateToQuestionThree.value = viewModel.previousAnswers
@@ -59,11 +66,11 @@ class QuestionnaireTwoFragment : Fragment(){
                             id: Long
                     ) {
                         when (pos) {
-                            1 -> binding.spinnerDistrict.adapter = setSpinnerContent(R.array.taipei_array)
-                            2 -> binding.spinnerDistrict.adapter = setSpinnerContent(R.array.new_taipei_array)
-                            3 -> binding.spinnerDistrict.adapter = setSpinnerContent(R.array.taoyuan_array)
-                            4 -> binding.spinnerDistrict.adapter = setSpinnerContent(R.array.taichung_array)
-                            5 -> binding.spinnerDistrict.adapter = setSpinnerContent(R.array.kaohsiung_array)
+                            1 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taipeiContent, districtIndicator)
+                            2 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(newTaipeiContent, districtIndicator)
+                            3 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taoyuanContent, districtIndicator)
+                            4 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taichungContent, districtIndicator)
+                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiung_array, districtIndicator)
                         }
                         if (parent != null && pos != 0) {
                             viewModel.selectedCity.value = parent.selectedItem.toString()
@@ -131,10 +138,10 @@ class QuestionnaireTwoFragment : Fragment(){
         return binding.root
     }
 
-    fun setSpinnerContent(array: Int): SpinnerAdapter {
-        val spinner = MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
-        return spinner
-    }
+//    fun setSpinnerContent(array: Int): SpinnerAdapter {
+//        val spinner = MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
+//        return spinner
+//    }
 
     fun setDialog() {
 

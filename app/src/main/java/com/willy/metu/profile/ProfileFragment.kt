@@ -24,8 +24,8 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
         val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
+        //Setup chips to show user's tags
         val chipGroup = binding.chipGroup
-
         val genres = arrayOf("Thriller", "Comedy", "Adventure")
         for (genre in genres) {
             val chip = Chip(chipGroup.getContext())

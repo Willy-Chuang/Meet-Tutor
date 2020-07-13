@@ -148,4 +148,30 @@
         <item>Gangshan</item>
     </string-array>
 
+    <string-array name="all_tag_array">
+        <item>English</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Piano</item>
+        <item>Violin</item>
+        <item>Flute</item>
+        <item>Singing</item>
+        <item>Sketch</item>
+        <item>Digital Painting</item>
+        <item>Oil Painting</item>
+        <item>Yoga</item>
+        <item>CrossFit</item>
+        <item>Swimming</item>
+        <item>TOIEC</item>
+        <item>TOFEL</item>
+        <item>IELTS</item>
+        <item>JLPT</item>
+    </string-array>
+
 </resources>

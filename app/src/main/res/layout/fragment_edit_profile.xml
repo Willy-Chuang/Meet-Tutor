@@ -5,6 +5,9 @@
 
     <data>
         <import type="com.willy.metu.login.UserManager"/>
+        <variable
+            name="viewModel"
+            type="com.willy.metu.profile.EditProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="Account / Email"
             android:textSize="16sp"
             android:fontFamily="@font/roboto"
@@ -89,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginHorizontal="24dp"
             app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_gender"
             app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_gender">
@@ -127,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginHorizontal="24dp"
             app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_identity"
             app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_identity">
@@ -193,19 +196,31 @@
             app:layout_constraintTop_toBottomOf="@id/spinner_district"
             app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="match_parent"
+        <HorizontalScrollView
+            android:id="@+id/scroll_chip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
             app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:chipSpacingVertical="2dp"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        </com.google.android.material.chip.ChipGroup>
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
 
         <TextView
             android:id="@+id/text_edit_profile_title_introduction"
@@ -217,7 +232,7 @@
             android:fontFamily="@font/roboto"
             android:textColor="@color/black_36_alpha"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@id/scroll_chip"
             app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
 
         <EditText
@@ -228,6 +243,7 @@
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:hint="Write something about yourself"
+            android:text="@={viewModel.introduction}"
             android:textColorHint="@color/black_12_alpha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
