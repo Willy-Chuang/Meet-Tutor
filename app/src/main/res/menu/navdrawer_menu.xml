@@ -9,9 +9,9 @@
         android:title="My Profile"/>
 
     <item
-        android:id="@+id/wishlistFragment"
+        android:id="@+id/followListFragment"
         android:icon="@drawable/ic_favorite_black_24"
-        android:title="Wishlist"/>
+        android:title="Follow List"/>
 
 
 </menu>

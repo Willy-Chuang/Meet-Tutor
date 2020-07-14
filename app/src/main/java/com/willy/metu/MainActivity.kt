@@ -58,6 +58,10 @@ class MainActivity : BaseActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfile())
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.followListFragment -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToFollowListFragment())
+                return@OnNavigationItemSelectedListener true
+            }
         }
         false
 

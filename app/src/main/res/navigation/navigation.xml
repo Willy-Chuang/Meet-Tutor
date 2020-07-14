@@ -132,5 +132,14 @@
         android:id="@+id/navigate_to_pairing_result_fragment"
         app:destination="@id/pairingResultFragment"/>
 
+    <fragment
+        android:id="@+id/followListFragment"
+        android:name="com.willy.metu.followlist.FollowListFragment"
+        android:label="FollowListFragment"
+        tools:layout="@layout/fragment_followlist"/>
+    <action
+        android:id="@+id/navigate_to_follow_list_fragment"
+        app:destination="@id/followListFragment"/>
+
 
 </navigation>
