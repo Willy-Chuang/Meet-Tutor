@@ -122,7 +122,11 @@
         android:id="@+id/pairingResultFragment"
         android:name="com.willy.metu.pair.PairingResultFragment"
         android:label="PairingResultFragment"
-        tools:layout="@layout/fragment_pairing_result"/>
+        tools:layout="@layout/fragment_pairing_result">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
 
     <action
         android:id="@+id/navigate_to_pairing_result_fragment"

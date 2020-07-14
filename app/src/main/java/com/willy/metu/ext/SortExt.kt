@@ -17,10 +17,16 @@ fun List<Event>?.sortByTimeStamp (selectedTime: Long) : List<Event>{
 }
 
 
-fun List<User>?.filterByTraits(answers:Answers) : List<User> {
+fun List<User>?.sortByTraits(answers:Answers) : List<User> {
     return this?.filter {
         it?.let {
+            if(answers.gender == ""){
+            it.city == answers.city  && it.tag.contains(answers.subject)
+        } else{
             it.city == answers.city && it.gender == answers.gender && it.tag.contains(answers.subject)
+        }
+//            it.tag.contains(answers.subject)
+
         }
     }
             ?: listOf()

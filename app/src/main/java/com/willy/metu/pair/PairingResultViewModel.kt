@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
+import com.willy.metu.data.Answers
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
@@ -15,13 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class PairingResultViewModel (private val repository: MeTuRepository) : ViewModel() {
+class PairingResultViewModel(private val repository: MeTuRepository, answers: Answers) : ViewModel() {
+
+    val previousAnswers = answers
 
     private var _allUsers = MutableLiveData<List<User>>()
 
     val allUsers : LiveData<List<User>>
         get() = _allUsers
 
+    // list of users after filtering
+    val usersWithMatch = MutableLiveData<List<User>>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()

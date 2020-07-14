@@ -32,8 +32,6 @@ class ViewModelFactory constructor(
                     EditProfileViewModel(meTuRepository)
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(meTuRepository)
-                isAssignableFrom(PairingResultViewModel::class.java) ->
-                    PairingResultViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

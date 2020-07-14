@@ -9,5 +9,5 @@ data class Answers(
         var subject: String = "",
         var city: String = "",
         var district: String = "",
-        val gender: String =""
+        var gender: String =""
 ): Parcelable

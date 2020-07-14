@@ -15,13 +15,18 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentPairingResultBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.ext.sortByTraits
 import com.willy.metu.util.Logger
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_pairing_result.*
 
 class PairingResultFragment : Fragment(), CardStackListener{
 
-    private val viewModel by viewModels<PairingResultViewModel> { getVmFactory() }
+    private val viewModel by viewModels<PairingResultViewModel> {
+        getVmFactory(
+                PairingResultFragmentArgs.fromBundle(requireArguments()).selectedAnswers
+        )
+    }
 
     private lateinit var layoutManager: CardStackLayoutManager
     private val adapter = PairingResultAdapter()
@@ -51,8 +56,17 @@ class PairingResultFragment : Fragment(), CardStackListener{
             }
         }
 
+        Logger.w(viewModel.previousAnswers.toString())
+
+
         viewModel.allUsers.observe(viewLifecycleOwner, Observer {
-            Logger.i(it.toString())
+
+            viewModel.usersWithMatch.value = it.sortByTraits(viewModel.previousAnswers)
+
+        })
+
+        viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
+            Logger.w(it.toString())
             adapter.submitList(it)
         })
 
@@ -70,7 +84,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
 
     override fun onCardSwiped(direction: Direction?) {
 
-        val maxAmount = viewModel.allUsers.value?.size
+        val maxAmount = viewModel.usersWithMatch.value?.size
         count++
         Logger.i(count.toString())
         Logger.i(maxAmount.toString())

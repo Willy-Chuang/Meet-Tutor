@@ -10,6 +10,6 @@ class QuestionnaireThreeViewModel (private val repository: MeTuRepository, priva
 
     val isPressed = MutableLiveData<String>()
     val previousAnswers = answers
-    var navigateToQuestionFinal = MutableLiveData<Answers>()
+    var navigateToResult = MutableLiveData<Answers>()
 
 }

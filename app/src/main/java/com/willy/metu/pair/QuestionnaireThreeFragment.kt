@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -33,21 +34,23 @@ class QuestionnaireThreeFragment : Fragment() {
 
         val binding = FragmentQuestionnaireThreeBinding.inflate(inflater, container, false)
 
+        // Initialize answers from the previous page
+        viewModel.navigateToResult.value = viewModel.previousAnswers
 
-        //Setup gender selection
 
-        //Set initial state to false
+        // Setup gender selection
+        // Set initial state to false
         viewModel.isPressed.value = ""
 
         binding.buttonMale.setOnClickListener {
-            if (viewModel.isPressed.value == "male"){
+            if (viewModel.isPressed.value == "Male"){
                 viewModel.isPressed.value = ""
-            }else{ viewModel.isPressed.value = "male"}
+            }else{ viewModel.isPressed.value = "Male"}
         }
         binding.buttonFemale.setOnClickListener {
-            if(viewModel.isPressed.value == "female") {
+            if(viewModel.isPressed.value == "Female") {
                 viewModel.isPressed.value = ""
-            }else{ viewModel.isPressed.value = "female"}
+            }else{ viewModel.isPressed.value = "Female"}
         }
 
         // Setup leave sequence with a dialog
@@ -55,18 +58,29 @@ class QuestionnaireThreeFragment : Fragment() {
             setDialog()
         }
 
-        //Setup Finish button
+        // Setup Finish button
         binding.buttonFinish.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment())
+            if (viewModel.isPressed.value == ""){
+                Toast.makeText(MeTuApplication.appContext,"Please select a city", Toast.LENGTH_SHORT).show()
+            } else{
+                findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!.apply {
+                    gender = viewModel.isPressed.value.toString()
+                }))
+            }
+        }
+
+        // Setup Skip button
+        binding.buttonSkip.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!))
         }
 
 
         //Observe boolean liveData to set bg color for indication
         viewModel.isPressed.observe(viewLifecycleOwner, Observer {
-            if (it == "male") {
+            if (it == "Male") {
                 binding.buttonMale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimaryDark))
                 binding.buttonFemale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
-            } else if (it == "female"){
+            } else if (it == "Female"){
                 binding.buttonMale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
                 binding.buttonFemale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimaryDark))
             } else {

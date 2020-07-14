@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.data.Answers
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.pair.PairingResultViewModel
 import com.willy.metu.pair.QuestionnaireThreeViewModel
 import com.willy.metu.pair.QuestionnaireTwoViewModel
 
@@ -20,6 +21,8 @@ class AnswerViewModelFactory constructor(
                         QuestionnaireTwoViewModel(repository, answers)
                     isAssignableFrom(QuestionnaireThreeViewModel::class.java) ->
                         QuestionnaireThreeViewModel(repository, answers)
+                    isAssignableFrom(PairingResultViewModel::class.java) ->
+                        PairingResultViewModel(repository, answers)
 
 
                     else ->
