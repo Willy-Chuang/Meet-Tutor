@@ -20,6 +20,7 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
     val previousAnswers = answers
 
+    // get all users from Firebase
     private var _allUsers = MutableLiveData<List<User>>()
 
     val allUsers : LiveData<List<User>>
@@ -27,6 +28,14 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
     // list of users after filtering
     val usersWithMatch = MutableLiveData<List<User>>()
+
+    // when swipe to follow
+    val swiped = MutableLiveData<Boolean>()
+
+    private val _leave = MutableLiveData<Boolean>()
+
+    val leave: LiveData<Boolean>
+        get() = _leave
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -91,6 +100,43 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
                 }
             }
         }
+    }
+
+    fun postUserToFollow(userEmail: String, user: User) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.postUserToFollow(userEmail,user)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+
+    }
+
+    fun leave(needRefresh: Boolean = false) {
+        _leave.value = needRefresh
+    }
+
+    fun onLeft() {
+        _leave.value = null
     }
 
 }

@@ -16,9 +16,9 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentPairingResultBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByTraits
+import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.fragment_pairing_result.*
 
 class PairingResultFragment : Fragment(), CardStackListener{
 
@@ -29,9 +29,9 @@ class PairingResultFragment : Fragment(), CardStackListener{
     }
 
     private lateinit var layoutManager: CardStackLayoutManager
-    private val adapter = PairingResultAdapter()
+    lateinit var adapter: PairingResultAdapter
     private var count = 0
-    val bg = layout_card_bg
+    val myEmail = UserManager.user.email
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,7 +40,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
     ): View? {
         val binding = FragmentPairingResultBinding.inflate(inflater,container,false)
         val stackView= binding.stackView
-
+        adapter = PairingResultAdapter(viewModel)
         layoutManager = CardStackLayoutManager(requireContext(), this).apply {
             setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
             setOverlayInterpolator(LinearInterpolator())
@@ -70,6 +70,10 @@ class PairingResultFragment : Fragment(), CardStackListener{
             adapter.submitList(it)
         })
 
+        viewModel.swiped.observe(viewLifecycleOwner, Observer {
+            Logger.v(it.toString() + "changed")
+        })
+
         return binding.root
     }
 
@@ -85,18 +89,23 @@ class PairingResultFragment : Fragment(), CardStackListener{
     override fun onCardSwiped(direction: Direction?) {
 
         val maxAmount = viewModel.usersWithMatch.value?.size
-        count++
+
         Logger.i(count.toString())
         Logger.i(maxAmount.toString())
 
-        if(count == maxAmount) {
-            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
-        }
-
         if(direction == Direction.Left) {
+
+            viewModel.swiped.value = true
+            viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
+
             Toast.makeText(MeTuApplication.appContext,"Add To Wishlist",Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(MeTuApplication.appContext,"Bye",Toast.LENGTH_SHORT).show()
+        }
+
+        count++
+        if(count == maxAmount) {
+            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
         }
 
 

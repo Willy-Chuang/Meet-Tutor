@@ -46,4 +46,8 @@ class DefaultMeTuRepository(
     override suspend fun getAllUsers():Result<List<User>> {
         return remoteDataSource.getAllUsers()
     }
+
+    override suspend fun postUserToFollow(userEmail: String, user: User): Result<Boolean>{
+        return remoteDataSource.postUserToFollow(userEmail, user)
+    }
 }

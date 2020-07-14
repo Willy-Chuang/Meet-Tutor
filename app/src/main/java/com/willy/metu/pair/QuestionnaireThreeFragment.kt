@@ -18,6 +18,7 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentQuestionnaireThreeBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.util.Logger
 
 class QuestionnaireThreeFragment : Fragment() {
     private val viewModel by viewModels<QuestionnaireThreeViewModel> {
@@ -63,6 +64,9 @@ class QuestionnaireThreeFragment : Fragment() {
             if (viewModel.isPressed.value == ""){
                 Toast.makeText(MeTuApplication.appContext,"Please select a city", Toast.LENGTH_SHORT).show()
             } else{
+                Logger.w("viewModel.navigateToResult.value=${viewModel.navigateToResult.value!!.apply {
+                    gender = viewModel.isPressed.value.toString()
+                }}")
                 findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!.apply {
                     gender = viewModel.isPressed.value.toString()
                 }))

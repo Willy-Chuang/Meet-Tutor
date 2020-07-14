@@ -242,4 +242,19 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
                 }
     }
+
+    override suspend fun postUserToFollow(userEmail: String, user: User): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+        users.document(userEmail).collection("followList").document(user.email)
+                .set(user)
+                .addOnSuccessListener { documentReference ->
+                Logger.d("DocumentSnapshot added with ID: ${users}")
+            }
+            .addOnFailureListener { e ->
+                Logger.w("Error adding document $e")
+            }
+
+    }
 }
