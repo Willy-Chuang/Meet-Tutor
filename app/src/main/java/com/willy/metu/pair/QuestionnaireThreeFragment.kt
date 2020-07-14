@@ -50,6 +50,17 @@ class QuestionnaireThreeFragment : Fragment() {
             }else{ viewModel.isPressed.value = "female"}
         }
 
+        // Setup leave sequence with a dialog
+        binding.actionLeave.setOnClickListener {
+            setDialog()
+        }
+
+        //Setup Finish button
+        binding.buttonFinish.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment())
+        }
+
+
         //Observe boolean liveData to set bg color for indication
         viewModel.isPressed.observe(viewLifecycleOwner, Observer {
             if (it == "male") {
@@ -65,10 +76,6 @@ class QuestionnaireThreeFragment : Fragment() {
         })
 
 
-        // Setup leave sequence with a dialog
-        binding.actionLeave.setOnClickListener {
-            setDialog()
-        }
 
         return binding.root
 

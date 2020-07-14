@@ -217,4 +217,29 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
 
     }
+
+    override suspend fun getAllUsers():Result<List<User>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+                .collection(PATH_USER)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<User>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val user = document.toObject(User::class.java)
+                            list.add(user)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
 }

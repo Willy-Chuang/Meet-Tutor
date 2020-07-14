@@ -13,7 +13,7 @@
 
     <action
         android:id="@+id/navigate_to_calendar_Fragment"
-        app:destination="@id/calendarFragment"/>
+        app:destination="@id/calendarFragment" />
 
     <dialog
         android:id="@+id/post_event_dialog"
@@ -36,7 +36,10 @@
 
     <action
         android:id="@+id/navigate_to_pairing_fragment"
-        app:destination="@id/startPairingFragment"/>
+        app:destination="@id/startPairingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+
     <activity
         android:id="@+id/loginActivity"
         android:name="com.willy.metu.login.LoginActivity"
@@ -49,7 +52,9 @@
         tools:layout="@layout/fragment_home"/>
     <action
         android:id="@+id/navigate_to_home_fragment"
-        app:destination="@id/homeFragment"/>
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/questionnaireOneFragment"
         android:name="com.willy.metu.pair.QuestionnaireOneFragment"
@@ -112,6 +117,16 @@
     <action
         android:id="@+id/navigate_to_edit_profile_fragment"
         app:destination="@id/editProfileFragment"/>
+
+    <fragment
+        android:id="@+id/pairingResultFragment"
+        android:name="com.willy.metu.pair.PairingResultFragment"
+        android:label="PairingResultFragment"
+        tools:layout="@layout/fragment_pairing_result"/>
+
+    <action
+        android:id="@+id/navigate_to_pairing_result_fragment"
+        app:destination="@id/pairingResultFragment"/>
 
 
 </navigation>

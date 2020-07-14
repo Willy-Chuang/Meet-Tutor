@@ -61,6 +61,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_edit_profile_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_home_fragment">
                     <value>
                       <LayoutPositions />
@@ -94,6 +99,18 @@
                   <entry key="navigate_to_question_two">
                     <value>
                       <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="pairingResultFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="689" />
+                            <option name="y" value="629" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
                     </value>
                   </entry>
                   <entry key="post_event_dialog">

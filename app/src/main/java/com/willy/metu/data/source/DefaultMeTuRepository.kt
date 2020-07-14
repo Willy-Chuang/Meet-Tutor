@@ -42,4 +42,8 @@ class DefaultMeTuRepository(
     override suspend fun getUser(userEmail: String): Result<User> {
         return remoteDataSource.getUser(userEmail)
     }
+
+    override suspend fun getAllUsers():Result<List<User>> {
+        return remoteDataSource.getAllUsers()
+    }
 }

@@ -9,6 +9,7 @@
     <string name="spinner_select_subject">Select Subject</string>
     <string name="spinner_select_city">Select City</string>
     <string name="spinner_select_district">Select District</string>
+    <string name="card_about">About</string>
 
     <string-array name="followed_users_array">
         <item>Mercury</item>

@@ -24,4 +24,6 @@ interface MeTuDataSource {
 
     suspend fun getUser (userEmail: String): Result<User>
 
+    suspend fun getAllUsers():Result<List<User>>
+
 }
