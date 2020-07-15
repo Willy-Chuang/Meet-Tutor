@@ -65,6 +65,12 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
     val navigateToPairingByBottomNav: LiveData<Boolean>
         get() = _navigateToPairingByBottomNav
 
+    // Handle navigation to pairing by bottom nav directly which includes icon change
+    private val _navigateToChatListByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToChatListByBottomNav: LiveData<Boolean>
+        get() = _navigateToChatListByBottomNav
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -112,6 +118,10 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
 
     fun onHomeNavigated() {
         _navigateToHomeByBottomNav.value = null
+    }
+
+    fun onChatNavigated() {
+        _navigateToChatListByBottomNav.value = null
     }
 
     fun setupUser(user: User) {

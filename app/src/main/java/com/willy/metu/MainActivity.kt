@@ -47,6 +47,10 @@ class MainActivity : BaseActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPairingFragment())
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.navigation_chat_list -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToChatList())
+                return@OnNavigationItemSelectedListener true
+            }
         }
         false
     }
@@ -105,6 +109,13 @@ class MainActivity : BaseActivity() {
             it?.let {
                 binding.bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()
+            }
+        })
+
+        viewModel.navigateToChatListByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_chat_list
+                viewModel.onChatNavigated()
             }
         })
 
@@ -202,6 +213,7 @@ class MainActivity : BaseActivity() {
                 R.id.editProfileFragment -> CurrentFragmentType.EDITPROFILE
                 R.id.followListFragment -> CurrentFragmentType.FOLLOW
                 R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
+                R.id.chatListFragment -> CurrentFragmentType.CHATLIST
                 else -> viewModel.currentFragmentType.value
             }
         }

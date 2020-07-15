@@ -13,4 +13,9 @@
         android:icon="@drawable/ic_face_black_24"
         android:title=""/>
 
+    <item
+        android:id="@+id/navigation_chat_list"
+        android:icon="@drawable/ic_nav_chat"
+        android:title=""/>
+
 </menu>
