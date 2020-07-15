@@ -141,5 +141,20 @@
         android:id="@+id/navigate_to_follow_list_fragment"
         app:destination="@id/followListFragment"/>
 
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.willy.metu.user.UserDetailFragment"
+        android:label="UserDetailFragment"
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="user"
+            app:argType="com.willy.metu.data.User"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_user_detail"
+        app:destination="@id/userDetailFragment"/>
+
+
 
 </navigation>

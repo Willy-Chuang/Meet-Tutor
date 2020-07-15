@@ -78,6 +78,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_follow_list_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_home_fragment">
                     <value>
                       <LayoutPositions />
@@ -197,6 +202,18 @@
                           <Point>
                             <option name="x" value="14" />
                             <option name="y" value="322" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="userDetailFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-196" />
+                            <option name="y" value="605" />
                           </Point>
                         </option>
                       </LayoutPositions>

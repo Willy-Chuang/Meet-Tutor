@@ -2,10 +2,12 @@ package com.willy.metu.followlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.willy.metu.NavigationDirections
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemFollowBinding
 
@@ -31,6 +33,7 @@ class StudentListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCal
             }
 
             binding.layoutCardUser.setOnClickListener {
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user)).onClick(binding.layoutCardUser)
 
             }
 
