@@ -196,8 +196,12 @@ class MainActivity : BaseActivity() {
                 R.id.startPairingFragment -> CurrentFragmentType.PAIR
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
+                R.id.questionnaireTwoFragment -> CurrentFragmentType.PAIRTWO
+                R.id.questionnaireThreeFragment -> CurrentFragmentType.PAIRTHREE
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.editProfileFragment -> CurrentFragmentType.EDITPROFILE
+                R.id.followListFragment -> CurrentFragmentType.FOLLOW
+                R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
                 else -> viewModel.currentFragmentType.value
             }
         }

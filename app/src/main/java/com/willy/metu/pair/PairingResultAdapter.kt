@@ -42,10 +42,6 @@ class PairingResultAdapter(val viewModel: PairingResultViewModel) : ListAdapter<
                 }
             }
 
-            viewModel.swiped.observe(this, Observer {
-                Logger.v(it.toString() + "changed")
-            })
-
             binding.executePendingBindings()
         }
 
