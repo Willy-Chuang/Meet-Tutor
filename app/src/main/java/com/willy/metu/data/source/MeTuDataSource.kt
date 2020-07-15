@@ -28,4 +28,6 @@ interface MeTuDataSource {
 
     suspend fun postUserToFollow(userEmail: String, user: User): Result<Boolean>
 
+    suspend fun getFollowList(userEmail: String): Result<List<User>>
+
 }

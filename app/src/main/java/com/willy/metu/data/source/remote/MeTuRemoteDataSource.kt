@@ -9,6 +9,7 @@ import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuDataSource
+import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -256,5 +257,39 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 Logger.w("Error adding document $e")
             }
 
+        users.document(user.email).collection("followedBy").document(userEmail)
+                .set(UserManager.user)
+                .addOnSuccessListener { documentReference ->
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                }
+                .addOnFailureListener { e ->
+                    Logger.w("Error adding document $e")
+                }
+    }
+
+    override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine {continuation ->
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+        users.document(userEmail).collection("followList")
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<User>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val user = document.toObject(User::class.java)
+                            list.add(user)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
     }
 }

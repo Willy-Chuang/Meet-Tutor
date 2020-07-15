@@ -4,12 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="user"
+            type="com.willy.metu.data.User" />
 
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/layout_card_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,9 +27,11 @@
                 android:id="@+id/image_follow_avatar"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:scaleType="centerCrop"
                 android:background="@drawable/bg_all_round_corner"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                imageUrl="@{user.image}"
                 tools:src="@drawable/ic_cute_avatar"/>
 
             <TextView
@@ -33,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text=""
+                android:text="@{user.name}"
                 android:textStyle="bold"
                 android:textColor="@color/black_87_alpha"
                 android:fontFamily="@font/roboto"

@@ -1,8 +1,10 @@
 package com.willy.metu.ext
 
+
 import com.willy.metu.data.Answers
 import com.willy.metu.data.Event
 import com.willy.metu.data.User
+import com.willy.metu.login.UserManager
 
 fun List<Event>?.sortByTimeStamp (selectedTime: Long) : List<Event>{
 
@@ -21,12 +23,29 @@ fun List<User>?.sortByTraits(answers:Answers) : List<User> {
     return this?.filter {
         it?.let {
             if(answers.gender == ""){
-            it.city == answers.city  && it.tag.contains(answers.subject)
+            it.city == answers.city  && it.tag.contains(answers.subject) && it.email != UserManager.user.email
         } else{
-            it.city == answers.city && it.gender == answers.gender && it.tag.contains(answers.subject)
+            it.city == answers.city && it.gender == answers.gender && it.tag.contains(answers.subject) && it.email != UserManager.user.email
         }
-//            it.tag.contains(answers.subject)
 
+        }
+    }
+            ?: listOf()
+}
+
+fun List<User>?.sortToOnlyStudents(): List<User>{
+    return this?.filter {
+        it?.let{
+            it.identity == "Student"
+        }
+    }
+            ?: listOf()
+}
+
+fun List<User>?.sortToOnlyTutors(): List<User>{
+    return this?.filter {
+        it?.let{
+            it.identity == "Tutor"
         }
     }
             ?: listOf()
