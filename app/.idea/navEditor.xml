@@ -32,6 +32,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="chatRoomFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="261" />
+                            <option name="y" value="616" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="editProfileFragment">
                     <value>
                       <LayoutPositions>
@@ -81,6 +93,11 @@
                     </value>
                   </entry>
                   <entry key="navigate_to_calendar_Fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_chat_list">
                     <value>
                       <LayoutPositions />
                     </value>

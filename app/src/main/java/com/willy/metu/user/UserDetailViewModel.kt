@@ -60,18 +60,6 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         Logger.i("------------------------------------")
     }
 
-//    fun getChatRoom():ChatRoom {
-//
-//        var attendeeNames = listOf(UserManager.user.name, selectedUser.name)
-//        var attendeeImages = listOf(UserManager.user.image, selectedUser.image)
-//        return ChatRoom(
-//                chatRoomId = "",
-//                latestTime = 0,
-//                attendeeImages = attendeeImages,
-//                attendeeNames = attendeeNames,
-//                userName = UserManager.user.name
-//        )
-//    }
 
     fun getChatRoom(): ChatRoom {
 
@@ -88,6 +76,8 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         }
 
         var attendeeList = listOf(UserManager.user.email, selectedUser.email)
+
+
 
         return ChatRoom(
                 chatRoomId = "",

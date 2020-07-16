@@ -31,4 +31,6 @@ interface MeTuDataSource {
 
     fun getLiveChatRooms(userEmail: String): MutableLiveData<List<ChatRoom>>
 
+    suspend fun postMessage(emails: List<String>, message: Message): Result<Boolean>
+
 }

@@ -164,5 +164,19 @@
         android:id="@+id/navigate_to_chat_list"
         app:destination="@id/chatListFragment"/>
 
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.willy.metu.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment"
+        tools:layout="@layout/fragment_chatroom">
+        <argument
+            android:name="userEmail"
+            app:argType="string"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_chat_room"
+        app:destination="@id/chatRoomFragment"/>
+
 
 </navigation>

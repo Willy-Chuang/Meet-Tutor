@@ -298,10 +298,10 @@ object MeTuRemoteDataSource : MeTuDataSource {
         chatRoom.chatRoomId = document.id
         chatRoom.latestTime = Calendar.getInstance().timeInMillis
 
-        chat.whereIn("attendees",listOf(chatRoom.attendees))
+        chat.whereIn("attendees", listOf(chatRoom.attendees))
                 .get()
                 .addOnSuccessListener { result ->
-                    if (result.isEmpty){
+                    if (result.isEmpty) {
                         document
                                 .set(chatRoom)
                                 .addOnCompleteListener { task ->
@@ -333,7 +333,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         FirebaseFirestore.getInstance()
                 .collection(PATH_CHATLIST)
                 .whereArrayContains("attendees", userEmail)
-                .addSnapshotListener{ snapshot, exception ->
+                .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
 
                     exception?.let {
@@ -352,4 +352,49 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
         return liveData
     }
+
+    override suspend fun postMessage(emails: List<String>, message: Message): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
+        val document = chat.document()
+        chat.whereIn("attendees", listOf(emails))
+                .get()
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        if (task.exception != null){
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")
+                        continuation.resume(Result.Error(task.exception!!))}
+                        else{
+                            continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                        }
+                    }
+
+                    val documentId2 = chat.document(task.result!!.documents[0].id).collection("message").document()
+
+                    message.createdTime = Calendar.getInstance().timeInMillis
+                    message.id = documentId2.id
+
+                    chat.document(task.result!!.documents[0].id).collection("message").add(message)
+
+                }
+                .addOnCompleteListener { taskTwo ->
+                    if (taskTwo.isSuccessful) {
+                        Logger.i("Chatroom: $message")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        taskTwo.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+
+                }
+
+    }
+
+
 }

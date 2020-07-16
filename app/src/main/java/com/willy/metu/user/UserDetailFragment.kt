@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
@@ -41,6 +43,7 @@ class UserDetailFragment : Fragment(){
 
         binding.buttonMessage.setOnClickListener {
             viewModel.createChatRoom(viewModel.getChatRoom())
+            findNavController().navigate(NavigationDirections.navigateToChatRoom(viewModel.selectedUser.email))
         }
 
 
