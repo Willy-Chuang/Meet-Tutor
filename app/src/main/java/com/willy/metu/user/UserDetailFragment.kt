@@ -39,6 +39,10 @@ class UserDetailFragment : Fragment(){
             }
         }
 
+        binding.buttonMessage.setOnClickListener {
+            viewModel.createChatRoom(viewModel.getChatRoom())
+        }
+
 
         return binding.root
     }

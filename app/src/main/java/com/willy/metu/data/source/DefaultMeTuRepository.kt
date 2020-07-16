@@ -1,10 +1,7 @@
 package com.willy.metu.data.source
 
 import androidx.lifecycle.MutableLiveData
-import com.willy.metu.data.Event
-import com.willy.metu.data.SelectedEvent
-import com.willy.metu.data.Result
-import com.willy.metu.data.User
+import com.willy.metu.data.*
 
 class DefaultMeTuRepository(
     private val remoteDataSource: MeTuDataSource,
@@ -53,5 +50,9 @@ class DefaultMeTuRepository(
 
     override suspend fun getFollowList(userEmail: String): Result<List<User>> {
         return remoteDataSource.getFollowList(userEmail)
+    }
+
+    override suspend fun postChatRoom(chatRoom: ChatRoom): Result<Boolean> {
+        return remoteDataSource.postChatRoom(chatRoom)
     }
 }

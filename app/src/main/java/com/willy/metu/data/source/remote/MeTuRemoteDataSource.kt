@@ -4,13 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Event
-import com.willy.metu.data.SelectedEvent
-import com.willy.metu.data.Result
-import com.willy.metu.data.User
+import com.willy.metu.data.*
 import com.willy.metu.data.source.MeTuDataSource
 import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -19,6 +17,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     private const val PATH_EVENTS = "event"
     private const val PATH_USER = "user"
     private const val KEY_CREATED_TIME = "createdTime"
+    private const val PATH_CHATLIST = "chatList"
 
     override suspend fun getSelectedEvents(): Result<List<SelectedEvent>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
@@ -153,8 +152,8 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         users.whereEqualTo("email", user.email)
                 .get()
-                .addOnSuccessListener {result ->
-                    if(result.isEmpty) {
+                .addOnSuccessListener { result ->
+                    if (result.isEmpty) {
                         document
                                 .set(user)
                                 .addOnSuccessListener { documentReference ->
@@ -164,13 +163,11 @@ object MeTuRemoteDataSource : MeTuDataSource {
                                     Logger.w("Error adding document $e")
                                 }
                     } else {
-                        for( myDocument in result) {
+                        for (myDocument in result) {
                             Logger.d("Already initialized")
-                            }
                         }
                     }
-
-
+                }
 
 
     }
@@ -219,7 +216,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override suspend fun getAllUsers():Result<List<User>> = suspendCoroutine { continuation ->
+    override suspend fun getAllUsers(): Result<List<User>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
                 .get()
@@ -251,11 +248,11 @@ object MeTuRemoteDataSource : MeTuDataSource {
         users.document(userEmail).collection("followList").document(user.email)
                 .set(user)
                 .addOnSuccessListener { documentReference ->
-                Logger.d("DocumentSnapshot added with ID: ${users}")
-            }
-            .addOnFailureListener { e ->
-                Logger.w("Error adding document $e")
-            }
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                }
+                .addOnFailureListener { e ->
+                    Logger.w("Error adding document $e")
+                }
 
         users.document(user.email).collection("followedBy").document(userEmail)
                 .set(UserManager.user)
@@ -267,7 +264,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
     }
 
-    override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine {continuation ->
+    override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine { continuation ->
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
 
         users.document(userEmail).collection("followList")
@@ -291,5 +288,42 @@ object MeTuRemoteDataSource : MeTuDataSource {
                         continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
                     }
                 }
+    }
+
+    override suspend fun postChatRoom(chatRoom: ChatRoom): Result<Boolean> = suspendCoroutine { continuation ->
+        val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
+        val document = chat.document()
+
+        chatRoom.chatRoomId = document.id
+        chatRoom.createdTime = Calendar.getInstance().timeInMillis
+
+        chat.whereIn("attendeeNames",listOf(chatRoom.attendeeNames))
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.isEmpty){
+                        document
+                                .set(chatRoom)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Logger.i("Chatroom: $chatRoom")
+
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        task.exception?.let {
+
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+                                        }
+                                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                                    }
+                                }
+                    } else {
+                        for (myDocument in result) {
+                            Logger.d("Already initialized")
+                        }
+                    }
+                }
+
     }
 }

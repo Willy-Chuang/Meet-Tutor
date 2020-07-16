@@ -1,10 +1,7 @@
 package com.willy.metu.data.source
 
 import androidx.lifecycle.MutableLiveData
-import com.willy.metu.data.Event
-import com.willy.metu.data.SelectedEvent
-import com.willy.metu.data.Result
-import com.willy.metu.data.User
+import com.willy.metu.data.*
 
 interface MeTuRepository {
 
@@ -29,5 +26,7 @@ interface MeTuRepository {
     suspend fun postUserToFollow(userEmail: String, user: User): Result<Boolean>
 
     suspend fun getFollowList(userEmail: String): Result<List<User>>
+
+    suspend fun postChatRoom(chatRoom: ChatRoom):Result<Boolean>
 
 }
