@@ -8,6 +8,7 @@ import com.willy.metu.R
 import com.willy.metu.data.ChatRoom
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
+import com.willy.metu.data.UserInfo
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
@@ -59,16 +60,40 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         Logger.i("------------------------------------")
     }
 
-    fun getChatRoom():ChatRoom {
+//    fun getChatRoom():ChatRoom {
+//
+//        var attendeeNames = listOf(UserManager.user.name, selectedUser.name)
+//        var attendeeImages = listOf(UserManager.user.image, selectedUser.image)
+//        return ChatRoom(
+//                chatRoomId = "",
+//                latestTime = 0,
+//                attendeeImages = attendeeImages,
+//                attendeeNames = attendeeNames,
+//                userName = UserManager.user.name
+//        )
+//    }
 
-        var attendeeNames = listOf(UserManager.user.name, selectedUser.name)
-        var attendeeImages = listOf(UserManager.user.image, selectedUser.image)
+    fun getChatRoom(): ChatRoom {
+
+        var attendeeOne = UserInfo().apply {
+            userEmail = UserManager.user.email
+            userImage = UserManager.user.image
+            userName = UserManager.user.name
+        }
+
+        var attendeeTwo = UserInfo().apply {
+            userEmail = selectedUser.email
+            userImage = selectedUser.image
+            userName = selectedUser.name
+        }
+
+        var attendeeList = listOf(UserManager.user.email, selectedUser.email)
+
         return ChatRoom(
                 chatRoomId = "",
-                createdTime = 0,
-                attendeeImages = attendeeImages,
-                attendeeNames = attendeeNames,
-                userName = UserManager.user.name
+                latestTime = 0,
+                attendeesInfo = listOf(attendeeOne,attendeeTwo),
+                attendees = attendeeList
         )
     }
 

@@ -2,6 +2,7 @@ package com.willy.metu.data.source.remote
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.*
@@ -295,9 +296,9 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val document = chat.document()
 
         chatRoom.chatRoomId = document.id
-        chatRoom.createdTime = Calendar.getInstance().timeInMillis
+        chatRoom.latestTime = Calendar.getInstance().timeInMillis
 
-        chat.whereIn("attendeeNames",listOf(chatRoom.attendeeNames))
+        chat.whereIn("attendees",listOf(chatRoom.attendees))
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.isEmpty){
@@ -325,5 +326,30 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
                 }
 
+    }
+
+    override fun getLiveChatRooms(userEmail: String): MutableLiveData<List<ChatRoom>> {
+        val liveData = MutableLiveData<List<ChatRoom>>()
+        FirebaseFirestore.getInstance()
+                .collection(PATH_CHATLIST)
+                .whereArrayContains("attendees", userEmail)
+                .addSnapshotListener{ snapshot, exception ->
+                    Logger.i("add SnapshotListener detected")
+
+                    exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    }
+
+                    val list = mutableListOf<ChatRoom>()
+                    for (document in snapshot!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val chatRoom = document.toObject(ChatRoom::class.java)
+                        list.add(chatRoom)
+                    }
+                    liveData.value = list
+
+                }
+        return liveData
     }
 }

@@ -29,4 +29,6 @@ interface MeTuRepository {
 
     suspend fun postChatRoom(chatRoom: ChatRoom):Result<Boolean>
 
+    fun getLiveChatRooms(userEmail: String): MutableLiveData<List<ChatRoom>>
+
 }

@@ -55,4 +55,8 @@ class DefaultMeTuRepository(
     override suspend fun postChatRoom(chatRoom: ChatRoom): Result<Boolean> {
         return remoteDataSource.postChatRoom(chatRoom)
     }
+
+    override fun getLiveChatRooms(userEmail: String): MutableLiveData<List<ChatRoom>> {
+        return remoteDataSource.getLiveChatRooms(userEmail)
+    }
 }

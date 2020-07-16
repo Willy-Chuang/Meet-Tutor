@@ -18,6 +18,12 @@ object TimeUtil {
     }
 
     @JvmStatic
+    fun stampToFullTime(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        return simpleDateFormat.format(Date(time))
+    }
+
+    @JvmStatic
     fun stampToYear(time: Long): String {
         val simpleDateFormat = SimpleDateFormat("yyyy")
         return simpleDateFormat.format(Date(time))

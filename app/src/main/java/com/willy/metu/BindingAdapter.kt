@@ -42,6 +42,11 @@ fun bindTime(textView: TextView, time: Long?){
     time?.let {textView.text = TimeUtil.stampToTime(time)}
 }
 
+@BindingAdapter("fullTime")
+fun bindFullTime(textView: TextView, time: Long?){
+    time?.let { textView.text = TimeUtil.stampToFullTime(time) }
+}
+
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {

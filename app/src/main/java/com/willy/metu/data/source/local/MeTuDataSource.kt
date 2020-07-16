@@ -55,4 +55,8 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getLiveChatRooms(userEmail: String): MutableLiveData<List<ChatRoom>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }
