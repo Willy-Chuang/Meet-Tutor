@@ -396,5 +396,47 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
+    override fun getAllLiveMessage (emails: List<String>) : MutableLiveData<List<Message>> {
+        val liveData = MutableLiveData<List<Message>>()
+
+        val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
+        val document = chat.document()
+        chat.whereIn("attendees", listOf(emails))
+                .get()
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        if (task.exception != null){
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")}
+                        else{
+                            Logger.d("sda")
+                        }
+                    }
+
+                    chat.document(task.result!!.documents[0].id).collection("message")
+
+                            .addSnapshotListener { snapshot, exception ->
+                                Logger.i("add SnapshotListener detected")
+
+                                exception?.let {
+                                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                }
+
+                                val list = mutableListOf<Message>()
+                                for (document in snapshot!!) {
+                                    Logger.d(document.id + " => " + document.data)
+
+                                    val message = document.toObject(Message::class.java)
+                                    list.add(message)
+                                }
+                                liveData.value = list
+
+                            }
+
+                }
+        return liveData
+
+
+    }
+
 
 }

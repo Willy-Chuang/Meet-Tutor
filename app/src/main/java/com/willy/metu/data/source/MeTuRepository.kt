@@ -33,4 +33,6 @@ interface MeTuRepository {
 
     suspend fun postMessage(emails: List<String>, message: Message): Result<Boolean>
 
+    fun getAllLiveMessage (emails: List<String>) : MutableLiveData<List<Message>>
+
 }

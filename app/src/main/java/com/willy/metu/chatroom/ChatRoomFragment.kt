@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.MeTuApplication
 import com.willy.metu.databinding.FragmentChatroomBinding
 import com.willy.metu.ext.getVmFactory
@@ -29,7 +30,10 @@ class ChatRoomFragment : Fragment() {
     ): View? {
 
         val binding = FragmentChatroomBinding.inflate(inflater,container,false)
+        val adapter = ChatRoomAdapter()
         binding.viewModel = viewModel
+        binding.recyclerMessage.adapter = adapter
+        binding.recyclerMessage.layoutManager = LinearLayoutManager(context)
 
         val myUserEmail = UserManager.user.email
         val friendUserEmail = viewModel.currentChattingUser
@@ -46,6 +50,12 @@ class ChatRoomFragment : Fragment() {
                 binding.editMessage.text.clear()
             }
         }
+
+        viewModel.allLiveMessage.observe(viewLifecycleOwner, Observer {
+
+            adapter.submitList(it)
+
+        })
 
         return binding.root
 

@@ -23,6 +23,9 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
     // EditText input
     val enterMessage = MutableLiveData<String>()
 
+    // All live message
+    var allLiveMessage = MutableLiveData<List<Message>>()
+
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -61,6 +64,8 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+        getAllLiveMessage(getUserEmails(UserManager.user.email,currentChattingUser))
     }
 
     fun postMessage(userEmails: List<String>, message: Message) {
@@ -106,11 +111,14 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
         )
     }
 
+    fun getAllLiveMessage(userEmails: List<String>) {
+        allLiveMessage = repository.getAllLiveMessage(userEmails)
+        _status.value = LoadApiStatus.DONE
+    }
+
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }
-
-
 
 
 
