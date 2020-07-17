@@ -332,6 +332,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val liveData = MutableLiveData<List<ChatRoom>>()
         FirebaseFirestore.getInstance()
                 .collection(PATH_CHATLIST)
+                .orderBy("latestTime",Query.Direction.DESCENDING)
                 .whereArrayContains("attendees", userEmail)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
@@ -358,6 +359,11 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
         chat.whereIn("attendees", listOf(emails))
                 .get()
+                .addOnSuccessListener { result ->
+                    val documentId = chat.document(result.documents[0].id)
+                    documentId
+                            .update("latestTime", Calendar.getInstance().timeInMillis, "latestMessage", message.text)
+                }
                 .continueWithTask { task ->
                     if (!task.isSuccessful) {
                         if (task.exception != null){
