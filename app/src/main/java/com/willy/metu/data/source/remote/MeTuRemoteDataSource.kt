@@ -357,7 +357,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     override suspend fun postMessage(emails: List<String>, message: Message): Result<Boolean> = suspendCoroutine { continuation ->
 
         val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
-        chat.whereIn("attendees", listOf(emails))
+        chat.whereIn("attendees", listOf(emails,emails.reversed()))
                 .get()
                 .addOnSuccessListener { result ->
                     val documentId = chat.document(result.documents[0].id)
@@ -405,7 +405,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val liveData = MutableLiveData<List<Message>>()
 
         val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
-        chat.whereIn("attendees", listOf(emails))
+        chat.whereIn("attendees", listOf(emails,emails.reversed()))
                 .get()
                 .addOnCompleteListener { task ->
                     if (!task.isSuccessful) {

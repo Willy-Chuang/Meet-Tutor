@@ -3,6 +3,7 @@ package com.willy.metu
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -287,7 +288,15 @@ class MainActivity : BaseActivity() {
             )
             actionBarDrawerToggle?.setToolbarNavigationClickListener {
                 when (type) {
-                    DrawerToggleType.BACK -> onBackPressed()
+                    DrawerToggleType.BACK -> {
+
+                        when (viewModel.currentFragmentType.value) {
+                            CurrentFragmentType.PROFILE -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                            CurrentFragmentType.FOLLOW -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                            else -> onBackPressed()
+                        }
+
+                    }
                     else -> {
                     }
                 }
@@ -305,6 +314,7 @@ class MainActivity : BaseActivity() {
         } else {
             super.onBackPressed()
         }
+
     }
 }
 
