@@ -214,6 +214,7 @@ class MainActivity : BaseActivity() {
                 R.id.followListFragment -> CurrentFragmentType.FOLLOW
                 R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
                 R.id.chatListFragment -> CurrentFragmentType.CHATLIST
+                R.id.chatRoomFragment -> CurrentFragmentType.CHAT
                 else -> viewModel.currentFragmentType.value
             }
         }

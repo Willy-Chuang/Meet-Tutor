@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.bindImage
 import com.willy.metu.data.ChatRoom
@@ -19,8 +21,15 @@ class ChatListAdapter () : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCa
         fun bind(chatRoom: ChatRoom){
 
             binding.chatRoom = chatRoom
-            binding.textChatName.text = chatRoom.attendeesInfo.component1().userName
-            binding.imageUrl = chatRoom.attendeesInfo.component1().userImage
+
+            val friendInfo = chatRoom.attendeesInfo.component1()
+
+            binding.textChatName.text = friendInfo.userName
+            binding.imageUrl = friendInfo.userImage
+
+            binding.layoutChatList.setOnClickListener{
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToChatRoom(friendInfo.userEmail, friendInfo.userName)).onClick(binding.layoutChatList)
+            }
             binding.executePendingBindings()
 
 

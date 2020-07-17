@@ -16,9 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ChatRoomViewModel(private val repository: MeTuRepository, private val userEmail: String): ViewModel(){
+class ChatRoomViewModel(private val repository: MeTuRepository, private val userEmail: String, private val userName : String): ViewModel(){
 
     val currentChattingUser = userEmail
+
+    val currentChattingName = userName
 
     // EditText input
     val enterMessage = MutableLiveData<String>()
@@ -106,6 +108,7 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
                 id = "",
                 senderName = UserManager.user.name,
                 senderImage = UserManager.user.image,
+                senderEmail = UserManager.user.email,
                 text = enterMessage.value.toString(),
                 createdTime = 0L
         )

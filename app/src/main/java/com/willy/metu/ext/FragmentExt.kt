@@ -26,8 +26,8 @@ fun Fragment.getVmFactory(user: User): UserViewModelFactory {
     return UserViewModelFactory(repository, user)
 }
 
-fun Fragment.getVmFactory(userEmail: String) : UserEmailViewModelFactory {
+fun Fragment.getVmFactory(userEmail: String, userName: String) : UserEmailViewModelFactory {
     val repository = (requireContext().applicationContext as MeTuApplication).meTuRepository
-    return UserEmailViewModelFactory(repository, userEmail)
+    return UserEmailViewModelFactory(repository, userEmail, userName)
 }
 

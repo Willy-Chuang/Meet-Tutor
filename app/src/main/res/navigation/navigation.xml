@@ -162,7 +162,9 @@
         tools:layout="@layout/fragment_chat_list"/>
     <action
         android:id="@+id/navigate_to_chat_list"
-        app:destination="@id/chatListFragment"/>
+        app:destination="@id/chatListFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
 
     <fragment
         android:id="@+id/chatRoomFragment"
@@ -171,7 +173,10 @@
         tools:layout="@layout/fragment_chatroom">
         <argument
             android:name="userEmail"
-            app:argType="string"/>
+            app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
     </fragment>
 
     <action

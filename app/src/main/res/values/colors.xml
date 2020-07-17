@@ -20,6 +20,7 @@
 
 
     <!-- Gray Series -->
+    <color name="gray_light">#EEEEEE</color>
     <color name="gray_646464">#646464</color>
     <color name="gray_888888">#888888</color>
     <color name="gray_999999">#999999</color>

@@ -8,18 +8,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.MeTuApplication
+import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentChatroomBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
+import kotlinx.android.synthetic.main.activity_main.*
 
 class ChatRoomFragment : Fragment() {
 
     private val viewModel by viewModels<ChatRoomViewModel> {
         getVmFactory(
-                ChatRoomFragmentArgs.fromBundle(requireArguments()).userEmail
+                ChatRoomFragmentArgs.fromBundle(requireArguments()).userEmail, ChatRoomFragmentArgs.fromBundle(requireArguments()).userName
         )
     }
 
@@ -32,6 +36,9 @@ class ChatRoomFragment : Fragment() {
         val binding = FragmentChatroomBinding.inflate(inflater,container,false)
         val adapter = ChatRoomAdapter()
         binding.viewModel = viewModel
+        binding.buttonBack.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToChatList())
+        }
         binding.recyclerMessage.adapter = adapter
         binding.recyclerMessage.layoutManager = LinearLayoutManager(context)
 

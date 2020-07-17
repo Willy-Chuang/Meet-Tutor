@@ -8,14 +8,15 @@ import com.willy.metu.data.source.MeTuRepository
 @Suppress("UNCHECKED_CAST")
 class UserEmailViewModelFactory constructor(
         private val repository: MeTuRepository,
-        private val userEmail: String
+        private val userEmail: String,
+        private val userName: String
 ): ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
                     isAssignableFrom(ChatRoomViewModel::class.java) ->
-                        ChatRoomViewModel(repository, userEmail)
+                        ChatRoomViewModel(repository, userEmail, userName)
 
 
                     else ->

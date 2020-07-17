@@ -2,20 +2,28 @@ package com.willy.metu.chatroom
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.willy.metu.R
-import com.willy.metu.data.ChatRoom
 import com.willy.metu.data.Message
-import com.willy.metu.databinding.ItemMessageBinding
+import com.willy.metu.databinding.ItemFriendMessageBinding
+import com.willy.metu.databinding.ItemMyMessageBinding
+import com.willy.metu.login.UserManager
+
 
 class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback){
-    class ChatRoomViewHolder(private var binding: ItemMessageBinding): RecyclerView.ViewHolder(binding.root){
+    class FriendMessageViewHolder(private var binding: ItemFriendMessageBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(message: Message){
+
+            binding.message = message
+
+            binding.executePendingBindings()
+
+
+        }
+    }
+
+    class MyMessageViewHolder(private var binding: ItemMyMessageBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(message: Message){
 
             binding.message = message
@@ -34,12 +42,15 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
             return oldItem.id == newItem.id
         }
 
-        private const val ITEM_VIEW_TYPE_EVENT = 0x00
+        private const val ITEM_VIEW_TYPE_FRIEND = 0x00
+        private const val ITEM_VIEW_TYPE_MY = 0x01
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_EVENT -> ChatRoomViewHolder(ItemMessageBinding.inflate(
+            ITEM_VIEW_TYPE_FRIEND -> FriendMessageViewHolder(ItemFriendMessageBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false))
+            ITEM_VIEW_TYPE_MY -> MyMessageViewHolder (ItemMyMessageBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -48,28 +59,23 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when(holder) {
-            is ChatRoomViewHolder -> {
+            is FriendMessageViewHolder -> {
+                holder.bind((getItem(position) as Message))
+            }
+            is MyMessageViewHolder -> {
                 holder.bind((getItem(position) as Message))
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return ITEM_VIEW_TYPE_EVENT
-    }
 
-    fun bindImage(imgView: ImageView, imgUrl: String?) {
-        imgUrl?.let {
-            val imgUri = it.toUri().buildUpon().build()
-            Glide.with(imgView.context)
-                    .load(imgUri)
-                    .apply(
-                            RequestOptions()
-                                    .placeholder(R.drawable.ic_face_black_24)
-                                    .error(R.drawable.ic_face_black_24))
-                    .into(imgView)
+        return when (getItem(position).senderEmail) {
+            UserManager.user.email -> ITEM_VIEW_TYPE_MY
+            else -> ITEM_VIEW_TYPE_FRIEND
         }
     }
+
 
 
 }

@@ -43,7 +43,7 @@ class UserDetailFragment : Fragment(){
 
         binding.buttonMessage.setOnClickListener {
             viewModel.createChatRoom(viewModel.getChatRoom())
-            findNavController().navigate(NavigationDirections.navigateToChatRoom(viewModel.selectedUser.email))
+            findNavController().navigate(NavigationDirections.navigateToChatRoom(viewModel.selectedUser.email,viewModel.selectedUser.name))
         }
 
 
