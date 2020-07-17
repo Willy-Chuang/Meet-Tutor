@@ -183,5 +183,26 @@
         android:id="@+id/navigate_to_chat_room"
         app:destination="@id/chatRoomFragment"/>
 
+    <fragment
+        android:id="@+id/talentPoolFragment"
+        android:name="com.willy.metu.talentpool.TalentPoolFragment"
+        android:label="TalentPoolFragment"
+        tools:layout="@layout/fragment_talentpool"/>
+
+    <action
+        android:id="@+id/navigate_to_talent_pool"
+        app:destination="@+id/talentPoolFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+
+    <dialog
+        android:id="@+id/post_article_dialog"
+        android:name="com.willy.metu.dialog.ArticleDialogFragment"
+        android:label="PostArticleDialog"
+        tools:layout="@layout/dialog_post_article"/>
+    <action
+        android:id="@+id/navigate_to_post_article_dialog"
+        app:destination="@+id/post_article_dialog"/>
+
 
 </navigation>

@@ -102,6 +102,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_chat_room">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_edit_profile_fragment">
                     <value>
                       <LayoutPositions />
@@ -148,6 +153,11 @@
                     </value>
                   </entry>
                   <entry key="navigate_to_question_two">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_talent_pool">
                     <value>
                       <LayoutPositions />
                     </value>
@@ -236,6 +246,18 @@
                           <Point>
                             <option name="x" value="14" />
                             <option name="y" value="322" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="talentPoolFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-393" />
+                            <option name="y" value="904" />
                           </Point>
                         </option>
                       </LayoutPositions>

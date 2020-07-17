@@ -4,13 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.MainViewModel
 import com.willy.metu.calendar.CalendarBottomSheetViewModel
-import com.willy.metu.calendar.PostEventDialogViewModel
 import com.willy.metu.chatlist.ChatListViewModel
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.dialog.ArticleDialogViewModel
 import com.willy.metu.followlist.FollowListViewModel
 import com.willy.metu.login.LoginViewModel
-import com.willy.metu.pair.PairingResultViewModel
-import com.willy.metu.pair.QuestionnaireOneFragment
 import com.willy.metu.pair.QuestionnaireOneViewModel
 import com.willy.metu.profile.EditProfileViewModel
 import com.willy.metu.profile.ProfileViewModel
@@ -38,6 +36,8 @@ class ViewModelFactory constructor(
                     FollowListViewModel(meTuRepository)
                 isAssignableFrom(ChatListViewModel::class.java) ->
                     ChatListViewModel(meTuRepository)
+                isAssignableFrom(ArticleDialogViewModel::class.java) ->
+                    ArticleDialogViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

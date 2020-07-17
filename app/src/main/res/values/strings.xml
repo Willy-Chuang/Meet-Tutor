@@ -26,7 +26,13 @@
     <string-array name="tag_array">
         <item>Reading</item>
         <item>Class</item>
-        <item>Group Study</item>
+        <item>Study Group</item>
+    </string-array>
+
+    <string-array name="article_array">
+        <item>Study Group</item>
+        <item>Find Tutor</item>
+        <item>Find Student</item>
     </string-array>
 
     <string-array name="major_subject_array">

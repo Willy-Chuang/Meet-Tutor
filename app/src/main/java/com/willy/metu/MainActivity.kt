@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -50,6 +51,10 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_chat_list -> {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToChatList())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_talent_pool -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTalentPool())
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -117,6 +122,13 @@ class MainActivity : BaseActivity() {
             it?.let {
                 binding.bottomNavView.selectedItemId = R.id.navigation_chat_list
                 viewModel.onChatNavigated()
+            }
+        })
+
+        viewModel.navigateToTalentPoolByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_talent_pool
+                viewModel.onTalentPoolNavigated()
             }
         })
 
@@ -216,6 +228,7 @@ class MainActivity : BaseActivity() {
                 R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
                 R.id.chatListFragment -> CurrentFragmentType.CHATLIST
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
+                R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
                 else -> viewModel.currentFragmentType.value
             }
         }
