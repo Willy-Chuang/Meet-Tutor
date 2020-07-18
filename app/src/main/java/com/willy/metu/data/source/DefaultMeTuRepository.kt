@@ -67,4 +67,8 @@ class DefaultMeTuRepository(
     override fun getAllLiveMessage (emails: List<String>) : MutableLiveData<List<Message>> {
         return remoteDataSource.getAllLiveMessage(emails)
     }
+
+    override suspend fun postArticle(article: Article): Result<Boolean> {
+        return remoteDataSource.postArticle(article)
+    }
 }

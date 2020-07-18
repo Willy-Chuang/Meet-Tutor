@@ -19,6 +19,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     private const val PATH_USER = "user"
     private const val KEY_CREATED_TIME = "createdTime"
     private const val PATH_CHATLIST = "chatList"
+    private const val PATH_ARTICLES = "article"
 
     override suspend fun getSelectedEvents(): Result<List<SelectedEvent>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
@@ -441,6 +442,32 @@ object MeTuRemoteDataSource : MeTuDataSource {
         return liveData
 
 
+    }
+
+    override suspend fun postArticle(article: Article): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+        val document = articles.document()
+
+        article.id = document.id
+        article.createdTime = Calendar.getInstance().timeInMillis
+
+        document
+                .set(article)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Publish: $article")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
     }
 
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SpinnerAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -38,6 +39,15 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
 
         binding.viewModel = viewModel
 
+        binding.buttonPost.setOnClickListener {
+            if(viewModel.articleCity.value != null || viewModel.articleType.value != null || viewModel.articleTitle.value != null || viewModel.articleSubject.value != null) {
+                viewModel.postArticle(viewModel.getArticle())
+            } else {
+                Toast.makeText(requireContext(),"Please finish the required information",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+       //Content and Indicator setup for spinner
         val majorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_category)
         val minorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_subject)
         val typeIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_type)
@@ -114,7 +124,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     }
                 }
 
-        //Passing Value to Subject livedata
+        //Passing Value to City livedata
         binding.spinnerLocation.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -134,6 +144,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
 
 
 
+        //Observers for entered values
         viewModel.articleType.observe(viewLifecycleOwner, Observer {
             Logger.d(it)
         })
@@ -159,7 +170,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
         })
 
 
-
+        //Boolean for cancel button
         viewModel.leave.observe(viewLifecycleOwner, Observer {
             it?.let { needRefresh ->
                 if (needRefresh) {
