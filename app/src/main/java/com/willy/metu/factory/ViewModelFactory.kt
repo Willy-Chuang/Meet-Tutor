@@ -7,7 +7,8 @@ import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.chatlist.ChatListViewModel
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.dialog.ArticleDialogViewModel
-import com.willy.metu.followlist.FollowListViewModel
+import com.willy.metu.followlist.FollowArticleViewModel
+import com.willy.metu.followlist.FollowUserViewModel
 import com.willy.metu.login.LoginViewModel
 import com.willy.metu.pair.QuestionnaireOneViewModel
 import com.willy.metu.profile.EditProfileViewModel
@@ -33,14 +34,16 @@ class ViewModelFactory constructor(
                     EditProfileViewModel(meTuRepository)
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(meTuRepository)
-                isAssignableFrom(FollowListViewModel::class.java) ->
-                    FollowListViewModel(meTuRepository)
+                isAssignableFrom(FollowUserViewModel::class.java) ->
+                    FollowUserViewModel(meTuRepository)
                 isAssignableFrom(ChatListViewModel::class.java) ->
                     ChatListViewModel(meTuRepository)
                 isAssignableFrom(ArticleDialogViewModel::class.java) ->
                     ArticleDialogViewModel(meTuRepository)
                 isAssignableFrom(TalentPoolViewModel::class.java) ->
                     TalentPoolViewModel(meTuRepository)
+                isAssignableFrom(FollowArticleViewModel::class.java) ->
+                    FollowArticleViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

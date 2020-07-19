@@ -80,6 +80,30 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="itemFollowedArticlesFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="476" />
+                            <option name="y" value="-2" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="itemFollowedUsersFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="699" />
+                            <option name="y" value="2" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="loginActivity">
                     <value>
                       <LayoutPositions>
@@ -132,6 +156,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_post_article_dialog">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_post_event_dialog">
                     <value>
                       <LayoutPositions />
@@ -174,6 +203,18 @@
                           <Point>
                             <option name="x" value="689" />
                             <option name="y" value="629" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="post_article_dialog">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

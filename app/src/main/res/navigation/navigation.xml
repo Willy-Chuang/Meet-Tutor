@@ -203,6 +203,16 @@
     <action
         android:id="@+id/navigate_to_post_article_dialog"
         app:destination="@+id/post_article_dialog"/>
+    <fragment
+        android:id="@+id/itemFollowedArticlesFragment"
+        android:name="com.willy.metu.followlist.ItemFollowedArticlesFragment"
+        android:label="ItemFollowedArticlesFragment"
+        tools:layout="@layout/item_followed_users"/>
+    <fragment
+        android:id="@+id/itemFollowedUsersFragment"
+        android:name="com.willy.metu.followlist.ItemFollowedUsersFragment"
+        android:label="ItemFollowedUsersFragment"
+        tools:layout="@layout/item_followed_articles"/>
 
 
 </navigation>

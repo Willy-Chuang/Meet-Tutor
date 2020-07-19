@@ -36,6 +36,7 @@ class TalentPoolFragment : Fragment() {
 
         viewModel.allLiveArticles.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            adapter.notifyDataSetChanged()
         })
 
         return binding.root

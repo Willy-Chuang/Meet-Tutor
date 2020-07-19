@@ -334,7 +334,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val liveData = MutableLiveData<List<ChatRoom>>()
         FirebaseFirestore.getInstance()
                 .collection(PATH_CHATLIST)
-                .orderBy("latestTime",Query.Direction.DESCENDING)
+                .orderBy("latestTime", Query.Direction.DESCENDING)
                 .whereArrayContains("attendees", userEmail)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
@@ -359,7 +359,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     override suspend fun postMessage(emails: List<String>, message: Message): Result<Boolean> = suspendCoroutine { continuation ->
 
         val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
-        chat.whereIn("attendees", listOf(emails,emails.reversed()))
+        chat.whereIn("attendees", listOf(emails, emails.reversed()))
                 .get()
                 .addOnSuccessListener { result ->
                     val documentId = chat.document(result.documents[0].id)
@@ -368,10 +368,10 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
                 .continueWithTask { task ->
                     if (!task.isSuccessful) {
-                        if (task.exception != null){
+                        if (task.exception != null) {
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")
-                        continuation.resume(Result.Error(task.exception!!))}
-                        else{
+                            continuation.resume(Result.Error(task.exception!!))
+                        } else {
                             continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
                         }
                     }
@@ -403,24 +403,24 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override fun getAllLiveMessage (emails: List<String>) : MutableLiveData<List<Message>> {
+    override fun getAllLiveMessage(emails: List<String>): MutableLiveData<List<Message>> {
         val liveData = MutableLiveData<List<Message>>()
 
         val chat = FirebaseFirestore.getInstance().collection(PATH_CHATLIST)
-        chat.whereIn("attendees", listOf(emails,emails.reversed()))
+        chat.whereIn("attendees", listOf(emails, emails.reversed()))
                 .get()
                 .addOnCompleteListener { task ->
                     if (!task.isSuccessful) {
-                        if (task.exception != null){
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")}
-                        else{
+                        if (task.exception != null) {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")
+                        } else {
                             Logger.d("sda")
                         }
                     }
 
                     chat.document(task.result!!.documents[0].id).collection("message")
 
-                            .orderBy("createdTime",Query.Direction.ASCENDING)
+                            .orderBy("createdTime", Query.Direction.ASCENDING)
                             .addSnapshotListener { snapshot, exception ->
                                 Logger.i("add SnapshotListener detected")
 
@@ -476,7 +476,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
 
-                articles
+        articles
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
 
@@ -501,25 +501,105 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     override suspend fun addArticleToWishlist(article: Article, userEmail: String): Result<Boolean> = suspendCoroutine { continuation ->
         val user = FirebaseFirestore.getInstance().collection(PATH_USER)
-        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES).document()
+        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES)
 
         document
-                .set(article)
+                .whereEqualTo("id", article.id)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.isEmpty) {
+                        document.document(article.id)
+                                .set(article)
+                                .addOnSuccessListener { documentReference ->
+                                    Logger.d("DocumentSnapshot added with ID: ${article}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Logger.w("Error adding document $e")
+                                }
+                    } else {
+                        for (myDocument in result) {
+                            Logger.d("Already initialized")
+                        }
+                    }
+                }
+
+
+    }
+
+    override suspend fun getAllSavedArticles(userEmail: String): Result<List<Article>> = suspendCoroutine { continuation ->
+
+        val user = FirebaseFirestore.getInstance().collection(PATH_USER)
+        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES)
+
+        document
+                .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Logger.i("Publish: $article")
+                        val list = mutableListOf<Article>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
 
-                        continuation.resume(Result.Success(true))
+                            val article = document.toObject(Article::class.java)
+                            list.add(article)
+                        }
+
+
+                        continuation.resume(Result.Success(list))
                     } else {
                         task.exception?.let {
-
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                             continuation.resume(Result.Error(it))
                             return@addOnCompleteListener
                         }
                         continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
                     }
+
                 }
+    }
+
+    override fun getAllLiveSavedArticles(userEmail: String): MutableLiveData<List<Article>> {
+
+        val user = FirebaseFirestore.getInstance().collection(PATH_USER)
+        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES)
+        val liveData = MutableLiveData<List<Article>>()
+
+        document
+                .addSnapshotListener { snapshot, exception ->
+                    Logger.i("add SnapshotListener detected")
+
+                    exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    }
+
+                    val list = mutableListOf<Article>()
+                    for (document in snapshot!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val article = document.toObject(Article::class.java)
+                        list.add(article)
+                    }
+                    liveData.value = list
+                }
+
+        return liveData
+
+    }
+
+    override suspend fun removeArticleFromWishlist(article: Article, userEmail: String): Result<Boolean> = suspendCoroutine { continuation ->
+        val user = FirebaseFirestore.getInstance().collection(PATH_USER)
+        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES)
+
+        document.document(article.id)
+                .delete()
+                .addOnSuccessListener {
+                    Logger.i("Delete: $article")
+
+                    continuation.resume(Result.Success(true))
+                }.addOnFailureListener {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                }
+
     }
 
 

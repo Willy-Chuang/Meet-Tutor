@@ -8,6 +8,7 @@ import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.data.Result
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -19,8 +20,10 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     var allLiveArticles = MutableLiveData<List<Article>>()
 
+    var savedArticles = MutableLiveData<List<Article>>()
+
     // status: The internal MutableLiveData that stores the status of the most recent request
-    private val _status = MutableLiveData<LoadApiStatus>()
+    private var _status = MutableLiveData<LoadApiStatus>()
 
     val status: LiveData<LoadApiStatus>
         get() = _status
@@ -51,7 +54,9 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
+        getAllLiveSavedArticles(UserManager.user.email)
         getAllLiveArticles()
+
     }
 
     fun getAllLiveArticles(){
@@ -84,5 +89,41 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
             }
         }
     }
+
+    fun getAllLiveSavedArticles(userEmail: String) {
+        savedArticles = repository.getAllLiveSavedArticles(userEmail)
+        _status.value = LoadApiStatus.DONE
+    }
+
+    fun delete(article: Article, userEmail: String) {
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.removeArticleFromWishlist(article,userEmail)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+
+    }
+
+
+
+
 
 }

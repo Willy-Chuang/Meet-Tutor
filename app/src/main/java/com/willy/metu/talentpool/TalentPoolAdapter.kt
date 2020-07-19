@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
 import com.willy.metu.login.UserManager
@@ -17,9 +18,23 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
         fun bind(article: Article, viewModel: TalentPoolViewModel){
 
             binding.article = article
-            binding.imageBookmark.setOnClickListener {
-                viewModel.addArticlesToWishlist(article, UserManager.user.email)
+
+            viewModel.savedArticles.value?.forEach {
+
+                if(article.id == it.id) {
+                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmarked)
+                    binding.imageBookmark.setOnClickListener {
+                        viewModel.delete(article, UserManager.user.email)
+                    }
+                } else {
+                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmark)
+                    binding.imageBookmark.setOnClickListener {
+                        viewModel.addArticlesToWishlist(article, UserManager.user.email)
+                    }
+                }
+
             }
+
 
             binding.executePendingBindings()
 
@@ -58,5 +73,7 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
     override fun getItemViewType(position: Int): Int {
         return ITEM_VIEW_TYPE_EVENT
     }
+
+
 
 }

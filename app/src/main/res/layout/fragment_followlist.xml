@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.willy.metu.followlist.FollowListViewModel" />
+            type="com.willy.metu.followlist.FollowUserViewModel" />
 
     </data>
 

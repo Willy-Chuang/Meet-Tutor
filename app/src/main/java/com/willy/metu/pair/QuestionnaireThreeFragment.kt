@@ -82,14 +82,14 @@ class QuestionnaireThreeFragment : Fragment() {
         //Observe boolean liveData to set bg color for indication
         viewModel.isPressed.observe(viewLifecycleOwner, Observer {
             if (it == "Male") {
-                binding.buttonMale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimaryDark))
-                binding.buttonFemale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy_picked)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
             } else if (it == "Female"){
-                binding.buttonMale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
-                binding.buttonFemale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimaryDark))
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl_picked)
             } else {
-                binding.buttonMale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
-                binding.buttonFemale.setBackgroundColor(MeTuApplication.instance.getColor(R.color.colorPrimary))
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
             }
         })
 
