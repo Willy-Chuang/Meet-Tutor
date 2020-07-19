@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/height_toolbar"
                 android:background="@color/colorPrimary"
                 android:elevation="@dimen/elevation_all"
-                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.CHAT || viewModel.currentFragmentType == CurrentFragmentType.PAIRTWO || viewModel.currentFragmentType == CurrentFragmentType.PAIRTHREE ? View.GONE : View.VISIBLE}"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.CHAT || viewModel.currentFragmentType == CurrentFragmentType.PAIRTWO || viewModel.currentFragmentType == CurrentFragmentType.PAIRTHREE || viewModel.currentFragmentType == CurrentFragmentType.PAIR ? View.GONE : View.VISIBLE}"
                 app:navigationIcon="@drawable/toolbar_menu"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

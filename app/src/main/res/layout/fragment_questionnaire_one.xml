@@ -99,14 +99,12 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
-            android:id="@+id/image_subject_avatar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            app:srcCompat="@drawable/ic_cute_avatar"
-            app:layout_constraintTop_toBottomOf="@id/spinner_subject_minor"
-            app:layout_constraintBottom_toTopOf="@id/button_next"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/image_pairing_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
@@ -120,6 +118,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/image_subject_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="56dp"
+            app:srcCompat="@drawable/image_pairing_subject"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/button_next"/>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
