@@ -71,4 +71,12 @@ class DefaultMeTuRepository(
     override suspend fun postArticle(article: Article): Result<Boolean> {
         return remoteDataSource.postArticle(article)
     }
+
+    override fun getAllLiveArticle(): MutableLiveData<List<Article>> {
+        return remoteDataSource.getAllLiveArticle()
+    }
+
+    override suspend fun addArticleToWishlist(article: Article, userEmail: String): Result<Boolean> {
+        return remoteDataSource.addArticleToWishlist(article, userEmail)
+    }
 }

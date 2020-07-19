@@ -20,6 +20,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
     private const val KEY_CREATED_TIME = "createdTime"
     private const val PATH_CHATLIST = "chatList"
     private const val PATH_ARTICLES = "article"
+    private const val PATH_SAVED_ARTICLES = "savedArticles"
 
     override suspend fun getSelectedEvents(): Result<List<SelectedEvent>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
@@ -450,6 +451,57 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         article.id = document.id
         article.createdTime = Calendar.getInstance().timeInMillis
+
+        document
+                .set(article)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Publish: $article")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
+    override fun getAllLiveArticle(): MutableLiveData<List<Article>> {
+        val liveData = MutableLiveData<List<Article>>()
+
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+
+                articles
+                .addSnapshotListener { snapshot, exception ->
+                    Logger.i("add SnapshotListener detected")
+
+                    exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    }
+
+                    val list = mutableListOf<Article>()
+                    for (document in snapshot!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val article = document.toObject(Article::class.java)
+                        list.add(article)
+                    }
+                    liveData.value = list
+                }
+
+        return liveData
+
+
+    }
+
+    override suspend fun addArticleToWishlist(article: Article, userEmail: String): Result<Boolean> = suspendCoroutine { continuation ->
+        val user = FirebaseFirestore.getInstance().collection(PATH_USER)
+        val document = user.document(userEmail).collection(PATH_SAVED_ARTICLES).document()
 
         document
                 .set(article)

@@ -9,6 +9,7 @@ data class Article(
         var createdTime: Long = 0,
         var creatorName: String = "",
         var creatorEmail: String = "",
+        var creatorImage: String = "",
         var type: String = "",
         var title: String = "",
         var city: String = "",

@@ -97,4 +97,7 @@ dependencies {
 
     //CardStackView
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+
+    //TimeAgo
+    implementation "com.github.marlonlom:timeago:4.0.1"
 }

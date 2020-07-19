@@ -81,6 +81,7 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
                 createdTime = 0,
                 creatorName = UserManager.user.name,
                 creatorEmail = UserManager.user.email,
+                creatorImage = UserManager.user.image,
                 type = articleType.value.toString(),
                 title = articleTitle.value.toString(),
                 city = articleCity.value.toString(),

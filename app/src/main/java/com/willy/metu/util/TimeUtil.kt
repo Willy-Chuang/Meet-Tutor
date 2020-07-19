@@ -1,6 +1,7 @@
 package com.willy.metu.util
 
 import android.util.Log
+import com.github.marlonlom.utilities.timeago.TimeAgo
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -101,6 +102,10 @@ object TimeUtil {
     fun stampToTime(time: Long) : String {
         val simpleDateFormat = SimpleDateFormat("HH:mm")
         return simpleDateFormat.format(Date(time))
+    }
+
+    fun stampToAgo(time: Long): String {
+        return TimeAgo.using(time)
     }
 
 }
