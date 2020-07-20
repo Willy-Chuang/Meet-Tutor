@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.databinding.FragmentHomeBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.talentpool.TalentPoolAdapter
 
 class HomeFragment : Fragment() {
 
@@ -22,14 +23,35 @@ class HomeFragment : Fragment() {
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
         val recommendAdapter = RecommendAdapter()
+        val newUserAdapter = NewUserAdapter()
+        val articleAdapter = ArticleAdapter(viewModel)
 
         binding.viewModel = viewModel
         binding.recyclerRecommendation.adapter = recommendAdapter
-        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context)
+        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+
+        binding.recyclerNewUser.adapter = newUserAdapter
+        binding.recyclerNewUser.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+
+        binding.recyclerArticle.adapter = articleAdapter
+        binding.recyclerArticle.layoutManager = LinearLayoutManager(context)
 
 
         viewModel.recommendUsers.observe(viewLifecycleOwner, Observer {
             recommendAdapter.submitList(it)
+        })
+
+        viewModel.newUsers.observe(viewLifecycleOwner, Observer {
+            newUserAdapter.submitList(it)
+        })
+
+        viewModel.oneArticle.observe(viewLifecycleOwner, Observer {
+            articleAdapter.submitList(it)
+        })
+
+        viewModel.userInfo.observe(viewLifecycleOwner, Observer {
+            binding.userSubject.text = it.tag.component1()
+            binding.userSubject2.text = it.tag.component1()
         })
 
         return binding.root

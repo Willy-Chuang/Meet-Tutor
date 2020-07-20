@@ -91,4 +91,12 @@ class DefaultMeTuRepository(
     override suspend fun removeArticleFromWishlist(article: Article, userEmail: String): Result<Boolean> {
         return remoteDataSource.removeArticleFromWishlist(article,userEmail)
     }
+
+    override suspend fun getRecommendFiveUsers(): Result<List<User>> {
+        return remoteDataSource.getRecommendFiveUsers()
+    }
+
+    override suspend fun getOneArticle(): Result<List<Article>> {
+        return remoteDataSource.getOneArticle()
+    }
 }

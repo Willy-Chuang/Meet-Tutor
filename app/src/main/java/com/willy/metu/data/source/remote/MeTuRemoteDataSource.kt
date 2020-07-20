@@ -610,5 +610,62 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
+    override suspend fun getRecommendFiveUsers(): Result<List<User>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+                .collection(PATH_USER)
+                .limit(5)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<User>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val user = document.toObject(User::class.java)
+                            list.add(user)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
+    override suspend fun getOneArticle(): Result<List<Article>> = suspendCoroutine { continuation ->
+
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+
+        articles
+                .orderBy("createdTime", Query.Direction.DESCENDING)
+                .limit(2)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Article>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val article = document.toObject(Article::class.java)
+                            list.add(article)
+                        }
+
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+
+                }
+    }
+
 
 }

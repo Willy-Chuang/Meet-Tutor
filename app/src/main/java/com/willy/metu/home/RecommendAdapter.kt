@@ -2,16 +2,23 @@ package com.willy.metu.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.willy.metu.NavigationDirections
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemRecommendUserBinding
 
 class RecommendAdapter(): ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
     class UserViewHolder(private var binding: ItemRecommendUserBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(User: User){
-            binding.user = User
+        fun bind(user: User){
+            binding.user = user
+
+            binding.userImage.setOnClickListener {
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user.email)).onClick(binding.userImage)
+
+            }
 
             binding.executePendingBindings()
         }

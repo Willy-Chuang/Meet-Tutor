@@ -9,17 +9,17 @@
         android:title=""/>
     <item
         android:id="@+id/navigation_talent_pool"
-        android:icon="@drawable/ic_nav_pool"
+        android:icon="@drawable/ic_nav_pool_selector"
         android:title=""/>
 
     <item
         android:id="@+id/navigation_pairing"
-        android:icon="@drawable/ic_face_black_24"
+        android:icon="@drawable/ic_nav_pair_selector"
         android:title=""/>
 
     <item
         android:id="@+id/navigation_chat_list"
-        android:icon="@drawable/ic_nav_chat"
+        android:icon="@drawable/ic_nav_chat_selector"
         android:title=""/>
 
 </menu>
