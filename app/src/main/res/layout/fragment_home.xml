@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="com.willy.metu.login.UserManager" />
+        <variable
+            name="viewModel"
+            type="com.willy.metu.home.HomeViewModel" />
 
     </data>
 
@@ -11,15 +15,136 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="60dp"
+            android:text="Welcome back"
+            android:textSize="20sp"
+            android:textColor="@color/black_87_alpha"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is Home Fragment"
-            android:textSize="24sp"
+            android:layout_marginStart="8dp"
+            android:text="@{UserManager.INSTANCE.user.name}"
+            android:textSize="20sp"
+            android:textColor="@color/black_87_alpha"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/text_welcome"
+            app:layout_constraintTop_toTopOf="@id/text_welcome"
+            tools:text="Mary Jane"/>
+
+        <TextView
+            android:id="@+id/text_greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="2dp"
+            android:text="A new day of learning begins!"
+            android:textSize="14sp"
+            android:textColor="@color/black_54_alpha"
+            app:layout_constraintStart_toStartOf="@id/text_welcome"
+            app:layout_constraintTop_toBottomOf="@id/text_welcome"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_poster"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginTop="16dp"
+            app:cardUseCompatPadding="true"
+            android:layout_marginHorizontal="12dp"
+            app:layout_constraintTop_toBottomOf="@id/text_greeting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/image_pairing_location"
+                app:layout_constraintTop_toBottomOf="@id/text_greeting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/title_recommendation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Recommendation:"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/black_87_alpha"
+            app:layout_constraintTop_toBottomOf="@id/layout_poster"
+            app:layout_constraintStart_toStartOf="@id/text_welcome"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/black_54_alpha"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/title_recommendation"
+            app:layout_constraintTop_toTopOf="@id/title_recommendation"
+            tools:text="English"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_recommendation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/title_recommendation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:itemCount="4"/>
+
+        <TextView
+            android:id="@+id/title_new_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Newly Aboard"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/black_87_alpha"
+            app:layout_constraintTop_toBottomOf="@id/recycler_recommendation"
+            app:layout_constraintStart_toStartOf="@id/text_welcome"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_new_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/title_new_user"
+            app:layout_constraintStart_toStartOf="@id/title_new_user"
+            tools:itemCount="4"/>
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
