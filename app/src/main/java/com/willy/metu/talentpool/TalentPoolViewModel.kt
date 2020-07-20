@@ -22,6 +22,8 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     var savedArticles = MutableLiveData<List<Article>>()
 
+    var isAdded = MutableLiveData<Boolean>()
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private var _status = MutableLiveData<LoadApiStatus>()
 
@@ -73,6 +75,7 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    isAdded.value = result.data
                 }
                 is Result.Fail -> {
                     _error.value = result.error

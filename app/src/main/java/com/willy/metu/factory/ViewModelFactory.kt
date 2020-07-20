@@ -9,6 +9,7 @@ import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.dialog.ArticleDialogViewModel
 import com.willy.metu.followlist.FollowArticleViewModel
 import com.willy.metu.followlist.FollowUserViewModel
+import com.willy.metu.home.HomeViewModel
 import com.willy.metu.login.LoginViewModel
 import com.willy.metu.pair.QuestionnaireOneViewModel
 import com.willy.metu.profile.EditProfileViewModel
@@ -44,6 +45,8 @@ class ViewModelFactory constructor(
                     TalentPoolViewModel(meTuRepository)
                 isAssignableFrom(FollowArticleViewModel::class.java) ->
                     FollowArticleViewModel(meTuRepository)
+                isAssignableFrom(HomeViewModel::class.java) ->
+                    HomeViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -517,9 +517,17 @@ object MeTuRemoteDataSource : MeTuDataSource {
                                     Logger.w("Error adding document $e")
                                 }
                     } else {
-                        for (myDocument in result) {
-                            Logger.d("Already initialized")
-                        }
+                        document.document(article.id)
+                                .delete()
+
+                                .addOnSuccessListener {
+                                    Logger.i("Delete: $article")
+
+                                    continuation.resume(Result.Success(true))
+                                }.addOnFailureListener {
+                                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                    continuation.resume(Result.Error(it))
+                                }
                     }
                 }
 

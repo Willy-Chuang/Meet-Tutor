@@ -10,6 +10,7 @@ import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
 import com.willy.metu.login.UserManager
+import kotlinx.android.synthetic.main.item_article.view.*
 
 
 class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Article, RecyclerView.ViewHolder>(TalentPoolAdapter){
@@ -18,21 +19,11 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
         fun bind(article: Article, viewModel: TalentPoolViewModel){
 
             binding.article = article
+            val bookmarkIcon = binding.imageBookmark
 
-            viewModel.savedArticles.value?.forEach {
-
-                if(article.id == it.id) {
-                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmarked)
-                    binding.imageBookmark.setOnClickListener {
-                        viewModel.delete(article, UserManager.user.email)
-                    }
-                } else {
-                    binding.imageBookmark.setImageResource(R.drawable.ic_bookmark)
-                    binding.imageBookmark.setOnClickListener {
-                        viewModel.addArticlesToWishlist(article, UserManager.user.email)
-                    }
-                }
-
+            binding.imageBookmark.setOnClickListener {
+                viewModel.addArticlesToWishlist(article, UserManager.user.email)
+                bookmarkIcon.isSelected = !bookmarkIcon.isSelected
             }
 
 
@@ -62,6 +53,25 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        val article = getItem(position)
+
+        viewModel.savedArticles.value?.forEach {
+
+            if(article.id == it.id) {
+                holder.itemView.image_bookmark.isSelected = true
+                holder.itemView.image_bookmark.setOnClickListener {
+                    viewModel.addArticlesToWishlist(article, UserManager.user.email)
+                }
+            } else {
+                holder.itemView.image_bookmark.isSelected = false
+                holder.itemView.image_bookmark.setOnClickListener {
+                    viewModel.addArticlesToWishlist(article, UserManager.user.email)
+                }
+            }
+
+        }
+
 
         when(holder) {
             is ArticleViewHolder -> {

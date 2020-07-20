@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentTalentpoolBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.util.Logger
 
 class TalentPoolFragment : Fragment() {
 
@@ -37,6 +38,10 @@ class TalentPoolFragment : Fragment() {
         viewModel.allLiveArticles.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             adapter.notifyDataSetChanged()
+        })
+
+        viewModel.isAdded.observe(viewLifecycleOwner, Observer {
+            Logger.d(it.toString())
         })
 
         return binding.root
