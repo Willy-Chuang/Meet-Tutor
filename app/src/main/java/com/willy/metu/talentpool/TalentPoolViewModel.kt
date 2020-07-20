@@ -25,6 +25,8 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     var isAdded = MutableLiveData<Boolean>()
 
+    var selectedType = MutableLiveData<String>()
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private var _status = MutableLiveData<LoadApiStatus>()
