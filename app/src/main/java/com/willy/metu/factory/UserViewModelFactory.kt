@@ -9,14 +9,14 @@ import com.willy.metu.user.UserDetailViewModel
 @Suppress("UNCHECKED_CAST")
 class UserViewModelFactory constructor(
         private val repository: MeTuRepository,
-        private val user: User
+        private val userEmail: String
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
                     isAssignableFrom(UserDetailViewModel::class.java) ->
-                        UserDetailViewModel(repository, user)
+                        UserDetailViewModel(repository, userEmail)
 
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

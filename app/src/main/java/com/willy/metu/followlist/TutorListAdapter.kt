@@ -33,7 +33,7 @@ class TutorListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallb
             }
 
             binding.layoutCardUser.setOnClickListener {
-                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user)).onClick(binding.layoutCardUser)
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user.email)).onClick(binding.layoutCardUser)
 
             }
 

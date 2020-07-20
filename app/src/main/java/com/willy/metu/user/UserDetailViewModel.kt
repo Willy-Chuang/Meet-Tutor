@@ -18,9 +18,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserDetailViewModel (private val repository: MeTuRepository, private val user: User): ViewModel(){
+class UserDetailViewModel (private val repository: MeTuRepository, private val userEmail: String): ViewModel(){
 
-    val selectedUser = user
+    val selectedUserEmail = userEmail
+
+    private val _userInfo = MutableLiveData<User>()
+
+    val userInfo: LiveData<User>
+        get() = _userInfo
+
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -58,6 +64,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        getUser(selectedUserEmail)
     }
 
 
@@ -70,12 +77,12 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         }
 
         var attendeeTwo = UserInfo().apply {
-            userEmail = selectedUser.email
-            userImage = selectedUser.image
-            userName = selectedUser.name
+            userEmail = userInfo.value!!.email
+            userImage = userInfo.value!!.image
+            userName = userInfo.value!!.name
         }
 
-        var attendeeList = listOf(UserManager.user.email, selectedUser.email)
+        var attendeeList = listOf(UserManager.user.email, userInfo.value!!.email)
 
 
 
@@ -115,6 +122,38 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
             }
         }
 
+    }
+
+    fun getUser(userEmail: String) {
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getUser(userEmail)
+
+            _userInfo.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
     }
 
 

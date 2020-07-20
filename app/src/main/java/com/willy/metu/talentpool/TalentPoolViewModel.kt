@@ -7,6 +7,7 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.data.Result
+import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
@@ -23,6 +24,7 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
     var savedArticles = MutableLiveData<List<Article>>()
 
     var isAdded = MutableLiveData<Boolean>()
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private var _status = MutableLiveData<LoadApiStatus>()
@@ -124,6 +126,7 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
         }
 
     }
+
 
 
 

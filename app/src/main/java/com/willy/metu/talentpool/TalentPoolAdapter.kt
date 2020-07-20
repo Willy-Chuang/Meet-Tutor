@@ -1,11 +1,15 @@
 package com.willy.metu.talentpool
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
@@ -21,14 +25,22 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
             binding.article = article
             val bookmarkIcon = binding.imageBookmark
 
+
             binding.imageBookmark.setOnClickListener {
                 viewModel.addArticlesToWishlist(article, UserManager.user.email)
                 bookmarkIcon.isSelected = !bookmarkIcon.isSelected
             }
 
+            binding.layoutUserInfo.setOnClickListener {
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+            }
+
+            binding.imageCreatorImage.setOnClickListener{
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+            }
+
 
             binding.executePendingBindings()
-
 
         }
     }

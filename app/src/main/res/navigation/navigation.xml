@@ -147,8 +147,8 @@
         android:label="UserDetailFragment"
         tools:layout="@layout/fragment_user_detail">
         <argument
-            android:name="user"
-            app:argType="com.willy.metu.data.User"/>
+            android:name="userEmail"
+            app:argType="string"/>
     </fragment>
 
     <action

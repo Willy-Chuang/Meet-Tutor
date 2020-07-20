@@ -44,6 +44,8 @@ class TalentPoolFragment : Fragment() {
             Logger.d(it.toString())
         })
 
+
+
         return binding.root
 
     }
