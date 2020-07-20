@@ -2,6 +2,7 @@ package com.willy.metu.ext
 
 
 import com.willy.metu.data.Answers
+import com.willy.metu.data.Article
 import com.willy.metu.data.Event
 import com.willy.metu.data.User
 import com.willy.metu.login.UserManager
@@ -46,6 +47,15 @@ fun List<User>?.sortToOnlyTutors(): List<User>{
     return this?.filter {
         it?.let{
             it.identity == "Tutor"
+        }
+    }
+            ?: listOf()
+}
+
+fun List<Article>?.sortByType(type: String) : List<Article>{
+    return this?.filter {
+        it?.let {
+            it.type == type
         }
     }
             ?: listOf()

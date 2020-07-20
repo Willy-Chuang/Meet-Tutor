@@ -214,5 +214,19 @@
         android:label="ItemFollowedUsersFragment"
         tools:layout="@layout/item_followed_articles"/>
 
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.willy.metu.article.ArticleFragment"
+        android:label="ArticleFragment"
+        tools:layout="@layout/fragment_article">
+        <argument
+            android:name="article"
+            app:argType="com.willy.metu.data.Article"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_article"
+        app:destination="@id/articleFragment"/>
+
 
 </navigation>

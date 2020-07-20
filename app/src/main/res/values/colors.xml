@@ -34,10 +34,10 @@
 
     <color name="the_weekend">#228BC34A</color>
     <color name="red">#FF9689</color>
-    <color name="water_blue">#80D8FF</color>
-    <color name="orange">#FF9689</color>
-    <color name="blueback">#1F257A</color>
-
+    <color name="water_green">#56E39F</color>
+    <color name="orange">#faac5f</color>
+    <color name="blue">#617bff</color>
+    <color name="pinkish">#EF6F6C</color>
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
 

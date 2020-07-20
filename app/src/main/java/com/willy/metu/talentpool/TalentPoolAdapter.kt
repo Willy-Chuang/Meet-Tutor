@@ -2,6 +2,7 @@ package com.willy.metu.talentpool
 
 import android.os.Handler
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -37,6 +38,19 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
 
             binding.imageCreatorImage.setOnClickListener{
                 Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+            }
+
+            binding.buttonReadMore.setOnClickListener {
+                binding.textDetail.maxLines = 99
+                binding.buttonReadMore.visibility = View.GONE
+                binding.buttonCollapse.visibility = View.VISIBLE
+//                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToArticle(article)).onClick(binding.buttonReadMore)
+            }
+
+            binding.buttonCollapse.setOnClickListener {
+                binding.textDetail.maxLines = 2
+                binding.buttonReadMore.visibility = View.VISIBLE
+                binding.buttonCollapse.visibility = View.GONE
             }
 
 
