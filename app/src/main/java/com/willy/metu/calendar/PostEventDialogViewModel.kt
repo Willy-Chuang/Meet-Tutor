@@ -90,9 +90,9 @@ class PostEventDialogViewModel(
         Logger.i("------------------------------------")
     }
 
-    fun getEvent(user: String): Event {
+    fun getEvent(userEmail: String): Event {
 
-        val attendees = listOf<String>(user)
+        val attendees = listOf<String>(userEmail)
 
         val invitation = listOf<String>(invitation.value.toString())
 

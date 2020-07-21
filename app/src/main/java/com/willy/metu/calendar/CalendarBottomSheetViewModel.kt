@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.willy.metu.data.Result
+import com.willy.metu.login.UserManager
 
 class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : ViewModel() {
 
@@ -71,22 +72,22 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getLiveAllEventsResult("willy")
+        getLiveAllEventsResult(UserManager.user.email)
 
         if (MeTuApplication.instance.isLiveDataDesign()) {
-            getLiveAllEventsResult("willy")
+            getLiveAllEventsResult(UserManager.user.email)
         } else {
-            getAllEventsResult("willy")
+            getAllEventsResult(UserManager.user.email)
         }
     }
 
-    fun getAllEventsResult(user: String) {
+    fun getAllEventsResult(userEmail: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getAllEvents(user)
+            val result = repository.getAllEvents(userEmail)
 
             _allEvents.value = when (result) {
                 is Result.Success -> {
@@ -113,8 +114,8 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         }
     }
 
-    fun getLiveAllEventsResult(user: String){
-        allLiveEvents = repository.getLiveAllEvents(user)
+    fun getLiveAllEventsResult(userEmail: String){
+        allLiveEvents = repository.getLiveAllEvents(userEmail)
         _status.value = LoadApiStatus.DONE
     }
 

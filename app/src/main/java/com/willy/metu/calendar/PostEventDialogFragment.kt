@@ -20,6 +20,7 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.databinding.DialogPostEventBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import com.willy.metu.util.TimeUtil
 import java.lang.String.format
@@ -108,7 +109,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 calender.set(year, month, day)
                 format("yyyy-MM-dd")
-                var newMonth = format("%02d", month)
+                var newMonth = format("%02d", month+1)
                 var newDay = format("%02d", day)
                 binding.textDate.text = "$year-$newMonth-$newDay"
                 val dateTimestamp = TimeUtil.dateToStamp("$year-$newMonth-$newDay", Locale.TAIWAN)
@@ -123,7 +124,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     it,
                     dateListener,
                     year.toInt(),
-                    month.toInt() - 1,
+                    month.toInt()-1,
                     date.toInt()
                 ).show()
             }
@@ -190,7 +191,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
         binding.buttonSave.setOnClickListener{
             if (viewModel.checkIfComplete()) {
-            val event = viewModel.getEvent("willy")
+            val event = viewModel.getEvent(UserManager.user.email)
             Logger.d("$event")
             viewModel.post(event)
             adapter.notifyDataSetChanged()} else {

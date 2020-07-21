@@ -23,7 +23,7 @@
             android:id="@+id/label_schedule_time"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_card_left_corner"
+            android:background='@{event.tag.equals("Class") ? @drawable/bg_card_left_corner_tutor : event.tag.equals("Reading") ? @drawable/bg_card_left_corner_student : @drawable/bg_card_left_corner_study}'
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
