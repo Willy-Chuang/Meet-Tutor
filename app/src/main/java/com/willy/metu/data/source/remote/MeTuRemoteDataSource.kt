@@ -152,6 +152,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         val document = users.document(user.email)
         user.id = document.id
+        user.joinedTime = Calendar.getInstance().timeInMillis
 
         users.whereEqualTo("email", user.email)
                 .get()
@@ -179,7 +180,12 @@ object MeTuRemoteDataSource : MeTuDataSource {
     override suspend fun updateUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         users.document(user.email)
-                .set(user)
+                .update("introduction", user.introduction ,
+                        "city",user.city,
+                        "district", user.district,
+                        "gender", user.gender,
+                        "identity",user.identity,
+                        "tag",user.tag)
                 .addOnSuccessListener { documentReference ->
                     Logger.d("DocumentSnapshot added with ID: ${users}")
                 }
@@ -610,10 +616,11 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
-    override suspend fun getRecommendFiveUsers(): Result<List<User>> = suspendCoroutine { continuation ->
+    override suspend fun getNewestFiveUsers(): Result<List<User>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
                 .collection(PATH_USER)
                 .limit(5)
+                .orderBy("joinedTime", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

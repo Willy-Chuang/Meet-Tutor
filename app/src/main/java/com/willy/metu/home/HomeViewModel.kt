@@ -19,10 +19,13 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
-    private val _recommendUsers = MutableLiveData<List<User>>()
+    private val _allUsers = MutableLiveData<List<User>>()
 
-    val recommendUsers : LiveData<List<User>>
-        get() = _recommendUsers
+    val allUsers : LiveData<List<User>>
+        get() = _allUsers
+
+    val biasSubject = MutableLiveData<String>()
+
 
     private val _newUsers = MutableLiveData<List<User>>()
 
@@ -72,22 +75,22 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-        getRecommendUsers()
-        getNewUsers()
+        getNewestFiveUsers()
+        getAllUsers()
         getUser(UserManager.user.email)
         getAllLiveSavedArticles(UserManager.user.email)
         getOneArticle()
     }
 
-    fun getRecommendUsers() {
+    fun getNewestFiveUsers() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getRecommendFiveUsers()
+            val result = repository.getNewestFiveUsers()
 
-            _recommendUsers.value = when (result) {
+            _newUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -112,7 +115,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
         }
     }
 
-    fun getNewUsers() {
+    fun getAllUsers() {
 
         coroutineScope.launch {
 
@@ -120,7 +123,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
             val result = repository.getAllUsers()
 
-            _newUsers.value = when (result) {
+            _allUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

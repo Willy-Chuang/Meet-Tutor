@@ -60,3 +60,21 @@ fun List<Article>?.sortByType(type: String) : List<Article>{
     }
             ?: listOf()
 }
+
+fun List<Article>?.sortArticleBySubject(subject: String) : List<Article>{
+    return this?.filter {
+        it?.let {
+            it.subject == subject
+        }
+    }
+            ?: listOf()
+}
+
+fun List<User>?.sortUserBySubject(subject: String) : List<User>{
+    return  this?.filter {
+        it?.let {
+            it.tag.contains(subject)
+        }
+    }
+            ?: listOf()
+}

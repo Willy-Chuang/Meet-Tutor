@@ -91,7 +91,7 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getRecommendFiveUsers(): Result<List<User>> {
+    override suspend fun getNewestFiveUsers(): Result<List<User>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -92,8 +92,8 @@ class DefaultMeTuRepository(
         return remoteDataSource.removeArticleFromWishlist(article,userEmail)
     }
 
-    override suspend fun getRecommendFiveUsers(): Result<List<User>> {
-        return remoteDataSource.getRecommendFiveUsers()
+    override suspend fun getNewestFiveUsers(): Result<List<User>> {
+        return remoteDataSource.getNewestFiveUsers()
     }
 
     override suspend fun getOneArticle(): Result<List<Article>> {

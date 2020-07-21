@@ -47,7 +47,7 @@ interface MeTuRepository {
 
     suspend fun removeArticleFromWishlist(article: Article, userEmail: String): Result<Boolean>
 
-    suspend fun getRecommendFiveUsers(): Result<List<User>>
+    suspend fun getNewestFiveUsers(): Result<List<User>>
 
     suspend fun getOneArticle(): Result<List<Article>>
 

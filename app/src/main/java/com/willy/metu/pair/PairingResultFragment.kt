@@ -105,7 +105,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
 
         count++
         if(count == maxAmount) {
-            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+            findNavController().navigate(NavigationDirections.navigateToFollowListFragment())
         }
 
 

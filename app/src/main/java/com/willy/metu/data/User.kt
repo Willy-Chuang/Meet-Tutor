@@ -14,5 +14,6 @@ data class User(
         var gender: String = "",
         var identity: String= "",
         var tag: List<String> = listOf(""),
-        var introduction: String = ""
+        var introduction: String = "",
+        var joinedTime: Long = 0
 ): Parcelable
