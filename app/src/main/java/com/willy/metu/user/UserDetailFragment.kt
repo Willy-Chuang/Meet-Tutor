@@ -13,6 +13,7 @@ import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.login.UserManager
 import com.willy.metu.talentpool.TalentPoolViewModel
 import com.willy.metu.util.Logger
 
@@ -55,9 +56,14 @@ class UserDetailFragment : Fragment(){
             binding.textIntroduction.text = it.introduction
             binding.imageUrl = it.image
 
-            binding.buttonMessage.setOnClickListener {view ->
+            binding.buttonMessage.setOnClickListener { view ->
                 viewModel.createChatRoom(viewModel.getChatRoom())
                 findNavController().navigate(NavigationDirections.navigateToChatRoom(it.email, it.name))
+            }
+
+            binding.buttonFollow.setOnClickListener { view ->
+                viewModel.postUserToFollow(UserManager.user.email, it)
+
             }
 
         })

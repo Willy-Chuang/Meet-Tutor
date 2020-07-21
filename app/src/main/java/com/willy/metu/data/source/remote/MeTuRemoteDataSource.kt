@@ -1,6 +1,7 @@
 package com.willy.metu.data.source.remote
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.willy.metu.MeTuApplication
@@ -263,14 +264,17 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     Logger.w("Error adding document $e")
                 }
 
-        users.document(user.email).collection("followedBy").document(userEmail)
-                .set(UserManager.user)
-                .addOnSuccessListener { documentReference ->
-                    Logger.d("DocumentSnapshot added with ID: ${users}")
-                }
-                .addOnFailureListener { e ->
-                    Logger.w("Error adding document $e")
-                }
+//        users.document(user.email).collection("followedBy").document(userEmail)
+//                .set(UserManager.user)
+//                .addOnSuccessListener { documentReference ->
+//                    Logger.d("DocumentSnapshot added with ID: ${users}")
+//                }
+//                .addOnFailureListener { e ->
+//                    Logger.w("Error adding document $e")
+//                }
+        users.document(user.email).update("followedBy",FieldValue.arrayUnion(userEmail))
+        users.document(userEmail).update("followingEmail",FieldValue.arrayUnion(user.email))
+        users.document(userEmail).update("followingName",FieldValue.arrayUnion(user.name))
     }
 
     override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine { continuation ->

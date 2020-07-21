@@ -135,8 +135,8 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         }
 
         //Setup spinner
-        binding.spinnerAttendee.adapter =
-            SelectedUserSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.followed_users_array))
+//        binding.spinnerAttendee.adapter =
+//            SelectedUserSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.followed_users_array))
 
         binding.spinnerAttendee.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -150,10 +150,11 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     id: Long
                 ) {
                     if (parent != null && pos != 0) {
-                        viewModel.invitation.value = parent.selectedItem.toString()
+//                        viewModel.invitation.value = parent.selectedItem.toString()
+                        viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos).toString()
                         Toast.makeText(
                             MeTuApplication.appContext,
-                            parent.selectedItem.toString(),
+                                viewModel.userInfo.value?.followingEmail?.get(pos-1).toString(),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -203,6 +204,12 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
 
         //Observers
+
+        viewModel.userInfo.observe(viewLifecycleOwner, Observer {
+            binding.spinnerAttendee.adapter =
+                    SelectedUserSpinnerAdapter(it.followingName)
+
+        })
 
         viewModel.leave.observe(viewLifecycleOwner, Observer {
             it?.let { needRefresh ->

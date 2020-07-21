@@ -1,7 +1,6 @@
 package com.willy.metu.calendar
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.databinding.ItemFollowedUserSpinnerBinding
 
-class SelectedUserSpinnerAdapter (private val strings: Array<String>) : BaseAdapter() {
+class SelectedUserSpinnerAdapter(private val strings: List<String>) : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

@@ -17,6 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.willy.metu.data.Result
+import com.willy.metu.data.User
+import com.willy.metu.login.UserManager
 
 class PostEventDialogViewModel(
         private val repository: MeTuRepository,
@@ -27,6 +29,11 @@ class PostEventDialogViewModel(
 
     val leave: LiveData<Boolean>
         get() = _leave
+
+    private val _userInfo = MutableLiveData<User>()
+
+    val userInfo: LiveData<User>
+        get() = _userInfo
 
     val date = TimeUtil.stampToDate(selectedDate)
 
@@ -88,6 +95,7 @@ class PostEventDialogViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        getUser(UserManager.user.email)
     }
 
     fun getEvent(userEmail: String): Event {
@@ -138,6 +146,38 @@ class PostEventDialogViewModel(
             }
         }
 
+    }
+
+    fun getUser(userEmail: String) {
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getUser(userEmail)
+
+            _userInfo.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
     }
 
 
