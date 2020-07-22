@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.willy.metu.user.UserDetailViewModel" />
+        <variable
+            name="imageUrl"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <View
+            android:id="@+id/view_color_bg"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/colorPrimary"/>
+        
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_user_avatar"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="60dp"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="4dp"
+            imageUrl="@{imageUrl}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@drawable/ic_cute_avatar" />
+
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:text="@{viewModel.userInfo.name}"
+            android:textColor="@color/black_87_alpha"
+            android:fontFamily="@font/roboto"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/image_user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Hermione Granger"/>
+
+        <TextView
+            android:id="@+id/text_user_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.userInfo.identity}"
+            android:textColor="@color/black_87_alpha"
+            android:fontFamily="@font/roboto"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/text_user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Student"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_user_identity">
+            <ImageView
+                android:id="@+id/image_profile_location"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_location_on_black_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_profile_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{viewModel.userInfo.city}"
+                android:textColor="@color/black_87_alpha"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/image_profile_location"
+                app:layout_constraintTop_toTopOf="@id/image_profile_location"
+                app:layout_constraintBottom_toBottomOf="@id/image_profile_location"
+                tools:text="Taipei"/>
+            <TextView
+                android:id="@+id/divider_profile_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=", "
+                android:textColor="@color/black_87_alpha"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/text_profile_city"
+                app:layout_constraintTop_toTopOf="@id/image_profile_location"
+                app:layout_constraintBottom_toBottomOf="@id/image_profile_location"/>
+            <TextView
+                android:id="@+id/text_profile_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.userInfo.district}"
+                android:textColor="@color/black_87_alpha"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/divider_profile_location"
+                app:layout_constraintTop_toTopOf="@id/image_profile_location"
+                app:layout_constraintBottom_toBottomOf="@id/image_profile_location"
+                tools:text="Da'an"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            app:chipSpacingVertical="2dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:theme="@style/Theme.MaterialComponents.Light">
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/title_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Introduction"
+            app:layout_constraintTop_toBottomOf="@id/chipGroup"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/text_introduction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.userInfo.introduction}"
+            android:textColor="@color/black_87_alpha"
+            android:fontFamily="@font/roboto"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/title_introduction"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="My name is Randy Patterson, and I’m currently looking for a job in youth services. I have 10 years of experience working with youth agencies. I have a bachelor’s degree in outdoor education. I raise money, train leaders, and organize units. I have raised over $100,000 each of the last six years. I consider myself a good public speaker, and I have a good sense of humor. “Who do you know who works with youth?"/>
+
+        <Button
+            android:id="@+id/button_follow"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Follow"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_message"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/button_message"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Chat"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

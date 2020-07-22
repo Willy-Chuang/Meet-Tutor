@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@+id/calendarFragment">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
         android:id="@+id/calendarFragment"
@@ -11,13 +11,222 @@
         android:label="CalendarFragment"
         tools:layout="@layout/fragment_calendar"/>
 
+    <action
+        android:id="@+id/navigate_to_calendar_Fragment"
+        app:destination="@id/calendarFragment" />
+
     <dialog
         android:id="@+id/post_event_dialog"
         android:name="com.willy.metu.calendar.PostEventDialogFragment"
         android:label="CalendarBottomSheet"
-        tools:layout="@layout/dialog_post_event"/>
+        tools:layout="@layout/dialog_post_event">
+        <argument
+            android:name="selectedDate"
+            app:argType="long" />
+    </dialog>
 
     <action android:id="@+id/navigate_to_post_event_dialog"
         app:destination="@id/post_event_dialog"/>
+
+    <fragment
+        android:id="@+id/startPairingFragment"
+        android:name="com.willy.metu.pair.StartPairingFragment"
+        android:label="StartPairingFragment"
+        tools:layout="@layout/fragment_start_pairing"/>
+
+    <action
+        android:id="@+id/navigate_to_pairing_fragment"
+        app:destination="@id/startPairingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.willy.metu.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.willy.metu.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <action
+        android:id="@+id/navigate_to_home_fragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+    <fragment
+        android:id="@+id/questionnaireOneFragment"
+        android:name="com.willy.metu.pair.QuestionnaireOneFragment"
+        android:label="QuestionnaireOneFragment"
+        app:exitAnim="@android:anim/slide_out_right"
+        tools:layout="@layout/fragment_questionnaire_one"/>
+    <action
+        android:id="@+id/navigate_to_question_one"
+        app:destination="@id/questionnaireOneFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
+    <fragment
+        android:id="@+id/questionnaireTwoFragment"
+        android:name="com.willy.metu.pair.QuestionnaireTwoFragment"
+        android:label="QuestionnaireTwoFragment"
+        tools:layout="@layout/fragment_questionnaire_two">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_question_two"
+        app:destination="@id/questionnaireTwoFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
+
+    <fragment
+        android:id="@+id/questionnaireThreeFragment"
+        android:name="com.willy.metu.pair.QuestionnaireThreeFragment"
+        android:label="QuestionnaireThreeFragment"
+        tools:layout="@layout/fragment_questionnaire_three">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_question_three"
+        app:destination="@id/questionnaireThreeFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.willy.metu.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+
+    <action
+        android:id="@+id/navigate_to_profile"
+        app:destination="@id/profileFragment"/>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.willy.metu.profile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"/>
+
+    <action
+        android:id="@+id/navigate_to_edit_profile_fragment"
+        app:destination="@id/editProfileFragment"/>
+
+    <fragment
+        android:id="@+id/pairingResultFragment"
+        android:name="com.willy.metu.pair.PairingResultFragment"
+        android:label="PairingResultFragment"
+        tools:layout="@layout/fragment_pairing_result">
+        <argument
+            android:name="selectedAnswers"
+            app:argType="com.willy.metu.data.Answers"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_pairing_result_fragment"
+        app:destination="@id/pairingResultFragment"/>
+
+    <fragment
+        android:id="@+id/followListFragment"
+        android:name="com.willy.metu.followlist.FollowListFragment"
+        android:label="FollowListFragment"
+        tools:layout="@layout/fragment_followlist"/>
+    <action
+        android:id="@+id/navigate_to_follow_list_fragment"
+        app:destination="@id/followListFragment"/>
+
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.willy.metu.user.UserDetailFragment"
+        android:label="UserDetailFragment"
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="userEmail"
+            app:argType="string"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_user_detail"
+        app:destination="@id/userDetailFragment"/>
+
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.willy.metu.chatlist.ChatListFragment"
+        android:label="ChatListFragment"
+        tools:layout="@layout/fragment_chat_list"/>
+    <action
+        android:id="@+id/navigate_to_chat_list"
+        app:destination="@id/chatListFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.willy.metu.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment"
+        tools:layout="@layout/fragment_chatroom">
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_chat_room"
+        app:destination="@id/chatRoomFragment"/>
+
+    <fragment
+        android:id="@+id/talentPoolFragment"
+        android:name="com.willy.metu.talentpool.TalentPoolFragment"
+        android:label="TalentPoolFragment"
+        tools:layout="@layout/fragment_talentpool"/>
+
+    <action
+        android:id="@+id/navigate_to_talent_pool"
+        app:destination="@+id/talentPoolFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
+
+    <dialog
+        android:id="@+id/post_article_dialog"
+        android:name="com.willy.metu.dialog.ArticleDialogFragment"
+        android:label="PostArticleDialog"
+        tools:layout="@layout/dialog_post_article"/>
+    <action
+        android:id="@+id/navigate_to_post_article_dialog"
+        app:destination="@+id/post_article_dialog"/>
+    <fragment
+        android:id="@+id/itemFollowedArticlesFragment"
+        android:name="com.willy.metu.followlist.ItemFollowedArticlesFragment"
+        android:label="ItemFollowedArticlesFragment"
+        tools:layout="@layout/item_followed_users"/>
+    <fragment
+        android:id="@+id/itemFollowedUsersFragment"
+        android:name="com.willy.metu.followlist.ItemFollowedUsersFragment"
+        android:label="ItemFollowedUsersFragment"
+        tools:layout="@layout/item_followed_articles"/>
+
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.willy.metu.article.ArticleFragment"
+        android:label="ArticleFragment"
+        tools:layout="@layout/fragment_article">
+        <argument
+            android:name="article"
+            app:argType="com.willy.metu.data.Article"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_article"
+        app:destination="@id/articleFragment"/>
+
 
 </navigation>

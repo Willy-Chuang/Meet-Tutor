@@ -4,25 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="event"
-            type="com.willy.metu.data.Events" />
+            type="com.willy.metu.data.Event" />
 
     </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/layout_card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
+        app:cardUseCompatPadding="true"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/label_schedule_time"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_card_left_corner"
+            android:background='@{event.tag.equals("Class") ? @drawable/bg_card_left_corner_tutor : event.tag.equals("Reading") ? @drawable/bg_card_left_corner_student : @drawable/bg_card_left_corner_study}'
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -75,21 +82,20 @@
                     tools:text="13"/>
 
                 <TextView
-                    android:id="@+id/title_time"
+                    android:id="@+id/title_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="@{event.tag}"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/white"
                     android:layout_marginTop="2dp"
                     app:layout_constraintStart_toStartOf="@id/title_month"
                     app:layout_constraintTop_toBottomOf="@id/title_month"
-                    time="@{event.eventTime}"
-                    tools:text="14 : 00"/>
+                    tools:text="Reading"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="96dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -110,20 +116,184 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Kotlin Meetup: AppworkSchool"/>
-    
+
             <TextView
-                android:id="@+id/text_event_attendee"
+                android:id="@+id/text_event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto"
+                android:textStyle="normal"
                 android:textSize="16sp"
+                android:text="@{event.location}"
                 android:textColor="@color/black_3f3a3a"
                 app:layout_constraintStart_toStartOf="@id/text_event_topic"
                 app:layout_constraintTop_toBottomOf="@id/text_event_topic"
-                tools:text="Wayne Chen"/>
+                tools:text="Yuan Shan Starbucks"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_time_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{event.startTime == -1 ? View.GONE : View.VISIBLE }"
+                app:layout_constraintStart_toStartOf="@id/text_event_location"
+                app:layout_constraintTop_toBottomOf="@id/text_event_location">
+
+                <TextView
+                    android:id="@+id/text_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text =""
+                    time="@{event.startTime}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="14:00"/>
+
+                <TextView
+                    android:id="@+id/divider_time_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text=" - "
+                    app:layout_constraintStart_toEndOf="@id/text_start_time"
+                    app:layout_constraintTop_toTopOf="@id/text_start_time"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/text_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text=""
+                    time="@{event.endTime}"
+                    app:layout_constraintStart_toEndOf="@id/divider_time_section"
+                    app:layout_constraintTop_toTopOf="@id/text_start_time"
+                    tools:text="16:00"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_schedule_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_corner"
+            android:paddingBottom="16dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="88dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/layout_card"
+            app:layout_constraintEnd_toEndOf="@id/layout_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_attendee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/title_attendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Member"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/divider_attendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="79dp"
+                    android:text=":"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"/>
+
+                <TextView
+                    android:id="@+id/text_attendee_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/divider_attendee"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"
+                    tools:text="Taylor Swift"/>
+
+                <TextView
+                    android:id="@+id/text_attendee_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/text_attendee_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"
+                    tools:text="Taylor Swift"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_attendee"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/title_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Detail"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/divider_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="79dp"
+                    android:text=":"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_detail"/>
+
+                <TextView
+                    android:id="@+id/text_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{event.description}"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/divider_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_detail"
+                    tools:text="Taylor Swift"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

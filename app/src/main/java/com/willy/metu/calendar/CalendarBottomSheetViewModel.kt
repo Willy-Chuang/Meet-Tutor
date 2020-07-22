@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
-import com.willy.metu.data.Events
-import com.willy.metu.data.SelectedEvent
+import com.willy.metu.data.Event
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -15,17 +14,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.willy.metu.data.Result
+import com.willy.metu.login.UserManager
 
 class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     //Get all events with user as attendee
 
-    private var _allEvents = MutableLiveData<List<Events>>()
+    private var _allEvents = MutableLiveData<List<Event>>()
 
-    val allEvents : LiveData<List<Events>>
+    val allEvent : LiveData<List<Event>>
         get() = _allEvents
 
-    var allLiveEvents = MutableLiveData<List<Events>>()
+    var allLiveEvents = MutableLiveData<List<Event>>()
+
+    //Selected date for safe arg
+    val navigationToPostDialog = MutableLiveData<Long>()
+
+
+    //Query Selected Events
+
+    private var _selectedEvents = MutableLiveData<List<Event>>()
+
+    val selectedEvent : LiveData<List<Event>>
+        get() = _selectedEvents
+
+    val selectedLiveEvent = MutableLiveData<List<Event>>()
+
+    //Get value of selectedDate as timestamp
+
+    var currentDate = MutableLiveData<Long>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -55,22 +72,22 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getLiveAllEventsResult("willy")
+        getLiveAllEventsResult(UserManager.user.email)
 
         if (MeTuApplication.instance.isLiveDataDesign()) {
-            getLiveAllEventsResult("willy")
+            getLiveAllEventsResult(UserManager.user.email)
         } else {
-            getAllEventsResult("willy")
+            getAllEventsResult(UserManager.user.email)
         }
     }
 
-    fun getAllEventsResult(user: String) {
+    fun getAllEventsResult(userEmail: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getAllEvents(user)
+            val result = repository.getAllEvents(userEmail)
 
             _allEvents.value = when (result) {
                 is Result.Success -> {
@@ -97,9 +114,38 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         }
     }
 
-    fun getLiveAllEventsResult(user: String){
-        allLiveEvents = repository.getLiveAllEvents(user)
+    fun getLiveAllEventsResult(userEmail: String){
+        allLiveEvents = repository.getLiveAllEvents(userEmail)
         _status.value = LoadApiStatus.DONE
+    }
+
+    fun getUser(userEmail: String) {
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getUser(userEmail)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
     }
 
 }

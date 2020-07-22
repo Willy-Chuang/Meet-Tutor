@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/height_toolbar"
                 android:background="@color/colorPrimary"
                 android:elevation="@dimen/elevation_all"
-                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIR ? View.GONE : View.VISIBLE}"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.CHAT || viewModel.currentFragmentType == CurrentFragmentType.PAIRTWO || viewModel.currentFragmentType == CurrentFragmentType.PAIRTHREE || viewModel.currentFragmentType == CurrentFragmentType.PAIR ? View.GONE : View.VISIBLE}"
                 app:navigationIcon="@drawable/toolbar_menu"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,25 +44,64 @@
                     android:textColor="@color/black_3f3a3a"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIR ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.CHAT ? View.GONE : View.VISIBLE}"
                     tools:layout_editor_absoluteX="176dp"
                     tools:layout_editor_absoluteY="18dp"
                     tools:text="MeTu"
                     tools:visibility="visible" />
 
+                <TextView
+                    android:id="@+id/button_toolbar_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="EDIT"
+                    android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PROFILE ? View.VISIBLE : View.GONE}"
+                    android:textSize="16dp"
+                    android:textColor="@color/black_87_alpha"
+                    android:textStyle="bold"
+                    android:layout_gravity ="right"/>
+
+                <TextView
+                    android:id="@+id/button_toolbar_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="SAVE"
+                    android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.EDITPROFILE ? View.VISIBLE : View.GONE}"
+                    android:textSize="16dp"
+                    android:textColor="@color/black_87_alpha"
+                    android:textStyle="bold"
+                    android:layout_gravity ="right"/>
+
             </androidx.appcompat.widget.Toolbar>
 
-                <fragment
+            <fragment
                     android:id="@+id/myNavHostFragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:defaultNavHost="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/bottomNavView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
                     app:navGraph="@navigation/navigation" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavView"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_bottom_nav_view_main"
+                android:background="@color/white"
+                android:elevation="@dimen/elevation_all"
+                android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.CALENDAR || viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.PROFILE || viewModel.currentFragmentType == CurrentFragmentType.EDITPROFILE || viewModel.currentFragmentType == CurrentFragmentType.USERPROFILE || viewModel.currentFragmentType == CurrentFragmentType.FOLLOW || viewModel.currentFragmentType == CurrentFragmentType.CHAT || viewModel.currentFragmentType == CurrentFragmentType.PAIRTWO || viewModel.currentFragmentType == CurrentFragmentType.PAIRTHREE ) ? View.GONE : View.VISIBLE}"
+                app:labelVisibilityMode="unlabeled"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:itemIconSize="@dimen/size_bottom_nav_icon"
+                app:menu="@menu/bottom_nav_menu"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

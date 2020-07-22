@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.willy.metu.component.ProfileAvatarOutlineProvider
+import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
@@ -15,7 +17,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
+class MainViewModel (private val repository: MeTuRepository): ViewModel(){
+
+    // user: MainViewModel has User info to provide Drawer UI
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
+
+    // Edit button is pressed
+
+    val editIsPressed = MutableLiveData<Boolean>()
+    val saveIsPressed = MutableLiveData<Boolean>()
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
@@ -23,7 +36,11 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
     // According to current fragment to change different drawer toggle
     val currentDrawerToggleType: LiveData<DrawerToggleType> = Transformations.map(currentFragmentType) {
         when (it) {
-            CurrentFragmentType.PAIR -> DrawerToggleType.BACK
+            CurrentFragmentType.CALENDAR -> DrawerToggleType.BACK
+            CurrentFragmentType.PROFILE -> DrawerToggleType.BACK
+            CurrentFragmentType.EDITPROFILE -> DrawerToggleType.BACK
+            CurrentFragmentType.USERPROFILE -> DrawerToggleType.BACK
+            CurrentFragmentType.FOLLOW -> DrawerToggleType.BACK
             else -> DrawerToggleType.NORMAL
         }
     }
@@ -36,6 +53,43 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
 
     val refresh: LiveData<Boolean>
         get() = _refresh
+
+    // Handle navigation to home by bottom nav directly which includes icon change
+    private val _navigateToHomeByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToHomeByBottomNav: LiveData<Boolean>
+        get() = _navigateToHomeByBottomNav
+
+    // Handle navigation to pairing by bottom nav directly which includes icon change
+    private val _navigateToPairingByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToPairingByBottomNav: LiveData<Boolean>
+        get() = _navigateToPairingByBottomNav
+
+    // Handle navigation to pairing by bottom nav directly which includes icon change
+    private val _navigateToChatListByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToChatListByBottomNav: LiveData<Boolean>
+        get() = _navigateToChatListByBottomNav
+
+    // Handle navigation to pairing by bottom nav directly which includes icon change
+    private val _navigateToTalentPoolByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToTalentPoolByBottomNav: LiveData<Boolean>
+        get() = _navigateToTalentPoolByBottomNav
+
+
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -69,5 +123,36 @@ class MainViewModel (private val meTuRepository: MeTuRepository): ViewModel(){
             _refresh.value = null
         }
     }
+
+    fun onHomeNavigated() {
+        _navigateToHomeByBottomNav.value = null
+    }
+
+    fun onChatNavigated() {
+        _navigateToChatListByBottomNav.value = null
+    }
+
+    fun onTalentPoolNavigated(){
+        _navigateToTalentPoolByBottomNav.value = null
+    }
+
+    fun setupUser(user: User) {
+
+        _user.value = user
+        Logger.i("=============")
+        Logger.i("| setupUser |")
+        Logger.i("user=$user")
+        Logger.i("MainViewModel=${this}")
+        Logger.i("=============")
+    }
+
+
+//    fun checkUser() {
+//        if (user.value == null) {
+//            UserManager.userToken?.let {
+//                getUserProfile(it)
+//            }
+//        }
+//    }
 
 }

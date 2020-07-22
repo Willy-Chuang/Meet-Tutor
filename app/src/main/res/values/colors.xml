@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFC75A</color>
-    <color name="colorPrimaryDark">#F3B130</color>
-    <color name="colorAccent">#5BD2BF</color>
+    <color name="colorPrimary">#FFE561</color>
+    <color name="colorPrimaryDark">#ffe20d</color>
+    <color name="colorAccent">#FFC100</color>
+    <color name="colorPrimaryAlpha">#F6E486</color>
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
@@ -10,13 +11,36 @@
     <!-- Black Series -->
     <color name="black">#000000</color>
     <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_87_alpha">#1F1F1F</color>
+    <color name="black_54_alpha">#6F6F6F</color>
+    <color name="black_36_alpha">#A1A1A1</color>
     <color name="black_12_alpha">#E0E0E0</color>
+    <color name="black_default_bg">#F9F9F9</color>
+
+
+
+    <!-- Gray Series -->
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray_646464">#646464</color>
+    <color name="gray_888888">#888888</color>
+    <color name="gray_999999">#999999</color>
+    <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_f0f0f0">#f0f0f0</color>
+    <color name="gray_f5f5f5">#f5f5f5</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_navigation_item_normal">@color/gray_999999</color>
+    <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
 
     <color name="the_weekend">#228BC34A</color>
-    <color name="red">#FF8A80</color>
-    <color name="water_blue">#80D8FF</color>
-
+    <color name="red">#FF9689</color>
+    <color name="water_green">#56E39F</color>
+    <color name="orange">#faac5f</color>
+    <color name="blue">#617bff</color>
+    <color name="pinkish">#EF6F6C</color>
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
+
+
 
 </resources>

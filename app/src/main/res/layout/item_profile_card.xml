@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.willy.metu.data.User" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="500dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_card_user"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="36dp"
+                imageUrl="@{user.image}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:src="@drawable/ic_cute_avatar"/>
+            <TextView
+                android:id="@+id/text_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{user.name}"
+                android:fontFamily="@font/roboto"
+                android:textSize="20sp"
+                android:textColor="@color/black_87_alpha"
+                app:layout_constraintTop_toBottomOf="@id/image_card_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Sirius Black"/>
+            <TextView
+                android:id="@+id/text_card_identity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto"
+                android:text="@{user.identity}"
+                app:layout_constraintTop_toBottomOf="@id/text_card_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Tutor"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_card_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/text_card_identity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+                <TextView
+                    android:id="@+id/text_card_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{user.city}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="Taipei"/>
+                <TextView
+                    android:id="@+id/divider_card_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=", "
+                    app:layout_constraintStart_toEndOf="@id/text_card_city"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/text_card_district"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.district}"
+                    app:layout_constraintStart_toEndOf="@id/divider_card_location"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="Da'an"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/image_card_location"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_location_on_black_24"
+                app:layout_constraintEnd_toStartOf="@id/layout_card_location"
+                app:layout_constraintTop_toTopOf="@id/layout_card_location"
+                app:layout_constraintBottom_toBottomOf="@id/layout_card_location"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:chipSpacingVertical="2dp"
+                app:layout_constraintTop_toBottomOf="@id/layout_card_location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/title_card_about"
+                android:theme="@style/Theme.MaterialComponents.Light">
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/title_card_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/black_12_alpha"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                android:text="@{ @string/card_about + user.name}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chipGroup"
+                tools:text="About Sirius Black">
+            </TextView>
+
+            <TextView
+                android:id="@+id/text_card_introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:text="@{user.introduction}"
+                android:fontFamily="@font/roboto"
+                app:layout_constraintTop_toBottomOf="@id/title_card_about"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="We've all got both light and dark inside us. What matters is the part we choose to act on. That's who we really are."/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

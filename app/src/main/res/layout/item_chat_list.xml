@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="chatRoom"
+            type="com.willy.metu.data.ChatRoom" />
+
+        <variable
+            name="imageUrl"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_chat_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            imageUrl="@{imageUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_cute_avatar"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_latest_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/image_chat_avatar"
+            app:layout_constraintTop_toTopOf="@id/image_chat_avatar"
+            app:layout_constraintBottom_toBottomOf="@id/image_chat_avatar">
+
+            <TextView
+                android:id="@+id/text_chat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Willy Chuang"/>
+
+            <TextView
+                android:id="@+id/text_lasted_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{chatRoom.latestMessage.toString()}"
+                app:layout_constraintTop_toBottomOf="@id/text_chat_name"
+                app:layout_constraintStart_toStartOf="@id/text_chat_name"
+                tools:text="Hello! Nice to meet you"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_cccccc"
+                android:text="Start a new conversation"
+                android:visibility="@{chatRoom.latestMessage.length() == 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="@id/text_chat_name"
+                app:layout_constraintStart_toStartOf="@id/text_chat_name"
+                tools:text="Start a new conversation"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_lasted_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="8sp"
+            fullTime="@{chatRoom.latestTime}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/layout_latest_info"
+            tools:text="7.14 18:00"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

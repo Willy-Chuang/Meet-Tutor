@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.willy.metu.followlist.FollowUserViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title_list_tutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tutor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <View
+            android:id="@+id/divider_tutor"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/black_12_alpha"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/title_list_tutor"
+            app:layout_constraintStart_toStartOf="@id/title_list_tutor"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_tutor"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider_tutor"
+            app:layout_constraintStart_toStartOf="@id/divider_tutor"/>
+
+        <TextView
+            android:id="@+id/title_list_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/recycler_tutor"
+            app:layout_constraintStart_toStartOf="@id/title_list_tutor"/>
+
+        <View
+            android:id="@+id/divider_student"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/black_12_alpha"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/title_list_student"
+            app:layout_constraintStart_toStartOf="@id/title_list_student"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_student"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            app:layout_constraintTop_toBottomOf="@id/divider_student"
+            app:layout_constraintStart_toStartOf="@id/divider_student"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

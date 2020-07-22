@@ -3,4 +3,183 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="you_shall_not_pass">You Shall Not Pass</string>
+    <string name="spinner_select_member">Select Member</string>
+    <string name="spinner_select_type">Select Type</string>
+    <string name="spinner_select_category">Select Category</string>
+    <string name="spinner_select_subject">Select Subject</string>
+    <string name="spinner_select_city">Select City</string>
+    <string name="spinner_select_district">Select District</string>
+    <string name="card_about">About</string>
+    <string name="empty_string" />
+
+    <string-array name="followed_users_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+    <string-array name="tag_array">
+        <item>Reading</item>
+        <item>Class</item>
+        <item>Study Group</item>
+    </string-array>
+
+    <string-array name="article_array">
+        <item>Study Group</item>
+        <item>Find Tutor</item>
+        <item>Find Student</item>
+    </string-array>
+
+    <string-array name="major_subject_array">
+        <item>Language</item>
+        <item>Curriculum</item>
+        <item>Music</item>
+        <item>Art</item>
+        <item>Sport</item>
+        <item>Exam</item>
+    </string-array>
+
+    <string-array name="default_array">
+
+    </string-array>
+
+    <string-array name="language_array">
+        <item>English</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>German</item>
+        <item>Spanish</item>
+    </string-array>
+
+    <string-array name="curriculum_array">
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+    </string-array>
+
+    <string-array name="music_array">
+        <item>Piano</item>
+        <item>Violin</item>
+        <item>Flute</item>
+        <item>Singing</item>
+    </string-array>
+
+    <string-array name="art_array">
+        <item>Sketch</item>
+        <item>Digital Painting</item>
+        <item>Oil Painting</item>
+    </string-array>
+
+    <string-array name="sport_array">
+        <item>Yoga</item>
+        <item>CrossFit</item>
+        <item>Swimming</item>
+    </string-array>
+
+    <string-array name="exam_array">
+        <item>TOIEC</item>
+        <item>TOFEL</item>
+        <item>IELTS</item>
+        <item>JLPT</item>
+    </string-array>
+
+    <string-array name="city_array">
+        <item>Taipei</item>
+        <item>New Taipei</item>
+        <item>Taoyuan</item>
+        <item>Taichung</item>
+        <item>Kaohsiung</item>
+    </string-array>
+
+    <string-array name="taipei_array">
+        <item>Songshan</item>
+        <item>Xinyi</item>
+        <item>Da’an</item>
+        <item>Zhongshan</item>
+        <item>Zhongzheng</item>
+        <item>Datong</item>
+        <item>Wanhua</item>
+        <item>Wenshan</item>
+        <item>Nangang</item>
+        <item>Neihu</item>
+        <item>Shilin</item>
+        <item>Beitou</item>
+    </string-array>
+
+    <string-array name="new_taipei_array">
+        <item>Banqiao</item>
+        <item>Sanchong</item>
+        <item>Zhonghe</item>
+        <item>Yonghe</item>
+        <item>Xinzhuang</item>
+        <item>Xindian</item>
+        <item>Luzhou</item>
+    </string-array>
+
+    <string-array name="taoyuan_array">
+        <item>Zhongli</item>
+        <item>Daxi</item>
+        <item>Yangmei</item>
+        <item>Luzhu</item>
+        <item>Guishan</item>
+        <item>Bade</item>
+        <item>Longtan</item>
+    </string-array>
+
+    <string-array name="taichung_array">
+        <item>Central</item>
+        <item>East</item>
+        <item>South</item>
+        <item>West</item>
+        <item>North</item>
+        <item>Xitun</item>
+        <item>Nantun</item>
+        <item>Beitun</item>
+        <item>Fengyuan</item>
+        <item>Dajia</item>
+        <item>Houli</item>
+    </string-array>
+
+    <string-array name="kaohsiung_array">
+        <item>Zuoying</item>
+        <item>Nanzi</item>
+        <item>Sanmin</item>
+        <item>Qijin</item>
+        <item>Xiaogang</item>
+        <item>Fengshan</item>
+        <item>Gangshan</item>
+    </string-array>
+
+    <string-array name="all_tag_array">
+        <item>English</item>
+        <item>French</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Piano</item>
+        <item>Violin</item>
+        <item>Flute</item>
+        <item>Singing</item>
+        <item>Sketch</item>
+        <item>Digital Painting</item>
+        <item>Oil Painting</item>
+        <item>Yoga</item>
+        <item>CrossFit</item>
+        <item>Swimming</item>
+        <item>TOIEC</item>
+        <item>TOFEL</item>
+        <item>IELTS</item>
+        <item>JLPT</item>
+    </string-array>
+
 </resources>

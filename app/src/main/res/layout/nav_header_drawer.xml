@@ -11,31 +11,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="182dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
             android:id="@+id/image_drawer_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:scaleType="centerCrop"
             android:outlineProvider="@{viewModel.outlineProvider}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_nav_profile"/>
+            imageUrl="@{viewModel.user.image}" />
 
         <TextView
-            android:id="@+id/image_drawer_name"
+            android:id="@+id/drawer_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:text="Willy Chuang"
-            android:textColor="@color/white"
+            android:fontFamily="@font/roboto"
+            android:text="@{viewModel.user.name}"
+            android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,13 +50,13 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/noto_sans"
-            android:textColor="@color/cardview_shadow_end_color"
+            android:textColor="@color/black_3f3a3a"
             android:textSize="13sp"
-            android:text="Pioneer"
+            android:text="Student"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_drawer_name"
-            tools:text="AKA小安老師"/>
+            app:layout_constraintTop_toBottomOf="@+id/drawer_user_name"
+            tools:text="Student"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,29 +4,26 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.willy.metu.databinding.ActivityMainBinding
 import com.willy.metu.databinding.NavHeaderDrawerBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.login.UserManager
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
@@ -40,6 +37,45 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    //Setup bottom navigation destination
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
+        when (item.itemId){
+            R.id.navigation_home -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_pairing -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPairingFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_chat_list -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToChatList())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_talent_pool -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTalentPool())
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+    //Setup drawer navigation destination
+    private val onDrawerItemSelectedListener = NavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId){
+            R.id.profileFragment -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfile())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.followListFragment -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToFollowListFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+
+    }
 
 
     // get the height of status bar from system
@@ -58,6 +94,15 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
+
+        binding.buttonToolbarEdit.setOnClickListener {
+            viewModel.editIsPressed.value = true
+        }
+        binding.buttonToolbarSave.setOnClickListener {
+            viewModel.saveIsPressed.value = true
+        }
+
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
@@ -66,9 +111,62 @@ class MainActivity : BaseActivity() {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         })
 
+        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_home
+                viewModel.onHomeNavigated()
+            }
+        })
+
+        viewModel.navigateToChatListByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_chat_list
+                viewModel.onChatNavigated()
+            }
+        })
+
+        viewModel.navigateToTalentPoolByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_talent_pool
+                viewModel.onTalentPoolNavigated()
+            }
+        })
+
+        viewModel.setupUser(UserManager.user)
+
         setupToolbar()
         setupDrawer()
+        setupBottomNav()
         setupNavController()
+    }
+
+    // Setup side menu for an icon of calendar
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.toolbar_menu, menu)
+
+        // If the current fragment is -- ,calendar button won't inflate
+        viewModel.currentFragmentType.observe(this, Observer{ type ->
+            type?.let {
+
+                when (it) {
+                    CurrentFragmentType.CALENDAR -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    CurrentFragmentType.PROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    CurrentFragmentType.EDITPROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
+                    else ->  menu.findItem(R.id.calendarFragment).isVisible = true
+                }
+            }
+
+        })
+        return viewModel.currentFragmentType.value != CurrentFragmentType.CALENDAR
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+            findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -112,16 +210,32 @@ class MainActivity : BaseActivity() {
     }
 
     /**
-     * Set up [NavController.addOnDestinationChangedListener] to record the current fragment, it better than another design
+     * Set up [NavController.addOnDestinationChangedListener] to record the current fragment
      * which is change the [CurrentFragmentType] enum value by [MainViewModel] at [onCreateView]
      */
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
+                R.id.startPairingFragment -> CurrentFragmentType.PAIR
+                R.id.homeFragment -> CurrentFragmentType.HOME
+                R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
+                R.id.questionnaireTwoFragment -> CurrentFragmentType.PAIRTWO
+                R.id.questionnaireThreeFragment -> CurrentFragmentType.PAIRTHREE
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.editProfileFragment -> CurrentFragmentType.EDITPROFILE
+                R.id.followListFragment -> CurrentFragmentType.FOLLOW
+                R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
+                R.id.chatListFragment -> CurrentFragmentType.CHATLIST
+                R.id.chatRoomFragment -> CurrentFragmentType.CHAT
+                R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
                 else -> viewModel.currentFragmentType.value
             }
         }
+    }
+
+    private fun setupBottomNav(){
+        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     private fun setupDrawer() {
@@ -187,7 +301,15 @@ class MainActivity : BaseActivity() {
             )
             actionBarDrawerToggle?.setToolbarNavigationClickListener {
                 when (type) {
-                    DrawerToggleType.BACK -> onBackPressed()
+                    DrawerToggleType.BACK -> {
+
+                        when (viewModel.currentFragmentType.value) {
+                            CurrentFragmentType.PROFILE -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                            CurrentFragmentType.FOLLOW -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
+                            else -> onBackPressed()
+                        }
+
+                    }
                     else -> {
                     }
                 }
@@ -205,6 +327,7 @@ class MainActivity : BaseActivity() {
         } else {
             super.onBackPressed()
         }
+
     }
 }
 

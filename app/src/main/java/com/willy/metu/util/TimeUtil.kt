@@ -1,6 +1,7 @@
 package com.willy.metu.util
 
 import android.util.Log
+import com.github.marlonlom.utilities.timeago.TimeAgo
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -14,6 +15,12 @@ object TimeUtil {
     @JvmStatic
     fun stampToDate(time: Long): String {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return simpleDateFormat.format(Date(time))
+    }
+
+    @JvmStatic
+    fun stampToFullTime(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         return simpleDateFormat.format(Date(time))
     }
 
@@ -39,6 +46,12 @@ object TimeUtil {
     fun dateToStamp(date: String, locale: Locale): Long {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", locale)
         return simpleDateFormat.parse(date).time
+    }
+
+    @JvmStatic
+    fun timeToStamp(time: String, locale: Locale): Long {
+        val simpleDateFormat = SimpleDateFormat("HH:mm", locale)
+        return simpleDateFormat.parse(time).time
     }
 
     fun stampToWeekday(time: Long): String {
@@ -89,6 +102,10 @@ object TimeUtil {
     fun stampToTime(time: Long) : String {
         val simpleDateFormat = SimpleDateFormat("HH:mm")
         return simpleDateFormat.format(Date(time))
+    }
+
+    fun stampToAgo(time: Long): String {
+        return TimeAgo.using(time)
     }
 
 }
