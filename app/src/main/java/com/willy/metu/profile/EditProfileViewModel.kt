@@ -26,6 +26,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
     var selectedTags = MutableLiveData<List<String>>()
     val itemList:MutableList<String> = ArrayList()
     var introduction = MutableLiveData<String>()
+    var experience = MutableLiveData<String>()
 
 
 
@@ -101,6 +102,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
                 name = UserManager.user.name,
                 email = UserManager.user.email,
                 introduction = introduction.value.toString(),
+                experience = experience.value.toString(),
                 city = selectedCity.value.toString(),
                 district = selectedDistrict.value.toString(),
                 gender = selectedGender.value.toString(),

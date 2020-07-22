@@ -176,6 +176,10 @@ class EditProfileFragment : Fragment() {
             Logger.i(it.toString())
         })
 
+        viewModel.experience.observe(viewLifecycleOwner, Observer {
+            Logger.i(it.toString())
+        })
+
         //Observer for save button, when pressed send update user info (With empty handel)
         mainViewModel.saveIsPressed.observe(viewLifecycleOwner, Observer {
             if (it == true) {

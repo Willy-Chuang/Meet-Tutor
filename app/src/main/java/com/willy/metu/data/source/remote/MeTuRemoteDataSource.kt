@@ -182,6 +182,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         users.document(user.email)
                 .update("introduction", user.introduction ,
+                        "experience", user.experience,
                         "city",user.city,
                         "district", user.district,
                         "gender", user.gender,

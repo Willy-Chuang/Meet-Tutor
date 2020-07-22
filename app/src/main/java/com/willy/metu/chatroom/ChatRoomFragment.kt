@@ -37,7 +37,7 @@ class ChatRoomFragment : Fragment() {
         val adapter = ChatRoomAdapter()
         binding.viewModel = viewModel
         binding.buttonBack.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToChatList())
+            findNavController().navigateUp()
         }
         binding.recyclerMessage.adapter = adapter
         binding.recyclerMessage.layoutManager = LinearLayoutManager(context)

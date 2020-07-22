@@ -12,21 +12,10 @@
     <string name="card_about">About</string>
     <string name="empty_string" />
 
-    <string-array name="followed_users_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
-
     <string-array name="tag_array">
         <item>Reading</item>
         <item>Class</item>
-        <item>Study Group</item>
+        <item>Meetup</item>
     </string-array>
 
     <string-array name="article_array">

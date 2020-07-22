@@ -13,21 +13,59 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         
         <View
             android:id="@+id/view_color_bg"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@color/colorPrimary"/>
+            android:layout_height="450dp"
+            android:background="@drawable/color_primary_gradient"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/layout_information"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="420dp"
+            android:background="@drawable/bg_bottom_dialog_corner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="46dp"
+            app:srcCompat="@drawable/ic_detail_close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/button_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="46dp"
+            app:srcCompat="@drawable/ic_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_avatar"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="110dp"
             app:civ_border_color="@color/white"
             app:civ_border_width="4dp"
             imageUrl="@{imageUrl}"
@@ -55,7 +93,7 @@
             android:id="@+id/text_user_identity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@{viewModel.userInfo.identity}"
             android:textColor="@color/black_87_alpha"
             android:fontFamily="@font/roboto"
@@ -69,7 +107,7 @@
             android:id="@+id/layout_profile_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_user_identity">
@@ -126,62 +164,232 @@
             android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginTop="16dp"
             app:chipSpacingVertical="2dp"
             app:layout_constraintTop_toBottomOf="@id/layout_profile_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:theme="@style/Theme.MaterialComponents.Light">
+            android:theme="@style/Theme.MaterialComponents.Light"
+            >
 
         </com.google.android.material.chip.ChipGroup>
+
+        <LinearLayout
+            android:id="@+id/layout_follow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            app:layout_constraintTop_toTopOf="@id/layout_information">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3" >
+
+                <TextView
+                    android:id="@+id/text_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Following"
+                    app:layout_constraintTop_toBottomOf="@id/text_following"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Following"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3" >
+
+                <TextView
+                    android:id="@+id/text_follow_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Followers"
+                    app:layout_constraintTop_toBottomOf="@id/text_follow_by"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3" >
+
+                <TextView
+                    android:id="@+id/text_posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/roboto"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Posts"
+                    app:layout_constraintTop_toBottomOf="@id/text_posts"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider_follow"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/black_54_alpha"
+            app:layout_constraintTop_toBottomOf="@id/layout_follow"/>
+
 
         <TextView
             android:id="@+id/title_introduction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:textColor="@color/black_87_alpha"
+            android:textSize="16sp"
             android:text="Introduction"
-            app:layout_constraintTop_toBottomOf="@id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@id/layout_button"
             app:layout_constraintStart_toStartOf="parent"/>
         <TextView
             android:id="@+id/text_introduction"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.userInfo.introduction}"
-            android:textColor="@color/black_87_alpha"
+            android:textColor="@color/black_54_alpha"
             android:fontFamily="@font/roboto"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@id/title_introduction"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="My name is Randy Patterson, and I’m currently looking for a job in youth services. I have 10 years of experience working with youth agencies. I have a bachelor’s degree in outdoor education. I raise money, train leaders, and organize units. I have raised over $100,000 each of the last six years. I consider myself a good public speaker, and I have a good sense of humor. “Who do you know who works with youth?"/>
 
-        <Button
-            android:id="@+id/button_follow"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Follow"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/button_message"
+        <TextView
+            android:id="@+id/title_experience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black_87_alpha"
+            android:textSize="16sp"
+            android:text="Experience"
+            app:layout_constraintTop_toBottomOf="@id/text_introduction"
             app:layout_constraintStart_toStartOf="parent"/>
-
-        <Button
-            android:id="@+id/button_message"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Chat"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
+        <TextView
+            android:id="@+id/text_experience"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.userInfo.experience}"
+            android:textColor="@color/black_54_alpha"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/title_experience"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            tools:text="My name is Randy Patterson, and I’m currently looking for a job in youth services. I have 10 years of experience working with youth agencies. I have a bachelor’s degree in outdoor education. I raise money, train leaders, and organize units. I have raised over $100,000 each of the last six years. I consider myself a good public speaker, and I have a good sense of humor. “Who do you know who works with youth?"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_follow"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/button_follow"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:text="Follow"
+                android:background="@drawable/bg_colored_round_corner"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:id="@+id/button_unfollow"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="UnFollow"
+                android:background="@drawable/bg_colored_round_corner"
+                android:visibility="gone"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -244,6 +244,34 @@
                 app:layout_constraintStart_toStartOf="@id/text_profile_title_introduction"
                 tools:text="Hi, I’m John, currenty studying Law at National Taiwan University for my master degree, I’m planning to work overseas, so my goal here is to learn English."/>
 
+            <TextView
+                android:id="@+id/text_profile_title_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                android:text="Experience"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/black_36_alpha"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/text_profile_introduction"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/text_profile_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:text="@{viewModel.personalInfo.experience}"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/black_87_alpha"
+                app:layout_constraintTop_toBottomOf="@id/text_profile_title_experience"
+                app:layout_constraintStart_toStartOf="@id/text_profile_title_introduction"
+                tools:text="Hi, I’m John, currenty studying Law at National Taiwan University for my master degree, I’m planning to work overseas, so my goal here is to learn English."/>
+
             
 
 
