@@ -30,7 +30,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
     private val viewModel by viewModels<PostEventDialogViewModel> {
         getVmFactory(
-            PostEventDialogFragmentArgs.fromBundle(requireArguments()).selectedDate
+                PostEventDialogFragmentArgs.fromBundle(requireArguments()).selectedDate
         )
     }
 
@@ -40,9 +40,9 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         val binding = DialogPostEventBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -76,7 +76,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 binding.textSelectStartTime.text = "$hour : $minute"
-                Log.i("TIMEEEE","$hour : $minute")
+                Log.i("TIMEEEE", "$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.startTime.value = timeTimeStamp
             }, hour, minute, true).show()
@@ -84,7 +84,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         }
 
         viewModel.startTime.observe(viewLifecycleOwner, Observer {
-            Log.i("TIMEEE","${it}")
+            Log.i("TIMEEE", "${it}")
         })
 
         binding.textSelectEndTime.setOnClickListener {
@@ -93,13 +93,12 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 binding.textSelectEndTime.text = "$hour : $minute"
-                Log.i("TIMEEEE","$hour : $minute")
+                Log.i("TIMEEEE", "$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.endTime.value = timeTimeStamp
             }, hour, minute, true).show()
 
         }
-
 
 
         //Setup Date Picker
@@ -109,7 +108,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 calender.set(year, month, day)
                 format("yyyy-MM-dd")
-                var newMonth = format("%02d", month+1)
+                var newMonth = format("%02d", month + 1)
                 var newDay = format("%02d", day)
                 binding.textDate.text = "$year-$newMonth-$newDay"
                 val dateTimestamp = TimeUtil.dateToStamp("$year-$newMonth-$newDay", Locale.TAIWAN)
@@ -121,11 +120,11 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val date = selectedDate[2]
             activity?.let {
                 DatePickerDialog(
-                    it,
-                    dateListener,
-                    year.toInt(),
-                    month.toInt()-1,
-                    date.toInt()
+                        it,
+                        dateListener,
+                        year.toInt(),
+                        month.toInt() - 1,
+                        date.toInt()
                 ).show()
             }
         }
@@ -139,68 +138,68 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 //            SelectedUserSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.followed_users_array))
 
         binding.spinnerAttendee.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                    }
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    pos: Int,
-                    id: Long
-                ) {
-                    if (parent != null && pos != 0) {
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            pos: Int,
+                            id: Long
+                    ) {
+                        if (parent != null && pos != 0) {
 //                        viewModel.invitation.value = parent.selectedItem.toString()
-                        viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos).toString()
-                        Toast.makeText(
-                            MeTuApplication.appContext,
-                                viewModel.userInfo.value?.followingEmail?.get(pos-1).toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos).toString()
+                            Toast.makeText(
+                                    MeTuApplication.appContext,
+                                    viewModel.userInfo.value?.followingEmail?.get(pos - 1).toString(),
+                                    Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
-            }
 
         binding.spinnerType.adapter =
-            SelectedTypeSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.tag_array))
+                SelectedTypeSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.tag_array))
         binding.spinnerType.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                    }
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    pos: Int,
-                    id: Long
-                ) {
-                    if (parent != null && pos != 0) {
-                        viewModel.type.value = parent.selectedItem.toString()
-                        Toast.makeText(
-                            MeTuApplication.appContext,
-                            parent.selectedItem.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            pos: Int,
+                            id: Long
+                    ) {
+                        if (parent != null && pos != 0) {
+                            viewModel.type.value = parent.selectedItem.toString()
+                            Toast.makeText(
+                                    MeTuApplication.appContext,
+                                    parent.selectedItem.toString(),
+                                    Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
-            }
 
-        val adapter = CalendarBottomSheetAdapter()
+//        val adapter = CalendarBottomSheetAdapter()
 
 
         // Setup post button with error handling
 
-        binding.buttonSave.setOnClickListener{
+        binding.buttonSave.setOnClickListener {
             if (viewModel.checkIfComplete()) {
-            val event = viewModel.getEvent(UserManager.user.email)
-            Logger.d("$event")
-            viewModel.post(event)
-            adapter.notifyDataSetChanged()} else {
+                val event = viewModel.getEvent(UserManager.user.email)
+                Logger.d("$event")
+                viewModel.post(event)
+//                adapter.notifyDataSetChanged()
+            } else {
                 Toast.makeText(MeTuApplication.appContext,
                         "Please complete the form", Toast.LENGTH_SHORT).show()
             }
         }
-
 
 
         //Observers

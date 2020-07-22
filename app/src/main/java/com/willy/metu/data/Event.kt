@@ -10,6 +10,7 @@ data class Event(
     var title: String = "",
     var description: String = "",
     var attendees: List<String> = listOf(""),
+    var attendeesName: List<String> = listOf(""),
     val tag : String = "",
     val eventTime: Long = -1,
     var startTime: Long = -1,

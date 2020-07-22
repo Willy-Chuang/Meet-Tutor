@@ -102,6 +102,8 @@ class PostEventDialogViewModel(
 
         val attendees = listOf<String>(userEmail)
 
+        val attendeesName = listOf<String>(UserManager.user.name)
+
         val invitation = listOf<String>(invitation.value.toString())
 
 
@@ -111,6 +113,7 @@ class PostEventDialogViewModel(
                 title = title.value.toString(),
                 description = description.value.toString(),
                 attendees = attendees,
+                attendeesName = attendeesName,
                 eventTime = eventTime.value ?: -1,
                 invitation = invitation,
                 startTime = if (isAllDay.value == false) startTime.value ?: -1 else -1,

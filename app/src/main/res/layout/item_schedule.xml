@@ -10,13 +10,19 @@
             type="com.willy.metu.data.Event" />
 
     </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/layout_card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,8 +173,127 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_schedule_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_corner"
+            android:paddingBottom="16dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="88dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/layout_card"
+            app:layout_constraintEnd_toEndOf="@id/layout_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_attendee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/title_attendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Member"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/divider_attendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="79dp"
+                    android:text=":"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"/>
+
+                <TextView
+                    android:id="@+id/text_attendee_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/divider_attendee"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"
+                    tools:text="Taylor Swift"/>
+
+                <TextView
+                    android:id="@+id/text_attendee_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/text_attendee_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_attendee"
+                    tools:text="Taylor Swift"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_attendee"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/title_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Detail"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/divider_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="79dp"
+                    android:text=":"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_detail"/>
+
+                <TextView
+                    android:id="@+id/text_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{event.description}"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black_36_alpha"
+                    app:layout_constraintStart_toEndOf="@id/divider_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_detail"
+                    tools:text="Taylor Swift"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

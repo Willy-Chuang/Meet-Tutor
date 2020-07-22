@@ -1,18 +1,37 @@
 package com.willy.metu.calendar
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.data.Event
 import com.willy.metu.databinding.ItemScheduleBinding
+import com.willy.metu.util.Logger
 
-class CalendarBottomSheetAdapter() : ListAdapter<Event, RecyclerView.ViewHolder>(DiffCallback){
+class CalendarBottomSheetAdapter(val viewModel: CalendarBottomSheetViewModel) : ListAdapter<Event, RecyclerView.ViewHolder>(DiffCallback){
 
     class EventViewHolder(private var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(Event: Event) {
-            binding.event = Event
+        fun bind(event: Event, viewModel: CalendarBottomSheetViewModel) {
+            binding.event = event
+
+            //Setup click to show detail
+            binding.layoutScheduleDetail.visibility = View.GONE
+            binding.layoutCard.setOnClickListener {
+                if (binding.layoutScheduleDetail.visibility == View.GONE) {
+                    binding.layoutScheduleDetail.visibility = View.VISIBLE
+                } else {
+                    binding.layoutScheduleDetail.visibility = View.GONE
+                }
+            }
+
+            binding.textAttendee1.text = event.attendeesName.component1()
+
+            if(event.attendeesName.size > 1){
+                binding.textAttendee2.text = event.attendeesName.component2()
+            }
+
             binding.executePendingBindings()
         }
     }
@@ -41,7 +60,7 @@ class CalendarBottomSheetAdapter() : ListAdapter<Event, RecyclerView.ViewHolder>
 
         when(holder) {
             is EventViewHolder -> {
-                holder.bind((getItem(position) as Event))
+                holder.bind((getItem(position) as Event),viewModel)
             }
         }
     }

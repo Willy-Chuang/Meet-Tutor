@@ -54,7 +54,7 @@ class CalendarFragment : Fragment() {
         binding.isLiveDataDesign = MeTuApplication.instance.isLiveDataDesign()
         binding.recyclerSchedule.layoutManager = LinearLayoutManager(context)
 
-        val adapter = CalendarBottomSheetAdapter()
+        val adapter = CalendarBottomSheetAdapter(viewModel)
         binding.recyclerSchedule.adapter = adapter
 
         // Add dots based on my events
