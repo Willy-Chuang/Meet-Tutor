@@ -20,13 +20,14 @@ import com.willy.metu.talentpool.TalentPoolViewModel
 import com.willy.metu.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
 
-class UserDetailFragment : Fragment(){
+class UserDetailFragment : Fragment() {
 
     private val viewModel by viewModels<UserDetailViewModel> {
         getVmFactory(
-            UserDetailFragmentArgs.fromBundle(requireArguments()).userEmail
+                UserDetailFragmentArgs.fromBundle(requireArguments()).userEmail
         )
     }
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -64,21 +65,23 @@ class UserDetailFragment : Fragment(){
             binding.textExperience.text = it.experience
             binding.imageUrl = it.image
 
-            if(it.followingEmail.component1() == ""){
+
+
+            if (it.followingEmail.component1() == "") {
                 binding.textFollowing.text = "0"
-            }else {
+            } else {
                 binding.textFollowing.text = it.followingEmail.size.toString()
             }
 
-            if(it.followedBy.component1() == ""){
+            if (it.followedBy.component1() == "") {
                 binding.textFollowBy.text = "0"
-            }else {
+            } else {
                 binding.textFollowBy.text = it.followedBy.size.toString()
             }
 
             binding.buttonMessage.setOnClickListener { view ->
                 viewModel.createChatRoom(viewModel.getChatRoom())
-                Handler().postDelayed({findNavController().navigate(NavigationDirections.navigateToChatRoom(it.email, it.name))},500)
+                Handler().postDelayed({ findNavController().navigate(NavigationDirections.navigateToChatRoom(it.email, it.name)) }, 500)
 
             }
 
@@ -87,12 +90,43 @@ class UserDetailFragment : Fragment(){
 
             }
 
+            viewModel.getMyArticle(it.email)
+
+            viewModel.myInfo.observe(viewLifecycleOwner, Observer { me ->
+
+                if (me.followingEmail.contains(it.email)) {
+                    binding.buttonUnfollow.visibility = View.VISIBLE
+                    binding.buttonFollow.visibility = View.GONE
+                    binding.buttonUnfollow.setOnClickListener { view ->
+                        binding.buttonUnfollow.visibility = View.GONE
+                        binding.buttonFollow.visibility = View.VISIBLE
+                        viewModel.removeUserFromFollow(UserManager.user.email, it)
+                        viewModel.getMyUserInfo(UserManager.user.email)
+                    }
+                } else {
+                    binding.buttonFollow.visibility = View.VISIBLE
+                    binding.buttonUnfollow.visibility = View.GONE
+                    binding.buttonFollow.setOnClickListener { view ->
+                        binding.buttonFollow.visibility = View.GONE
+                        binding.buttonUnfollow.visibility = View.VISIBLE
+                        viewModel.postUserToFollow(UserManager.user.email, it)
+                        viewModel.getMyUserInfo(UserManager.user.email)
+
+                    }
+
+                }
+
+            })
+
+
+            viewModel.myArticles.observe(viewLifecycleOwner, Observer {
+                binding.textPosts.text = it.size.toString()
+            })
+
+
         })
 
-
-
-
         return binding.root
-    }
 
+    }
 }

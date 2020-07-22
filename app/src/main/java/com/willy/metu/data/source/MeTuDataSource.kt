@@ -51,4 +51,8 @@ interface MeTuDataSource {
 
     suspend fun getOneArticle(): Result<List<Article>>
 
+    suspend fun getMyArticle(userEmail: String): Result<List<Article>>
+
+    suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean>
+
 }

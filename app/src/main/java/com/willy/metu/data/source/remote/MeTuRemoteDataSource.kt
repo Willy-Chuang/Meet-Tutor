@@ -264,18 +264,26 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnFailureListener { e ->
                     Logger.w("Error adding document $e")
                 }
-
-//        users.document(user.email).collection("followedBy").document(userEmail)
-//                .set(UserManager.user)
-//                .addOnSuccessListener { documentReference ->
-//                    Logger.d("DocumentSnapshot added with ID: ${users}")
-//                }
-//                .addOnFailureListener { e ->
-//                    Logger.w("Error adding document $e")
-//                }
         users.document(user.email).update("followedBy",FieldValue.arrayUnion(userEmail))
         users.document(userEmail).update("followingEmail",FieldValue.arrayUnion(user.email))
         users.document(userEmail).update("followingName",FieldValue.arrayUnion(user.name))
+    }
+
+    override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+        users.document(userEmail).collection("followList").document(user.email)
+                .delete()
+                .addOnSuccessListener { documentReference ->
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                }
+                .addOnFailureListener { e ->
+                    Logger.w("Error adding document $e")
+                }
+        users.document(user.email).update("followedBy",FieldValue.arrayRemove(userEmail))
+        users.document(userEmail).update("followingEmail",FieldValue.arrayRemove(user.email))
+        users.document(userEmail).update("followingName",FieldValue.arrayRemove(user.name))
     }
 
     override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine { continuation ->
@@ -678,6 +686,37 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
                 }
     }
+
+    override suspend fun getMyArticle(userEmail: String): Result<List<Article>> = suspendCoroutine { continuation ->
+
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+
+        articles
+                .whereEqualTo("creatorEmail",userEmail)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Article>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val article = document.toObject(Article::class.java)
+                            list.add(article)
+                        }
+
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+
+                }
+    }
+
 
 
 }

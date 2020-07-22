@@ -99,4 +99,12 @@ class DefaultMeTuRepository(
     override suspend fun getOneArticle(): Result<List<Article>> {
         return remoteDataSource.getOneArticle()
     }
+
+    override suspend fun getMyArticle(userEmail: String): Result<List<Article>> {
+        return remoteDataSource.getMyArticle(userEmail)
+    }
+
+    override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> {
+        return remoteDataSource.removeUserFromFollow(userEmail, user)
+    }
 }
