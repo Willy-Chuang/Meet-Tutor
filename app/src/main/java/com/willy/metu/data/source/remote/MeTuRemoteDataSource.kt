@@ -128,6 +128,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
         val document = events.document()
         event.id = document.id
+        event.createdTime = Calendar.getInstance().timeInMillis
 
         document
                 .set(event)
@@ -715,6 +716,33 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                 }
+    }
+
+
+    override fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>> {
+        val liveData = MutableLiveData<List<Event>>()
+        FirebaseFirestore.getInstance()
+                .collection(PATH_EVENTS)
+                .whereArrayContains("invitation", userEmail)
+                .addSnapshotListener { snapshot, exception ->
+                    Logger.i("add SnapshotListener detected")
+
+                    exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    }
+
+                    val list = mutableListOf<Event>()
+                    for (document in snapshot!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val event = document.toObject(Event::class.java)
+                        list.add(event)
+                    }
+                    liveData.value = list
+                }
+
+        return liveData
+
     }
 
 

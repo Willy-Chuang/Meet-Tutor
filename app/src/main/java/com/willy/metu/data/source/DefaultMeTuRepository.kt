@@ -107,4 +107,8 @@ class DefaultMeTuRepository(
     override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> {
         return remoteDataSource.removeUserFromFollow(userEmail, user)
     }
+
+    override fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>> {
+        return remoteDataSource.getLiveMyEventInvitation(userEmail)
+    }
 }

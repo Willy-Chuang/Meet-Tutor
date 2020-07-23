@@ -14,5 +14,6 @@ enum class CurrentFragmentType(val value : String) {
     CHATLIST("Direct"),
     CHAT(""),
     TALENTPOOL("Articles"),
-    POSTARTICLE("")
+    POSTARTICLE(""),
+    NOTIFY("Notification")
 }

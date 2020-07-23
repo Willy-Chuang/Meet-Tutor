@@ -128,6 +128,11 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="navigate_to_article">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_calendar_Fragment">
                     <value>
                       <LayoutPositions />
@@ -206,6 +211,18 @@
                   <entry key="navigate_to_user_detail">
                     <value>
                       <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="notifyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="24" />
+                            <option name="y" value="916" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
                     </value>
                   </entry>
                   <entry key="pairingResultFragment">

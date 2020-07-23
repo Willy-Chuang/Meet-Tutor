@@ -228,5 +228,15 @@
         android:id="@+id/navigate_to_article"
         app:destination="@id/articleFragment"/>
 
+    <fragment
+        android:id="@+id/notifyFragment"
+        android:name="com.willy.metu.notify.NotifyFragment"
+        android:label="NotifyFragment"
+        tools:layout="@layout/fragment_notify"/>
+
+    <action
+        android:id="@+id/navigate_to_notify"
+        app:destination="@id/notifyFragment"/>
+
 
 </navigation>

@@ -57,6 +57,11 @@ class MainActivity : BaseActivity() {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTalentPool())
                 return@OnNavigationItemSelectedListener true
             }
+
+            R.id.navigation_notification -> {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToNotify())
+                return@OnNavigationItemSelectedListener true
+            }
         }
         false
     }
@@ -117,6 +122,22 @@ class MainActivity : BaseActivity() {
                 viewModel.onHomeNavigated()
             }
         })
+
+        viewModel.navigateToNotificationByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_notification
+                viewModel.onNotifyNavigated()
+            }
+        })
+
+        viewModel.navigateToTalentPoolByBottomNav.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_talent_pool
+                viewModel.onTalentPoolNavigated()
+            }
+        })
+
+
 
         viewModel.navigateToChatListByBottomNav.observe(this, Observer {
             it?.let {
@@ -247,6 +268,7 @@ class MainActivity : BaseActivity() {
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
                 R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
                 R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
+                R.id.notifyFragment -> CurrentFragmentType.NOTIFY
                 else -> viewModel.currentFragmentType.value
             }
         }

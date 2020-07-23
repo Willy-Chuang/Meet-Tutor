@@ -107,4 +107,8 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

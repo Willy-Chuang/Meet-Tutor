@@ -55,4 +55,6 @@ interface MeTuDataSource {
 
     suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean>
 
+    fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>>
+
 }

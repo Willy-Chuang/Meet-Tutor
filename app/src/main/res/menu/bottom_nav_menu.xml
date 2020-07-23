@@ -22,4 +22,8 @@
         android:icon="@drawable/ic_nav_chat_selector"
         android:title="Message"/>
 
+    <item android:id="@+id/navigation_notification"
+        android:icon="@drawable/ic_nav_notification_selector"
+        android:title="Notification"/>
+
 </menu>
