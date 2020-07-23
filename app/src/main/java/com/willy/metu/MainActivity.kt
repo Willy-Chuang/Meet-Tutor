@@ -159,12 +159,29 @@ class MainActivity : BaseActivity() {
             }
 
         })
+
+        viewModel.currentFragmentType.observe(this, Observer {type ->
+            type?.let {
+                when(it) {
+                    CurrentFragmentType.TALENTPOOL -> menu.findItem(R.id.talent_pool).isVisible = true
+                    else -> menu.findItem(R.id.talent_pool).isVisible = false
+                }
+            }
+        })
         return viewModel.currentFragmentType.value != CurrentFragmentType.CALENDAR
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-            findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+        val id = item.itemId
+
+        when (id) {
+            R.id.talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
+            R.id.calendarFragment -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+        }
+
+//            findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+
 
         return super.onOptionsItemSelected(item)
     }
@@ -229,6 +246,7 @@ class MainActivity : BaseActivity() {
                 R.id.chatListFragment -> CurrentFragmentType.CHATLIST
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
                 R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
+                R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
                 else -> viewModel.currentFragmentType.value
             }
         }

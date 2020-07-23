@@ -31,9 +31,6 @@ class TalentPoolFragment : Fragment() {
         binding.recyclerArticle.layoutManager = LinearLayoutManager(context)
         binding.viewModel = viewModel
 
-        binding.buttonAddArticle.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToPostArticleDialog())
-        }
 
         val allType = binding.chipAll
         val studyGroup = binding.chipStudy
