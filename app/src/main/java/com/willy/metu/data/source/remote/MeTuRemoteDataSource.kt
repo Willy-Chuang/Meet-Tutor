@@ -745,6 +745,90 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     }
 
+    override suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
+        val document = events.document(event.id)
+
+        document
+                .update("invitation",FieldValue.arrayRemove(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+
+        document
+                .update("attendees",FieldValue.arrayUnion(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+
+        document
+                .update("attendeesName",FieldValue.arrayUnion(userName))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
+    override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
+        val document = events.document(event.id)
+
+        document
+                .update("invitation", FieldValue.arrayRemove(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
 
 
 }

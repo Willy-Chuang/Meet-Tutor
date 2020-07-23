@@ -238,5 +238,19 @@
         android:id="@+id/navigate_to_notify"
         app:destination="@id/notifyFragment"/>
 
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.willy.metu.eventdetail.EventDetailFragment"
+        android:label="EventDetailFragment"
+        tools:layout="@layout/fragment_event_detail">
+        <argument
+            android:name="event"
+            app:argType="com.willy.metu.data.Event"/>
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_event_detail"
+        app:destination="@id/eventDetailFragment"/>
+
 
 </navigation>

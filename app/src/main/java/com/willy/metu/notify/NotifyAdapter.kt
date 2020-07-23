@@ -3,19 +3,30 @@ package com.willy.metu.notify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.willy.metu.NavigationDirections
 import com.willy.metu.calendar.CalendarBottomSheetAdapter
 import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.data.Event
 import com.willy.metu.databinding.ItemNotifyEventBinding
+import com.willy.metu.login.UserManager
 
-class NotifyAdapter() : ListAdapter<Event, RecyclerView.ViewHolder>(CalendarBottomSheetAdapter) {
+class NotifyAdapter( val viewModel: NotifyViewModel) : ListAdapter<Event, RecyclerView.ViewHolder>(CalendarBottomSheetAdapter) {
 
     class EventViewHolder(private var binding: ItemNotifyEventBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(event: Event) {
+        fun bind(event: Event, viewModel: NotifyViewModel) {
             binding.event = event
+
+            binding.layoutInfo.setOnClickListener {
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToEventDetail(event)).onClick(binding.layoutInfo)
+            }
+
+            binding.buttonDecline.setOnClickListener {
+                viewModel.declineEvent(event, UserManager.user.email)
+            }
 
             binding.executePendingBindings()
         }
@@ -43,7 +54,7 @@ class NotifyAdapter() : ListAdapter<Event, RecyclerView.ViewHolder>(CalendarBott
 
         when(holder) {
             is EventViewHolder -> {
-                holder.bind((getItem(position) as Event))
+                holder.bind((getItem(position) as Event),viewModel)
             }
         }
     }

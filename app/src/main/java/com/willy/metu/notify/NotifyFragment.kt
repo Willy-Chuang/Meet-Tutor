@@ -25,7 +25,7 @@ class NotifyFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val adapter = NotifyAdapter()
+        val adapter = NotifyAdapter(viewModel)
 
         binding.recyclerNotify.adapter = adapter
         binding.recyclerNotify.layoutManager = LinearLayoutManager(context)

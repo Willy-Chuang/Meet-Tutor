@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Current Vacant"
+            android:visibility="gone"
             android:layout_marginTop="16dp"
             android:textSize="24sp"
             android:textColor="@color/black_12_alpha"

@@ -111,4 +111,12 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

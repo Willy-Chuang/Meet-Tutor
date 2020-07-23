@@ -68,6 +68,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="eventDetailFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="273" />
+                            <option name="y" value="918" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="followListFragment">
                     <value>
                       <LayoutPositions>
@@ -159,6 +171,11 @@
                     </value>
                   </entry>
                   <entry key="navigate_to_home_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_notify">
                     <value>
                       <LayoutPositions />
                     </value>
