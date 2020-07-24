@@ -1,8 +1,10 @@
 package com.willy.metu.notify
 
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.bold
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -19,6 +21,13 @@ class NotifyAdapter( val viewModel: NotifyViewModel) : ListAdapter<Event, Recycl
     class EventViewHolder(private var binding: ItemNotifyEventBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(event: Event, viewModel: NotifyViewModel) {
             binding.event = event
+
+            val string = SpannableStringBuilder()
+                    .bold { append(event.creatorName) }
+                    .append(" has sent an invitation of event: ")
+                    .bold { append(event.title) }
+
+            binding.textCreatorName.text = string
 
             binding.layoutInfo.setOnClickListener {
                 Navigation.createNavigateOnClickListener(NavigationDirections.navigateToEventDetail(event)).onClick(binding.layoutInfo)

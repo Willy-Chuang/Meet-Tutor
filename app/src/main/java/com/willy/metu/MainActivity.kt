@@ -18,9 +18,12 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.willy.metu.databinding.ActivityMainBinding
+import com.willy.metu.databinding.BadgeBottomBinding
 import com.willy.metu.databinding.NavHeaderDrawerBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -276,6 +279,12 @@ class MainActivity : BaseActivity() {
 
     private fun setupBottomNav(){
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
+        val itemView = menuView.getChildAt(4) as BottomNavigationItemView
+        val bindingBadge = BadgeBottomBinding.inflate(LayoutInflater.from(this), itemView, true)
+        bindingBadge.lifecycleOwner = this
+        bindingBadge.viewModel = viewModel
     }
 
     private fun setupDrawer() {
