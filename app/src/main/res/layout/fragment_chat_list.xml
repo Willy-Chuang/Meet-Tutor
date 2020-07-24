@@ -28,9 +28,11 @@
             android:id="@+id/recycler_chat_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginHorizontal="24dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_message"
-            app:layout_constraintStart_toStartOf="parent"/>
+            tools:listitem="@layout/item_chat_list" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
