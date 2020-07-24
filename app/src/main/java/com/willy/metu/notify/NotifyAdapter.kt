@@ -37,6 +37,10 @@ class NotifyAdapter( val viewModel: NotifyViewModel) : ListAdapter<Event, Recycl
                 viewModel.declineEvent(event, UserManager.user.email)
             }
 
+            binding.buttonAccept.setOnClickListener {
+                viewModel.acceptEvent(event, UserManager.user.email, UserManager.user.name)
+            }
+
             binding.executePendingBindings()
         }
     }

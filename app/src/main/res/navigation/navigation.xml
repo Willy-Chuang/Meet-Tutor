@@ -236,7 +236,9 @@
 
     <action
         android:id="@+id/navigate_to_notify"
-        app:destination="@id/notifyFragment"/>
+        app:destination="@id/notifyFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
 
     <fragment
         android:id="@+id/eventDetailFragment"
