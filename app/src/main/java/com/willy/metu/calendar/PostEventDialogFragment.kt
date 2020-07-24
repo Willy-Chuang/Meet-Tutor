@@ -150,7 +150,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     ) {
                         if (parent != null && pos != 0) {
 //                        viewModel.invitation.value = parent.selectedItem.toString()
-                            viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos).toString()
+                            viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos -1).toString()
                             Toast.makeText(
                                     MeTuApplication.appContext,
                                     viewModel.userInfo.value?.followingEmail?.get(pos - 1).toString(),
@@ -220,6 +220,10 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                 findNavController().navigateUp()
                 viewModel.onLeft()
             }
+        })
+
+        viewModel.userInfo.observe(viewLifecycleOwner, Observer {
+            Logger.i("userInfo = "+ it.toString())
         })
 
 

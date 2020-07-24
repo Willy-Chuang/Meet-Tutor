@@ -723,6 +723,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val liveData = MutableLiveData<List<Event>>()
         FirebaseFirestore.getInstance()
                 .collection(PATH_EVENTS)
+                .orderBy("createdTime", Query.Direction.DESCENDING)
                 .whereArrayContains("invitation", userEmail)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")

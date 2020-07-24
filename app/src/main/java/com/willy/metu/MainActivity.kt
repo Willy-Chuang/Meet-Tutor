@@ -272,6 +272,7 @@ class MainActivity : BaseActivity() {
                 R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
                 R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
                 R.id.notifyFragment -> CurrentFragmentType.NOTIFY
+                R.id.eventDetailFragment -> CurrentFragmentType.EVENTDETAIL
                 else -> viewModel.currentFragmentType.value
             }
         }
