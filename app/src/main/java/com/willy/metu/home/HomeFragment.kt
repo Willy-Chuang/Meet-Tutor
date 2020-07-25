@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.databinding.FragmentHomeBinding
 import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.ext.sortArticleBySubject
 import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.talentpool.TalentPoolAdapter
 
@@ -51,8 +52,12 @@ class HomeFragment : Fragment() {
             newUserAdapter.submitList(it)
         })
 
-        viewModel.oneArticle.observe(viewLifecycleOwner, Observer {
-            articleAdapter.submitList(it)
+        viewModel.oneArticle.observe(viewLifecycleOwner, Observer {article ->
+
+            viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
+                articleAdapter.submitList(article.sortArticleBySubject(it))
+            })
+
         })
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
