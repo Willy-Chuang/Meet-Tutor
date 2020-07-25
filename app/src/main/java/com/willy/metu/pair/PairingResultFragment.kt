@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentPairingResultBinding
+import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByTraits
 import com.willy.metu.login.UserManager
@@ -67,7 +68,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
 
         viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
             Logger.w(it.toString())
-            adapter.submitList(it)
+            adapter.submitList(it.excludeUser())
         })
 
         viewModel.swiped.observe(viewLifecycleOwner, Observer {

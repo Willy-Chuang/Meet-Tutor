@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.databinding.FragmentHomeBinding
+import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.talentpool.TalentPoolAdapter
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
         viewModel.allUsers.observe(viewLifecycleOwner, Observer {users ->
 
             viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
-                recommendAdapter.submitList(users.sortUserBySubject(it))
+                recommendAdapter.submitList(users.excludeUser().sortUserBySubject(it))
             })
 
         })

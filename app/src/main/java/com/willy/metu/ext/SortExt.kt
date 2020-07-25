@@ -34,6 +34,15 @@ fun List<User>?.sortByTraits(answers:Answers) : List<User> {
             ?: listOf()
 }
 
+fun List<User>?.excludeUser() : List<User> {
+    return this?.filter {
+        it?.let {
+            it.email != UserManager.user.email
+        }
+    }
+            ?: listOf()
+}
+
 fun List<User>?.sortToOnlyStudents(): List<User>{
     return this?.filter {
         it?.let{
