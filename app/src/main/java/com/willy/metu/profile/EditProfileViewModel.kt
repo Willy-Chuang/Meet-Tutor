@@ -119,7 +119,8 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
                 selectedCity.value == null ||
                 selectedGender.value == null ||
                 selectedIdentity.value == null ||
-                selectedTags.value == null)
+                selectedTags.value == null ||
+                experience.value == null)
     }
 
     fun leave(needRefresh: Boolean = false) {

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.ItemFollowedArticlesBinding
 import com.willy.metu.ext.getVmFactory
 
@@ -29,7 +31,16 @@ class ItemFollowedArticlesFragment : Fragment() {
 
 
         viewModel.savedArticles.observe( viewLifecycleOwner, Observer {
-            adapter.submitList(it)
+            if(it.isEmpty()) {
+                binding.layoutNoValue.visibility = View.VISIBLE
+                binding.buttonGoArticles.setOnClickListener {
+                    findNavController().navigate(NavigationDirections.navigateToTalentPool())
+                }
+            } else{
+                binding.layoutNoValue.visibility = View.GONE
+                adapter.submitList(it)
+            }
+
         })
 
 
