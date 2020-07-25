@@ -22,11 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         
-        <View
+        <ImageView
             android:id="@+id/view_color_bg"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:background="@drawable/color_primary_gradient"
+            android:scaleType="centerCrop"
+            android:background="@drawable/image_profile"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

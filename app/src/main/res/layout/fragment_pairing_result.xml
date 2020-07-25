@@ -12,6 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/bg_red"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/pinkish"
+            android:alpha="0"/>
+
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/stack_view"
             android:layout_width="match_parent"
@@ -21,7 +28,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_profile_card"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

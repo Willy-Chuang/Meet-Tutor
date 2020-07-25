@@ -74,6 +74,10 @@ class PairingResultFragment : Fragment(), CardStackListener{
             Logger.v(it.toString() + "changed")
         })
 
+        viewModel.redBg.observe(viewLifecycleOwner, Observer {
+            binding.bgRed.alpha = it
+        })
+
         return binding.root
     }
 
@@ -82,6 +86,12 @@ class PairingResultFragment : Fragment(), CardStackListener{
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
+
+        Logger.w("ratio = $ratio")
+
+        if(direction == Direction.Right) {
+            viewModel.redBg.value = ratio
+        }
 
 
     }
@@ -92,6 +102,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
 
         Logger.i(count.toString())
         Logger.i(maxAmount.toString())
+        viewModel.redBg.value = 0f
 
         if(direction == Direction.Left) {
 
@@ -112,6 +123,8 @@ class PairingResultFragment : Fragment(), CardStackListener{
     }
 
     override fun onCardCanceled() {
+
+        viewModel.redBg.value = 0f
 
     }
 

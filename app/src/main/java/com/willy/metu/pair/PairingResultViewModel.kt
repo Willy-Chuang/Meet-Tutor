@@ -26,6 +26,8 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
     val allUsers : LiveData<List<User>>
         get() = _allUsers
 
+    var redBg = MutableLiveData<Float>()
+
     // list of users after filtering
     val usersWithMatch = MutableLiveData<List<User>>()
 
