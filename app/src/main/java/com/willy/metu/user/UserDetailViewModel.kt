@@ -85,7 +85,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         }
 
         var attendeeTwo = UserInfo().apply {
-            userEmail = userInfo.value!!.email
+            userEmail = selectedUserEmail
             userImage = userInfo.value!!.image
             userName = userInfo.value!!.name
         }

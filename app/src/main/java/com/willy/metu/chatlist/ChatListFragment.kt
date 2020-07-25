@@ -48,7 +48,7 @@ class ChatListFragment : Fragment() {
 
             }
         })
-        
+
 
         viewModel.filteredChatRooms.observe(viewLifecycleOwner, Observer {
             Logger.w("viewModel.filteredChatRooms.observe, it=$it")

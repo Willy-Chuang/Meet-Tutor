@@ -31,6 +31,11 @@ class NotifyFragment : Fragment() {
         binding.recyclerNotify.layoutManager = LinearLayoutManager(context)
 
         viewModel.allLiveEventInvitations.observe(viewLifecycleOwner, Observer {
+            if(it.size == 0) {
+                binding.emptyValue.visibility = View.VISIBLE
+            } else {
+                binding.emptyValue.visibility = View.GONE
+            }
             adapter.submitList(it)
         })
 

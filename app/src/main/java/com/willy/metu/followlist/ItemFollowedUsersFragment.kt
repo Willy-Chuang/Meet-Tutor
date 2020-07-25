@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.willy.metu.R
 import com.willy.metu.databinding.ItemFollowedUsersBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortToOnlyStudents
@@ -38,10 +40,12 @@ class ItemFollowedUsersFragment : Fragment() {
         })
 
         viewModel.followedStudents.observe(viewLifecycleOwner, Observer {
+            binding.recyclerStudent.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
             studentAdapter.submitList(it)
         })
 
         viewModel.followedTutors.observe(viewLifecycleOwner, Observer {
+            binding.recyclerTutor.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
             tutorAdapter.submitList(it)
         })
 

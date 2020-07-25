@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="CustomChipChoice">@style/CustomChipChoiceStyle</item>
     </style>
 
     <style name="AppTheme.AppNoActionBar" >
@@ -24,6 +25,23 @@
     <style name="calendarDateText">
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="CustomChipChoiceStyle" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="checkedIconVisible">false</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">false</item>
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipIconVisible">true</item>
+        <item name="textStartPadding">0dp</item>
+        <item name="textEndPadding">0dp</item>
+        <item name="android:textAppearance">@style/ChipTextStyleAppearance</item>
+    </style>
+
+    <style name="ChipTextStyleAppearance">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>

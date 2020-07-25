@@ -320,7 +320,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         chatRoom.chatRoomId = document.id
         chatRoom.latestTime = Calendar.getInstance().timeInMillis
 
-        chat.whereIn("attendees", listOf(chatRoom.attendees))
+        chat.whereIn("attendees", listOf(chatRoom.attendees, chatRoom.attendees.reversed()))
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.isEmpty) {

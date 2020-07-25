@@ -88,14 +88,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/button_send_text"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/button_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/edit_message"/>
+            app:layout_constraintEnd_toEndOf="@id/edit_message">
+
+            <View
+                android:id="@+id/button_circle"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_round"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_send_message"
+                android:alpha="0.6"
+                app:layout_constraintTop_toTopOf="@id/button_circle"
+                app:layout_constraintStart_toStartOf="@id/button_circle"
+                app:layout_constraintBottom_toBottomOf="@id/button_circle"
+                app:layout_constraintEnd_toEndOf="@id/button_circle" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

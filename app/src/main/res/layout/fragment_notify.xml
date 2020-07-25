@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.willy.metu.notify.NotifyViewModel" />
@@ -27,14 +28,16 @@
             tools:listitem="@layout/item_notify_event"/>
 
         <TextView
+            android:id="@+id/empty_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Vacant"
+            android:text="No notification!"
             android:visibility="gone"
             android:layout_marginTop="16dp"
             android:textSize="24sp"
             android:textColor="@color/black_12_alpha"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
