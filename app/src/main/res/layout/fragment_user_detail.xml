@@ -43,23 +43,13 @@
             app:srcCompat="@drawable/ic_detail_close"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
-
-        <ImageView
-            android:id="@+id/button_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="46dp"
-            app:srcCompat="@drawable/ic_message"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
         
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_avatar"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_marginTop="110dp"
-            app:civ_border_color="@color/white"
+            app:civ_border_color="@color/light_yellow"
             app:civ_border_width="4dp"
             imageUrl="@{imageUrl}"
             app:layout_constraintTop_toTopOf="parent"
@@ -306,8 +296,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
             android:textColor="@color/black_87_alpha"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:text="Introduction"
             app:layout_constraintTop_toBottomOf="@id/layout_button"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -315,6 +306,7 @@
             android:id="@+id/text_introduction"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@{viewModel.userInfo.introduction}"
             android:textColor="@color/black_54_alpha"
             android:fontFamily="@font/roboto"
@@ -332,7 +324,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/black_87_alpha"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:text="Experience"
             app:layout_constraintTop_toBottomOf="@id/text_introduction"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -340,6 +332,7 @@
             android:id="@+id/text_experience"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@{viewModel.userInfo.experience}"
             android:textColor="@color/black_54_alpha"
             android:fontFamily="@font/roboto"
@@ -352,48 +345,79 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="My name is Randy Patterson, and I’m currently looking for a job in youth services. I have 10 years of experience working with youth agencies. I have a bachelor’s degree in outdoor education. I raise money, train leaders, and organize units. I have raised over $100,000 each of the last six years. I consider myself a good public speaker, and I have a good sense of humor. “Who do you know who works with youth?"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_follow"
             app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/button_follow"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:text="Follow"
-                android:background="@drawable/bg_colored_round_corner"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="2" >
 
-            <Button
-                android:id="@+id/button_unfollow"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:text="UnFollow"
-                android:background="@drawable/bg_colored_round_corner"
-                android:visibility="gone"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <Button
+                    android:id="@+id/button_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Follow"
+                    android:background="@drawable/bg_colored_round_corner"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
+                <Button
+                    android:id="@+id/button_unfollow"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Unfollow"
+                    android:background="@drawable/bg_colored_stroke_round_corner"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="2" >
 
+                <Button
+                    android:id="@+id/button_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Message"
+                    android:background="@drawable/bg_colored_round_corner"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
