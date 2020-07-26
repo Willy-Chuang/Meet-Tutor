@@ -137,7 +137,7 @@ class CalendarFragment : Fragment() {
                         val topMargin = Utils.convertDpToPixelSize(16f, requireContext());
                         binding.persistentBottomSheet.layoutParams.height = totalHeight - shadowWeekHeight - topMargin
                         binding.persistentBottomSheet.requestLayout()
-                        
+
                         binding.persistentBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
                 })
