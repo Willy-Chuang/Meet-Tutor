@@ -30,14 +30,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/ic_cute_avatar"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_latest_info"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/image_chat_avatar"
             app:layout_constraintTop_toTopOf="@id/image_chat_avatar"
             app:layout_constraintBottom_toBottomOf="@id/image_chat_avatar">
+
 
             <TextView
                 android:id="@+id/text_chat_name"
@@ -50,42 +51,52 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Willy Chuang"/>
 
-            <TextView
-                android:id="@+id/text_lasted_message"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_latest_info"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@{chatRoom.latestMessage.toString()}"
-                app:layout_constraintTop_toBottomOf="@id/text_chat_name"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@id/text_chat_name"
-                tools:text="Hello! Nice to meet you"/>
+                app:layout_constraintTop_toBottomOf="@id/text_chat_name">
 
+
+                <TextView
+                    android:id="@+id/text_lasted_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{chatRoom.latestMessage.toString()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Hello! Nice to meet you"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_cccccc"
+                    android:text="Start a new conversation"
+                    android:visibility="@{chatRoom.latestMessage.length() == 0 ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toTopOf="@id/text_lasted_message"
+                    app:layout_constraintStart_toStartOf="@id/text_lasted_message"
+                    tools:text="Start a new conversation"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/text_lasted_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_cccccc"
-                android:text="Start a new conversation"
-                android:visibility="@{chatRoom.latestMessage.length() == 0 ? View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@id/text_chat_name"
-                app:layout_constraintStart_toStartOf="@id/text_chat_name"
-                tools:text="Start a new conversation"/>
-
-
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                ago="@{chatRoom.latestTime}"
+                app:layout_constraintStart_toEndOf="@id/layout_latest_info"
+                app:layout_constraintTop_toTopOf="@id/layout_latest_info"
+                app:layout_constraintBottom_toBottomOf="@id/layout_latest_info"
+                tools:text="3 minutes ago"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/text_lasted_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="2dp"
-            android:textSize="8sp"
-            fullTime="@{chatRoom.latestTime}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/layout_latest_info"
-            tools:text="7.14 18:00"/>
+
 
 
 

@@ -19,17 +19,33 @@
             android:background="@color/pinkish"
             android:alpha="0"/>
 
-        <com.yuyakaido.android.cardstackview.CardStackView
-            android:id="@+id/stack_view"
+        <View
+            android:id="@+id/bg_blue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:alpha="0"/>
+
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/stack_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_profile_card"/>
+
+        <Button
+            android:id="@+id/button_yes"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/button_round"
+            app:layout_constraintStart_toStartOf="@id/stack_view"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 

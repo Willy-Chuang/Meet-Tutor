@@ -21,7 +21,7 @@ import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import com.yuyakaido.android.cardstackview.*
 
-class PairingResultFragment : Fragment(), CardStackListener{
+class PairingResultFragment : Fragment(), CardStackListener {
 
     private val viewModel by viewModels<PairingResultViewModel> {
         getVmFactory(
@@ -39,8 +39,8 @@ class PairingResultFragment : Fragment(), CardStackListener{
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentPairingResultBinding.inflate(inflater,container,false)
-        val stackView= binding.stackView
+        val binding = FragmentPairingResultBinding.inflate(inflater, container, false)
+        val stackView = binding.stackView
         adapter = PairingResultAdapter(viewModel)
         layoutManager = CardStackLayoutManager(requireContext(), this).apply {
             setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
@@ -57,15 +57,17 @@ class PairingResultFragment : Fragment(), CardStackListener{
             }
         }
 
-        Logger.w(viewModel.previousAnswers.toString())
 
+        // Observers
 
+        // Sort all users by selected traits
         viewModel.allUsers.observe(viewLifecycleOwner, Observer {
 
             viewModel.usersWithMatch.value = it.sortByTraits(viewModel.previousAnswers)
 
         })
 
+        // Exclude User before submit list
         viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
             Logger.w(it.toString())
             adapter.submitList(it.excludeUser())
@@ -79,6 +81,11 @@ class PairingResultFragment : Fragment(), CardStackListener{
             binding.bgRed.alpha = it
         })
 
+        viewModel.blueBg.observe(viewLifecycleOwner, Observer {
+            binding.bgBlue.alpha = it
+        })
+
+
         return binding.root
     }
 
@@ -90,11 +97,14 @@ class PairingResultFragment : Fragment(), CardStackListener{
 
         Logger.w("ratio = $ratio")
 
-        if(direction == Direction.Right) {
-            viewModel.redBg.value = ratio
+        when (direction) {
+            Direction.Right -> viewModel.redBg.value = ratio
+            Direction.Left -> viewModel.blueBg.value = ratio
+            else -> {
+                viewModel.blueBg.value = 0f
+                viewModel.redBg.value = 0f
+            }
         }
-
-
     }
 
     override fun onCardSwiped(direction: Direction?) {
@@ -104,19 +114,20 @@ class PairingResultFragment : Fragment(), CardStackListener{
         Logger.i(count.toString())
         Logger.i(maxAmount.toString())
         viewModel.redBg.value = 0f
+        viewModel.blueBg.value = 0f
 
-        if(direction == Direction.Left) {
+        if (direction == Direction.Left) {
 
             viewModel.swiped.value = true
             viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
 
-            Toast.makeText(MeTuApplication.appContext,"Add To Wishlist",Toast.LENGTH_SHORT).show()
+            Toast.makeText(MeTuApplication.appContext, "Add To Wishlist", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(MeTuApplication.appContext,"Bye",Toast.LENGTH_SHORT).show()
+            Toast.makeText(MeTuApplication.appContext, "Bye", Toast.LENGTH_SHORT).show()
         }
 
         count++
-        if(count == maxAmount) {
+        if (count == maxAmount) {
             findNavController().navigate(NavigationDirections.navigateToFollowListFragment())
         }
 
@@ -126,6 +137,7 @@ class PairingResultFragment : Fragment(), CardStackListener{
     override fun onCardCanceled() {
 
         viewModel.redBg.value = 0f
+        viewModel.blueBg.value = 0f
 
     }
 

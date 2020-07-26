@@ -23,10 +23,12 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
     // get all users from Firebase
     private var _allUsers = MutableLiveData<List<User>>()
 
-    val allUsers : LiveData<List<User>>
+    val allUsers: LiveData<List<User>>
         get() = _allUsers
 
     var redBg = MutableLiveData<Float>()
+
+    var blueBg = MutableLiveData<Float>()
 
     // list of users after filtering
     val usersWithMatch = MutableLiveData<List<User>>()
@@ -110,7 +112,7 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.postUserToFollow(userEmail,user)) {
+            when (val result = repository.postUserToFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

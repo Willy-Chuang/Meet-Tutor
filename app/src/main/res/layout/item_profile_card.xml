@@ -16,8 +16,10 @@
         android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="320dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="150dp"
         android:elevation="4dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"

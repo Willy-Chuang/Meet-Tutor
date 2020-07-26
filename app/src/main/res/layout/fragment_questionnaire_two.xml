@@ -106,6 +106,7 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/image_pairing_location"
+            app:layout_constraintTop_toBottomOf="@id/spinner_district"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

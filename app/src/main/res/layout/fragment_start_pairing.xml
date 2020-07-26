@@ -28,9 +28,10 @@
             android:id="@+id/image_cute_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="48dp"
             app:srcCompat="@drawable/image_pairing_start"
             app:layout_constraintTop_toBottomOf="@id/title_start_pairing"
+            app:layout_constraintBottom_toTopOf="@id/text_start_pairing"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -41,6 +42,7 @@
             android:layout_marginTop="16dp"
             android:text="We will assign our best assistant to help"
             app:layout_constraintTop_toBottomOf="@id/image_cute_avatar"
+            app:layout_constraintBottom_toTopOf="@id/button_start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
