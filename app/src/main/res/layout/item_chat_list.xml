@@ -88,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
+                android:textColor="@color/gray_cccccc"
                 ago="@{chatRoom.latestTime}"
                 app:layout_constraintStart_toEndOf="@id/layout_latest_info"
                 app:layout_constraintTop_toTopOf="@id/layout_latest_info"

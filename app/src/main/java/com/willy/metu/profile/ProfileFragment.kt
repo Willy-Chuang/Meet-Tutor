@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.willy.metu.MainViewModel
-import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentProfileBinding
@@ -51,11 +50,10 @@ class ProfileFragment : Fragment() {
 
         // When Edit button is pressed, navigate to edit mode
         mainViewModel.editIsPressed.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
+            if (it) {
                 findNavController().navigate(NavigationDirections.navigateToEditProfileFragment())
                 mainViewModel.editIsPressed.value = false
             }
-
         })
 
         viewModel.personalInfo.observe(viewLifecycleOwner, Observer {
@@ -69,7 +67,7 @@ class ProfileFragment : Fragment() {
             if (genres != null) {
                 for (genre in genres) {
 //                    val chip = Chip(chipGroup.getContext())
-                    val chip = Chip(context, null , R.attr.CustomChipChoice)
+                    val chip = Chip(context, null, R.attr.CustomChipChoice)
                     chip.text = genre
                     chipGroup.addView(chip)
                 }

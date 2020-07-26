@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <item android:id="@+id/talent_pool"
+    <item
+        android:id="@+id/talent_pool"
         android:icon="@drawable/ic_create_black_24"
-        app:showAsAction="ifRoom"
-        android:title=""/>
+        android:title=""
+        app:showAsAction="ifRoom" />
 
-    <item android:id ="@+id/calendarFragment"
+    <item
+        android:id="@+id/calendarFragment"
         android:icon="@drawable/ic_calendar_black_24"
-        app:showAsAction="ifRoom"
-        android:title="" />
+        android:title=""
+        app:showAsAction="ifRoom" />
 
-
+    <item
+        android:id="@+id/profile_mode"
+        android:title="EDIT"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:visible="true" />
 </menu>

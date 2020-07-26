@@ -2,19 +2,15 @@ package com.willy.metu
 
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -30,7 +26,7 @@ import com.willy.metu.login.UserManager
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
 import com.willy.metu.util.Logger
-import kotlinx.coroutines.launch
+import java.util.*
 
 
 class MainActivity : BaseActivity() {
@@ -42,8 +38,8 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     //Setup bottom navigation destination
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
-        when (item.itemId){
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
             R.id.navigation_home -> {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
                 return@OnNavigationItemSelectedListener true
@@ -71,7 +67,7 @@ class MainActivity : BaseActivity() {
 
     //Setup drawer navigation destination
     private val onDrawerItemSelectedListener = NavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId){
+        when (item.itemId) {
             R.id.profileFragment -> {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfile())
                 return@OnNavigationItemSelectedListener true
@@ -103,14 +99,6 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
-
-        binding.buttonToolbarEdit.setOnClickListener {
-            viewModel.editIsPressed.value = true
-        }
-        binding.buttonToolbarSave.setOnClickListener {
-            viewModel.saveIsPressed.value = true
-        }
-
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
@@ -158,7 +146,6 @@ class MainActivity : BaseActivity() {
 
         viewModel.setupUser(UserManager.user)
 
-        setupToolbar()
         setupDrawer()
         setupBottomNav()
         setupNavController()
@@ -171,83 +158,50 @@ class MainActivity : BaseActivity() {
         inflater.inflate(R.menu.toolbar_menu, menu)
 
         // If the current fragment is -- ,calendar button won't inflate
-        viewModel.currentFragmentType.observe(this, Observer{ type ->
+        viewModel.currentFragmentType.observe(this, Observer { type ->
             type?.let {
-
-                when (it) {
-                    CurrentFragmentType.CALENDAR -> menu.findItem(R.id.calendarFragment).isVisible = false
-                    CurrentFragmentType.PROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
-                    CurrentFragmentType.EDITPROFILE -> menu.findItem(R.id.calendarFragment).isVisible = false
-                    else ->  menu.findItem(R.id.calendarFragment).isVisible = true
+                menu.findItem(R.id.talent_pool).isVisible = when (it) {
+                    CurrentFragmentType.TALENTPOOL -> true
+                    else -> false
                 }
+                menu.findItem(R.id.calendarFragment).isVisible = when (it) {
+                    CurrentFragmentType.CALENDAR,
+                    CurrentFragmentType.PROFILE,
+                    CurrentFragmentType.EDITPROFILE -> false
+                    else -> true
+                }
+                val profileModeMenu = menu.findItem(R.id.profile_mode)
+                profileModeMenu.isVisible = when (it) {
+                    CurrentFragmentType.PROFILE -> {
+                        profileModeMenu.title = "EDIT"
+                        true
+                    }
+                    CurrentFragmentType.EDITPROFILE -> {
+                        profileModeMenu.title = "SAVE"
+                        true
+                    }
+                    else -> false
+                }
+                viewModel.saveIsPressed.value = profileModeMenu.isVisible
             }
-
         })
 
-        viewModel.currentFragmentType.observe(this, Observer {type ->
-            type?.let {
-                when(it) {
-                    CurrentFragmentType.TALENTPOOL -> menu.findItem(R.id.talent_pool).isVisible = true
-                    else -> menu.findItem(R.id.talent_pool).isVisible = false
-                }
-            }
-        })
         return viewModel.currentFragmentType.value != CurrentFragmentType.CALENDAR
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id = item.itemId
-
-        when (id) {
+        when (item.itemId) {
             R.id.talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
             R.id.calendarFragment -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
-        }
-
-//            findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
-
-
-        return super.onOptionsItemSelected(item)
-    }
-
-
-    /**
-     * Set up the layout of [Toolbar], according to whether it has cutout
-     */
-    private fun setupToolbar() {
-
-        binding.toolbar.setPadding(0, statusBarHeight, 0, 0)
-
-        launch {
-
-            val dpi = resources.displayMetrics.densityDpi.toFloat()
-            val dpiMultiple = dpi / DisplayMetrics.DENSITY_DEFAULT
-
-            val cutoutHeight = getCutoutHeight()
-
-            Logger.i("====== ${Build.MODEL} ======")
-            Logger.i("$dpi dpi (${dpiMultiple}x)")
-            Logger.i("statusBarHeight: ${statusBarHeight}px/${statusBarHeight / dpiMultiple}dp")
-
-            when {
-                cutoutHeight > 0 -> {
-                    Logger.i("cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp")
-
-                    val oriStatusBarHeight =
-                        resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
-
-                    binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
-                    val layoutParams = Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT
-                    )
-                    layoutParams.gravity = Gravity.CENTER
-                    layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
-                    binding.textToolbarTitle.layoutParams = layoutParams
+            R.id.profile_mode -> {
+                when (item.title.toString().toLowerCase(Locale.ROOT)) {
+                    "edit" -> viewModel.editIsPressed.value = true
+                    "save" -> viewModel.saveIsPressed.value = true
                 }
             }
-            Logger.i("====== ${Build.MODEL} ======")
         }
+
+        return super.onOptionsItemSelected(item)
     }
 
     /**
@@ -278,7 +232,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setupBottomNav(){
+    private fun setupBottomNav() {
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         val menuView = binding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
@@ -302,11 +256,11 @@ class MainActivity : BaseActivity() {
         binding.drawerLayout.clipToPadding = false
 
         actionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this,
-            binding.drawerLayout,
-            binding.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this,
+                binding.drawerLayout,
+                binding.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
@@ -331,7 +285,7 @@ class MainActivity : BaseActivity() {
 
         // Set up header of drawer ui using data binding
         val bindingNavHeader = NavHeaderDrawerBinding.inflate(
-            LayoutInflater.from(this), binding.drawerNavView, false
+                LayoutInflater.from(this), binding.drawerNavView, false
         )
 
         bindingNavHeader.lifecycleOwner = this
@@ -344,10 +298,10 @@ class MainActivity : BaseActivity() {
             actionBarDrawerToggle?.isDrawerIndicatorEnabled = type.indicatorEnabled
             supportActionBar?.setDisplayHomeAsUpEnabled(!type.indicatorEnabled)
             binding.toolbar.setNavigationIcon(
-                when (type) {
-                    DrawerToggleType.BACK -> R.drawable.toolbar_back
-                    else -> R.drawable.toolbar_menu
-                }
+                    when (type) {
+                        DrawerToggleType.BACK -> R.drawable.toolbar_back
+                        else -> R.drawable.toolbar_menu
+                    }
             )
             actionBarDrawerToggle?.setToolbarNavigationClickListener {
                 when (type) {
