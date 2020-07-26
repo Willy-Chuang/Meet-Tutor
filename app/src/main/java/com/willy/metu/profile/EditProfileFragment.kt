@@ -58,17 +58,15 @@ class EditProfileFragment : Fragment() {
             val chip = LayoutInflater.from(requireContext()).inflate(R.layout.chip_layout, chipGroup, false) as Chip
             chip.text = genre
 
-
-
-            chip.setOnCheckedChangeListener { _, isChecked ->
+            chip.setOnCheckedChangeListener { c, isChecked ->
                 if (isChecked) {
 
-//                    if (viewModel.itemList.size > 2) {
-//                        Toast.makeText(requireContext(), "You can only select 3 subject", Toast.LENGTH_SHORT).show()
-//                        viewModel.itemList.remove(chip.text.toString())
-//                        viewModel.selectedTags.value = viewModel.itemList
-//                    } else
-
+                    if (viewModel.itemList.size > 2) {
+                        c.isChecked = false
+                        Toast.makeText(requireContext(), "You can only select 3 subject", Toast.LENGTH_SHORT).show()
+                        return@setOnCheckedChangeListener
+                    }
+                    
                     //Check if the list already contains the tag, if not then add to list
                     if (viewModel.itemList.contains(chip.text.toString())) {
                         Logger.d("Has Been Added")

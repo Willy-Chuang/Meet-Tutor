@@ -4,295 +4,302 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.willy.metu.login.UserManager"/>
+
+        <import type="com.willy.metu.login.UserManager" />
+
         <variable
             name="viewModel"
             type="com.willy.metu.profile.EditProfileViewModel" />
     </data>
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_profile_basic_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black_default_bg"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_user_avatar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="24dp"
-                imageUrl="@{UserManager.INSTANCE.user.image}"
-                app:layout_constraintStart_toStartOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_profile_basic_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_default_bg"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_cute_dino_assistant"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_user_avatar"
+                    imageUrl="@{UserManager.INSTANCE.user.image}"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_cute_dino_assistant" />
+
+                <TextView
+                    android:id="@+id/text_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{UserManager.INSTANCE.user.name}"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_user_avatar"
+                    tools:text="John Homes" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/text_user_name"
+                android:id="@+id/text_edit_profile_title_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:text="@{UserManager.INSTANCE.user.name}"
-                android:textSize="16sp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                app:layout_constraintTop_toBottomOf="@id/image_user_avatar"
+                android:text="Account / Email"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_profile_basic_section" />
+
+            <TextView
+                android:id="@+id/text_edit_profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{UserManager.INSTANCE.user.email}"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_email"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_email"
+                tools:text="JohnHomes@gmail.com" />
+
+            <TextView
+                android:id="@+id/text_edit_profile_title_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Gender"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_email"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_email" />
+
+            <RadioGroup
+                android:id="@+id/radio_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_gender">
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:textColor="@color/black_54_alpha" />
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:textColor="@color/black_54_alpha" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/text_edit_profile_title_identity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Identity"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/radio_gender" />
+
+            <RadioGroup
+                android:id="@+id/radio_identity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_identity"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_identity">
+
+                <RadioButton
+                    android:id="@+id/radio_tutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tutor"
+                    android:textColor="@color/black_54_alpha" />
+
+                <RadioButton
+                    android:id="@+id/radio_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student"
+                    android:textColor="@color/black_54_alpha" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/text_edit_profile_title_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Location"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/radio_identity" />
+
+            <Spinner
+                android:id="@+id/spinner_city"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_spinner"
+                app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_location"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_location" />
+
+            <Spinner
+                android:id="@+id/spinner_district"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_spinner"
+                app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_location"
+                app:layout_constraintTop_toBottomOf="@id/spinner_city" />
+
+            <TextView
+                android:id="@+id/text_edit_profile_title_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Interested Subject"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/spinner_district" />
+
+            <HorizontalScrollView
+                android:id="@+id/scroll_chip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:scrollbars="none"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="John Homes"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject">
 
-        <TextView
-            android:id="@+id/text_edit_profile_title_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:text="Account / Email"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/layout_profile_basic_section"
-            app:layout_constraintStart_toStartOf="parent"/>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:chipSpacingVertical="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject">
 
-        <TextView
-            android:id="@+id/text_edit_profile_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{UserManager.INSTANCE.user.email}"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_email"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_email"
-            tools:text="JohnHomes@gmail.com"/>
-        <TextView
-            android:id="@+id/text_edit_profile_title_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Gender"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_email"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_email"/>
-        <RadioGroup
-            android:id="@+id/radio_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:layout_marginHorizontal="24dp"
-            app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_gender"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_gender">
+                </com.google.android.material.chip.ChipGroup>
 
-            <RadioButton
-                android:id="@+id/radio_male"
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:id="@+id/text_edit_profile_title_introduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black_54_alpha"
-                android:text="Male"/>
-            <RadioButton
-                android:id="@+id/radio_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_54_alpha"
-                android:text="Female"/>
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Introduction"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/scroll_chip" />
 
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/text_edit_profile_title_identity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Identity"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/radio_gender"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
-
-        <RadioGroup
-            android:id="@+id/radio_identity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:layout_marginHorizontal="24dp"
-            app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_identity"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_identity">
-
-            <RadioButton
-                android:id="@+id/radio_tutor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_54_alpha"
-                android:text="Tutor"/>
-            <RadioButton
-                android:id="@+id/radio_student"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_54_alpha"
-                android:text="Student"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/text_edit_profile_title_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Location"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/radio_identity"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
-
-        <Spinner
-            android:id="@+id/spinner_city"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="24dp"
-            android:background="@drawable/bg_spinner"
-            app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_location"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_location" />
-
-        <Spinner
-            android:id="@+id/spinner_district"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="24dp"
-            android:background="@drawable/bg_spinner"
-            app:layout_constraintStart_toStartOf="@+id/text_edit_profile_title_location"
-            app:layout_constraintTop_toBottomOf="@id/spinner_city" />
-
-        <TextView
-            android:id="@+id/text_edit_profile_title_subject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Interested Subject"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/spinner_district"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
-
-        <HorizontalScrollView
-            android:id="@+id/scroll_chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:scrollIndicators="none"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/Theme.MaterialComponents.Light"
-                app:chipSpacingVertical="2dp"
-                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject"
+            <EditText
+                android:id="@+id/text_edit_profile_introduction"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray_light"
+                android:gravity="start"
+                android:hint="Write something about yourself"
+                android:imeOptions="actionDone"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@={viewModel.introduction}"
+                android:textColorHint="@color/black_12_alpha"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_introduction" />
 
-            </com.google.android.material.chip.ChipGroup>
+            <TextView
+                android:id="@+id/text_edit_profile_title_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Experience"
+                android:textColor="@color/black_36_alpha"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_introduction" />
 
-        </HorizontalScrollView>
-
-
-        <TextView
-            android:id="@+id/text_edit_profile_title_introduction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Introduction"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/scroll_chip"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
-
-        <EditText
-            android:id="@+id/text_edit_profile_introduction"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:imeOptions="actionDone"
-            android:background="@color/gray_light"
-            android:gravity="start"
-            android:hint="Write something about yourself"
-            android:text="@={viewModel.introduction}"
-            android:textSize="14sp"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:textColorHint="@color/black_12_alpha"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_introduction" />
-
-        <TextView
-            android:id="@+id/text_edit_profile_title_experience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Experience"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black_36_alpha"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_introduction"
-            app:layout_constraintStart_toStartOf="@id/text_edit_profile_title_gender"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginHorizontal="24dp"
-            android:imeOptions="actionDone"
-            android:gravity="start"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:layout_marginVertical="8dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="14sp"
-            android:background="@color/gray_light"
-            android:hint="Write something about yourself"
-            android:text="@={viewModel.experience}"
-            android:textColorHint="@color/black_12_alpha"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_experience"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/gray_light"
+                android:gravity="start"
+                android:hint="Write something about yourself"
+                android:imeOptions="actionDone"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@={viewModel.experience}"
+                android:textColorHint="@color/black_12_alpha"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_experience" />
 
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-   </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
