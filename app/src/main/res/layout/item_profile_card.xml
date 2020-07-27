@@ -140,10 +140,25 @@
                 android:textColor="@color/black_12_alpha"
                 android:fontFamily="@font/roboto"
                 android:textStyle="bold"
-                android:text="@{ @string/card_about + user.name}"
+                android:text="@string/card_about"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chipGroup"
-                tools:text="About Sirius Black">
+                tools:text="About">
+            </TextView>
+
+            <TextView
+                android:id="@+id/title_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/black_12_alpha"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                android:text="@{ user.name}"
+                app:layout_constraintStart_toEndOf="@id/title_card_about"
+                app:layout_constraintTop_toBottomOf="@id/chipGroup"
+                tools:text="Sirius Black">
             </TextView>
 
             <TextView
