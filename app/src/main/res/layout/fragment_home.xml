@@ -117,19 +117,59 @@
                 app:layout_constraintTop_toTopOf="@id/title_recommendation"
                 tools:text="English" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_recommendation"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_recommendation"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_recommendation"
-                tools:itemCount="4" />
+                app:layout_constraintTop_toBottomOf="@id/title_recommendation">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_recommendation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="4" />
+
+                <TextView
+                    android:id="@+id/no_value_recommendation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginStart="16dp"
+                    android:text="No Recommendations: "
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/no_value_recommendation_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    android:textSize="14sp"
+                    android:text="SETUP SUBJECT BIAS"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintStart_toEndOf="@id/no_value_recommendation"
+                    app:layout_constraintTop_toTopOf="@id/no_value_recommendation"
+                    app:layout_constraintBottom_toBottomOf="@id/no_value_recommendation"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/title_new_user"
@@ -142,7 +182,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/text_welcome"
-                app:layout_constraintTop_toBottomOf="@id/recycler_recommendation" />
+                app:layout_constraintTop_toBottomOf="@id/layout_recommendation" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_new_user"
@@ -191,6 +231,19 @@
                 app:layout_constraintStart_toStartOf="@id/title_article"
                 app:layout_constraintTop_toBottomOf="@id/title_article"
                 tools:itemCount="1" />
+
+            <TextView
+                android:id="@+id/no_value_articles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:text="No Related Articles"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/title_article"
+                app:layout_constraintTop_toBottomOf="@id/title_article"/>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

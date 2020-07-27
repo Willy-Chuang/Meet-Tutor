@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Following Articles"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textColor="@color/black_36_alpha"
                 android:fontFamily="@font/roboto"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,14 +46,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <Button
+            <TextView
                 android:id="@+id/button_go_articles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:paddingHorizontal="8dp"
-                android:text="Go To Articles"
-                android:background="@drawable/bg_colored_round_corner"
+                android:text="EXPLORE ARTICLES"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintTop_toBottomOf="@id/no_value"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

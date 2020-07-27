@@ -203,7 +203,7 @@ class MainActivity : BaseActivity() {
                 // Setup BottomNav selected as well as fragment title
 
                 R.id.startPairingFragment -> {
-                    val pairing =binding.bottomNavView.menu.findItem(R.id.navigation_pairing)
+                    val pairing = binding.bottomNavView.menu.findItem(R.id.navigation_pairing)
                     pairing.isChecked = true
                     CurrentFragmentType.PAIR
                 }
@@ -213,7 +213,7 @@ class MainActivity : BaseActivity() {
                     CurrentFragmentType.HOME
                 }
                 R.id.chatListFragment -> {
-                    val chatList =binding.bottomNavView.menu.findItem(R.id.navigation_chat_list)
+                    val chatList = binding.bottomNavView.menu.findItem(R.id.navigation_chat_list)
                     chatList.isChecked = true
                     CurrentFragmentType.CHATLIST
                 }
