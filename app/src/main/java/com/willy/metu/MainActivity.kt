@@ -118,7 +118,6 @@ class MainActivity : BaseActivity() {
         })
 
 
-
         viewModel.navigateToChatListByBottomNav.observe(this, Observer {
             it?.let {
                 binding.bottomNavView.selectedItemId = R.id.navigation_chat_list
@@ -126,10 +125,10 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.navigateToTalentPoolByBottomNav.observe(this, Observer {
+        viewModel.navigateToPairingByBottomNav.observe(this, Observer {
             it?.let {
-                binding.bottomNavView.selectedItemId = R.id.navigation_talent_pool
-                viewModel.onTalentPoolNavigated()
+                binding.bottomNavView.selectedItemId = R.id.navigation_pairing
+                viewModel.onPairingNavigated()
             }
         })
 
@@ -200,9 +199,38 @@ class MainActivity : BaseActivity() {
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
+
+                // Setup BottomNav selected as well as fragment title
+
+                R.id.startPairingFragment -> {
+                    val pairing =binding.bottomNavView.menu.findItem(R.id.navigation_pairing)
+                    pairing.isChecked = true
+                    CurrentFragmentType.PAIR
+                }
+                R.id.homeFragment -> {
+                    val home = binding.bottomNavView.menu.findItem(R.id.navigation_home)
+                    home.isChecked = true
+                    CurrentFragmentType.HOME
+                }
+                R.id.chatListFragment -> {
+                    val chatList =binding.bottomNavView.menu.findItem(R.id.navigation_chat_list)
+                    chatList.isChecked = true
+                    CurrentFragmentType.CHATLIST
+                }
+                R.id.talentPoolFragment -> {
+                    val talentPool = binding.bottomNavView.menu.findItem(R.id.navigation_talent_pool)
+                    talentPool.isChecked = true
+                    CurrentFragmentType.TALENTPOOL
+                }
+                R.id.notifyFragment -> {
+                    val notify = binding.bottomNavView.menu.findItem(R.id.navigation_notification)
+                    notify.isChecked = true
+                    CurrentFragmentType.NOTIFY
+                }
+
+                // Setup fragment title
+
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
-                R.id.startPairingFragment -> CurrentFragmentType.PAIR
-                R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
                 R.id.questionnaireTwoFragment -> CurrentFragmentType.PAIRTWO
                 R.id.questionnaireThreeFragment -> CurrentFragmentType.PAIRTHREE
@@ -210,11 +238,8 @@ class MainActivity : BaseActivity() {
                 R.id.editProfileFragment -> CurrentFragmentType.EDITPROFILE
                 R.id.followListFragment -> CurrentFragmentType.FOLLOW
                 R.id.userDetailFragment -> CurrentFragmentType.USERPROFILE
-                R.id.chatListFragment -> CurrentFragmentType.CHATLIST
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
-                R.id.talentPoolFragment -> CurrentFragmentType.TALENTPOOL
                 R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
-                R.id.notifyFragment -> CurrentFragmentType.NOTIFY
                 R.id.eventDetailFragment -> CurrentFragmentType.EVENTDETAIL
                 else -> viewModel.currentFragmentType.value
             }

@@ -27,9 +27,10 @@
                 android:id="@+id/tabs_follow"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                app:tabBackground="@color/colorPrimary"
                 app:tabIndicatorColor="@color/black_3f3a3a"
                 app:tabSelectedTextColor="@color/black_3f3a3a"
-                app:tabTextColor="@color/gray_888888">
+                app:tabTextColor="@color/colorPrimaryDark">
 
             </com.google.android.material.tabs.TabLayout>
 

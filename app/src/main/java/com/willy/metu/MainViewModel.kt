@@ -155,6 +155,10 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
         _navigateToTalentPoolByBottomNav.value = null
     }
 
+    fun onPairingNavigated(){
+        _navigateToPairingByBottomNav.value = null
+    }
+
     fun setupUser(user: User) {
 
         _user.value = user

@@ -8,7 +8,9 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.ItemFollowedUsersBinding
 import com.willy.metu.ext.getVmFactory
@@ -41,12 +43,31 @@ class ItemFollowedUsersFragment : Fragment() {
 
         viewModel.followedStudents.observe(viewLifecycleOwner, Observer {
             binding.recyclerStudent.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
-            studentAdapter.submitList(it)
+            if(it.isEmpty()) {
+                binding.noValueStudent.visibility = View.VISIBLE
+                binding.noValueStudentButton.visibility = View.VISIBLE
+                binding.noValueStudentButton.setOnClickListener {
+                    findNavController().navigate(NavigationDirections.navigateToPairingFragment())
+                }
+            } else {
+                studentAdapter.submitList(it)
+            }
+
         })
 
         viewModel.followedTutors.observe(viewLifecycleOwner, Observer {
             binding.recyclerTutor.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
-            tutorAdapter.submitList(it)
+
+            if(it.isEmpty()) {
+                binding.noValueTutor.visibility = View.VISIBLE
+                binding.noValueTutorButton.visibility = View.VISIBLE
+                binding.noValueTutorButton.setOnClickListener {
+                    findNavController().navigate(NavigationDirections.navigateToPairingFragment())
+                }
+            } else {
+                tutorAdapter.submitList(it)
+            }
+
         })
 
 
