@@ -66,7 +66,7 @@ class EditProfileFragment : Fragment() {
                         Toast.makeText(requireContext(), "You can only select 3 subject", Toast.LENGTH_SHORT).show()
                         return@setOnCheckedChangeListener
                     }
-                    
+
                     //Check if the list already contains the tag, if not then add to list
                     if (viewModel.itemList.contains(chip.text.toString())) {
                         Logger.d("Has Been Added")
