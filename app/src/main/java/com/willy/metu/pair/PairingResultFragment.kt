@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -79,11 +80,39 @@ class PairingResultFragment : Fragment(), CardStackListener {
 
         viewModel.redBg.observe(viewLifecycleOwner, Observer {
             binding.bgRed.alpha = it
+            binding.textSkip.alpha = it
         })
 
         viewModel.blueBg.observe(viewLifecycleOwner, Observer {
             binding.bgBlue.alpha = it
+            binding.textLike.alpha = it
         })
+
+        binding.buttonYes.setOnClickListener {
+            val setting = SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Left)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(AccelerateInterpolator())
+                    .build()
+            layoutManager.setSwipeAnimationSetting(setting)
+            binding.stackView.swipe()
+        }
+
+        binding.buttonNo.setOnClickListener {
+
+            val setting = SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Right)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(AccelerateInterpolator())
+                    .build()
+            layoutManager.setSwipeAnimationSetting(setting)
+            binding.stackView.swipe()
+
+        }
+
+        binding.buttonRewind.setOnClickListener {
+            binding.stackView.rewind()
+        }
 
 
         return binding.root
@@ -146,6 +175,8 @@ class PairingResultFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardRewound() {
+        Logger.w("rewind")
+        count--
 
     }
 }
