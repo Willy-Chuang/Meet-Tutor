@@ -30,6 +30,7 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:paddingHorizontal="24dp"
+            android:clipChildren="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_message"
             app:layout_constraintBottom_toBottomOf="parent"

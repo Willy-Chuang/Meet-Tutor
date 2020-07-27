@@ -26,7 +26,7 @@
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="72dp"
+                    android:layout_marginEnd="32dp"
                     android:gravity="center"
                     android:text="@{viewModel.currentChattingName}"
                     android:textColor="@color/black_3f3a3a"
@@ -61,6 +61,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/edit_message">
 
+                <View
+                    android:id="@+id/button_circle"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_round"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,14 +80,7 @@
                     app:layout_constraintTop_toTopOf="@id/button_circle"
                     app:srcCompat="@drawable/ic_send_message" />
 
-                <View
-                    android:id="@+id/button_circle"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/button_round"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

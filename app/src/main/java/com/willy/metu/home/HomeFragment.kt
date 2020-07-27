@@ -69,13 +69,21 @@ class HomeFragment : Fragment() {
 
             viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
 
-                val sortedList = article.sortArticleBySubject(it)
-
-                if (sortedList.isEmpty()) {
+                if (it == null) {
                     binding.noValueArticles.visibility = View.VISIBLE
+
                 } else {
-                    articleAdapter.submitList(article.sortArticleBySubject(it))
+
+                    val sortedList = article.sortArticleBySubject(it)
+
+                    if (sortedList.isEmpty()) {
+                        binding.noValueArticles.visibility = View.VISIBLE
+                    } else {
+                        articleAdapter.submitList(article.sortArticleBySubject(it))
+                    }
+
                 }
+
             })
 
         })
