@@ -134,9 +134,14 @@ class CalendarFragment : Fragment() {
                     override fun onGlobalLayout() {
                         val totalHeight = binding.viewContainer.height
                         val shadowWeekHeight = binding.calendarViewWeek.height
+                        val monthHeight = binding.calendarView.height
                         val topMargin = Utils.convertDpToPixelSize(16f, requireContext());
                         binding.persistentBottomSheet.layoutParams.height = totalHeight - shadowWeekHeight - topMargin
                         binding.persistentBottomSheet.requestLayout()
+
+                        bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(binding.persistentBottomSheet)
+
+                        bottomSheetBehavior.peekHeight = totalHeight - monthHeight - topMargin
 
                         binding.persistentBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
