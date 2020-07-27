@@ -27,17 +27,28 @@
             tools:itemCount="3"
             tools:listitem="@layout/item_notify_event"/>
 
-        <TextView
-            android:id="@+id/empty_value"
+        <ImageView
+            android:id="@+id/no_value_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No notification!"
+            android:layout_marginBottom="40dp"
             android:visibility="gone"
-            android:layout_marginTop="16dp"
-            android:textSize="24sp"
-            android:textColor="@color/black_12_alpha"
+            app:srcCompat="@drawable/image_notify_no_value"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/no_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="No Notification"
+            android:visibility="gone"
+            android:textSize="24sp"
+            android:textColor="@color/gray_cccccc"
+            app:layout_constraintTop_toBottomOf="@id/no_value_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
