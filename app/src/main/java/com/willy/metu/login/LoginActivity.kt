@@ -1,9 +1,13 @@
 package com.willy.metu.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,18 +16,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_login.*
-import android.content.pm.PackageManager
-import android.os.Handler
-import android.util.Base64
-import android.util.Log
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.MainActivity
-import com.willy.metu.MainViewModel
 import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.ext.getVmFactory
+import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
