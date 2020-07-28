@@ -8,7 +8,6 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.*
 import com.willy.metu.data.source.MeTuDataSource
-import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import java.util.*
 import kotlin.coroutines.resume
@@ -750,6 +749,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
         val document = events.document(event.id)
+        var success = 0
 
         document
                 .update("invitation",FieldValue.arrayRemove(userEmail))
@@ -757,7 +757,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 
@@ -775,7 +782,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 
@@ -793,7 +807,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 
