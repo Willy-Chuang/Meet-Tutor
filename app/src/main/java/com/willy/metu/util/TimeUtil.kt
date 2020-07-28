@@ -1,6 +1,5 @@
 package com.willy.metu.util
 
-import android.util.Log
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,7 +57,6 @@ object TimeUtil {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time
         val day = calendar.get(Calendar.DAY_OF_WEEK)
-        Log.i("test", "$day")
         return when (day) {
             1 -> "SUN"
             2 -> "MON"
@@ -74,7 +72,6 @@ object TimeUtil {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time
         val date = calendar.get(Calendar.DAY_OF_MONTH)
-        Log.i("test", "$date")
         return date.toString()
     }
 
@@ -82,7 +79,6 @@ object TimeUtil {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time
         val month = calendar.get(Calendar.MONTH)
-        Log.i("test", "$month")
         return when (month) {
             0 -> "JAN"
             1 -> "FEB"

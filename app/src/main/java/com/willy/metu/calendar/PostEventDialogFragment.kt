@@ -3,7 +3,6 @@ package com.willy.metu.calendar
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +75,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 binding.textSelectStartTime.text = "$hour : $minute"
-                Log.i("TIMEEEE", "$hour : $minute")
+                Logger.i("$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.startTime.value = timeTimeStamp
             }, hour, minute, true).show()
@@ -84,7 +83,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         }
 
         viewModel.startTime.observe(viewLifecycleOwner, Observer {
-            Log.i("TIMEEE", "${it}")
+            Logger.i( "$it")
         })
 
         binding.textSelectEndTime.setOnClickListener {
@@ -93,7 +92,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 binding.textSelectEndTime.text = "$hour : $minute"
-                Log.i("TIMEEEE", "$hour : $minute")
+                Logger.i("$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.endTime.value = timeTimeStamp
             }, hour, minute, true).show()

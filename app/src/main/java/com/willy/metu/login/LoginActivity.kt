@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,7 @@ import com.willy.metu.MainActivity
 import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.util.Logger
 import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -62,12 +62,12 @@ class LoginActivity : AppCompatActivity() {
                 val md = MessageDigest.getInstance("SHA")
                 md.update(signature.toByteArray())
                 val hashKey = String(Base64.encode(md.digest(), 0))
-                Log.i("TAG", "printHashKey() Hash Key: $hashKey")
+                Logger.i("printHashKey() Hash Key: $hashKey")
             }
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("TAG", "printHashKey()", e)
+            Logger.e("$e")
         } catch (e: Exception) {
-            Log.e("TAG", "printHashKey()", e)
+            Logger.e("$e")
         }
 
     }
@@ -119,21 +119,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-//    fun setupUser(user: User) {
-//
-//        _user.value = user
-//        Logger.i("=============")
-//        Logger.i("| setupUser |")
-//        Logger.i("user=$user")
-//        Logger.i("MainViewModel=${this}")
-//        Logger.i("=============")
-//    }
-//
-//    fun checkUser() {
-//        if (user.value == null) {
-//            UserManager.userToken?.let {
-//                getUserProfile(it)
-//            }
-//        }
-//    }
 }
