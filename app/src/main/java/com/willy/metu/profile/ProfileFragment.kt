@@ -1,9 +1,11 @@
 package com.willy.metu.profile
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.willy.metu.MainViewModel
 import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentProfileBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
@@ -21,6 +24,7 @@ class ProfileFragment : Fragment() {
 
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -46,11 +50,10 @@ class ProfileFragment : Fragment() {
 
         // When Edit button is pressed, navigate to edit mode
         mainViewModel.editIsPressed.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
+            if (it) {
                 findNavController().navigate(NavigationDirections.navigateToEditProfileFragment())
                 mainViewModel.editIsPressed.value = false
             }
-
         })
 
         viewModel.personalInfo.observe(viewLifecycleOwner, Observer {
@@ -59,10 +62,12 @@ class ProfileFragment : Fragment() {
             val chipGroup = binding.chipGroup
 
             val genres = it.tag
+//            val rippleColor = MeTuApplication.instance.getColorStateList(R.color.transparent)
 
             if (genres != null) {
                 for (genre in genres) {
-                    val chip = Chip(chipGroup.getContext())
+//                    val chip = Chip(chipGroup.getContext())
+                    val chip = Chip(context, null, R.attr.CustomChipChoice)
                     chip.text = genre
                     chipGroup.addView(chip)
                 }

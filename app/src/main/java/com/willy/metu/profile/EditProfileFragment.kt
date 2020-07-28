@@ -1,7 +1,6 @@
 package com.willy.metu.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.willy.metu.MainViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
@@ -57,17 +55,24 @@ class EditProfileFragment : Fragment() {
         val genres = MeTuApplication.instance.resources.getStringArray(R.array.all_tag_array)
 
         for (genre in genres) {
-            val chip = LayoutInflater.from(requireContext()).inflate(R.layout.chip_layout, chipGroup,false) as Chip
+            val chip = LayoutInflater.from(requireContext()).inflate(R.layout.chip_layout, chipGroup, false) as Chip
             chip.text = genre
-            chip.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked){
+
+            chip.setOnCheckedChangeListener { c, isChecked ->
+                if (isChecked) {
+
+                    if (viewModel.itemList.size > 2) {
+                        c.isChecked = false
+                        Toast.makeText(requireContext(), "You can only select 3 subject", Toast.LENGTH_SHORT).show()
+                        return@setOnCheckedChangeListener
+                    }
 
                     //Check if the list already contains the tag, if not then add to list
-                    if(viewModel.itemList.contains(chip.text.toString())){
+                    if (viewModel.itemList.contains(chip.text.toString())) {
                         Logger.d("Has Been Added")
-                    }else {
-                    viewModel.itemList.add(chip.text.toString())
-                    viewModel.selectedTags.value = viewModel.itemList
+                    } else {
+                        viewModel.itemList.add(chip.text.toString())
+                        viewModel.selectedTags.value = viewModel.itemList
                     }
 
                     // Remove tag from list when uncheck
@@ -78,9 +83,6 @@ class EditProfileFragment : Fragment() {
             }
             chipGroup.addView(chip)
         }
-
-
-
 
         // Setup Radio button (Gender, Identity)
         binding.radioGender.setOnCheckedChangeListener { group, checkedId ->
@@ -106,6 +108,7 @@ class EditProfileFragment : Fragment() {
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
+
                     override fun onItemSelected(
                             parent: AdapterView<*>?,
                             view: View?,
@@ -148,53 +151,48 @@ class EditProfileFragment : Fragment() {
                     }
                 }
 
-
-
-
         //Observers for editable components
         viewModel.selectedTags.observe(viewLifecycleOwner, Observer {
+            //            if (it.size > 3) {
+//                val selected = chipGroup.checkedChipId
+//                chipGroup.findViewById<>(selected).isClickable
+//            }
+
             Logger.i(it.toString())
         })
 
         viewModel.selectedGender.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
-
         viewModel.selectedIdentity.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
-
         viewModel.selectedCity.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
-
         viewModel.selectedDistrict.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
-
         viewModel.introduction.observe(viewLifecycleOwner, Observer {
             Logger.i(it.toString())
         })
+        viewModel.experience.observe(viewLifecycleOwner, Observer {
+            Logger.i(it.toString())
+        })
 
-        //Observer for save button, when pressed send update user info (With empty handel)
+        // Observer for save button, when pressed send update user info (With empty handel)
         mainViewModel.saveIsPressed.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                if(viewModel.checkIfComplete()){
-
+            if (it) {
+                if (viewModel.checkIfComplete()) {
                     viewModel.updateUser(viewModel.getUserInfo())
                     findNavController().navigate(NavigationDirections.navigateToProfile())
                     mainViewModel.saveIsPressed.value = false
-
-                }else{
-                    Toast.makeText(MeTuApplication.appContext,"Finishing the info would help when pairing",Toast.LENGTH_SHORT).show()
-
+                } else {
+                    Toast.makeText(MeTuApplication.appContext, "Finishing the info would help when pairing", Toast.LENGTH_SHORT).show()
                 }
             }
         })
 
-
-
         return binding.root
-
     }
 }

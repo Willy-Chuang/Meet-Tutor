@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.willy.metu.component.ProfileAvatarOutlineProvider
+import com.willy.metu.data.Event
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.CurrentFragmentType
 import com.willy.metu.util.DrawerToggleType
@@ -30,6 +32,12 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
     val editIsPressed = MutableLiveData<Boolean>()
     val saveIsPressed = MutableLiveData<Boolean>()
 
+    //Notifications
+    val notifications: LiveData<List<Event>> = repository.getLiveMyEventInvitation(UserManager.user.email)
+
+    // Notification Count
+    val countInNotify: LiveData<Int> = Transformations.map(notifications){it.size}
+
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
@@ -41,6 +49,7 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
             CurrentFragmentType.EDITPROFILE -> DrawerToggleType.BACK
             CurrentFragmentType.USERPROFILE -> DrawerToggleType.BACK
             CurrentFragmentType.FOLLOW -> DrawerToggleType.BACK
+            CurrentFragmentType.EVENTDETAIL -> DrawerToggleType.BACK
             else -> DrawerToggleType.NORMAL
         }
     }
@@ -77,6 +86,12 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
 
     val navigateToTalentPoolByBottomNav: LiveData<Boolean>
         get() = _navigateToTalentPoolByBottomNav
+
+    // Handle navigation to pairing by bottom nav directly which includes icon change
+    private val _navigateToNotificationByBottomNav = MutableLiveData<Boolean>()
+
+    val navigateToNotificationByBottomNav: LiveData<Boolean>
+        get() = _navigateToNotificationByBottomNav
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -128,12 +143,20 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
         _navigateToHomeByBottomNav.value = null
     }
 
+    fun onNotifyNavigated(){
+        _navigateToNotificationByBottomNav.value = null
+    }
+
     fun onChatNavigated() {
         _navigateToChatListByBottomNav.value = null
     }
 
     fun onTalentPoolNavigated(){
         _navigateToTalentPoolByBottomNav.value = null
+    }
+
+    fun onPairingNavigated(){
+        _navigateToPairingByBottomNav.value = null
     }
 
     fun setupUser(user: User) {

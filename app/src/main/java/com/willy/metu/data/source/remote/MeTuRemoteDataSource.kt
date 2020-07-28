@@ -128,6 +128,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
         val document = events.document()
         event.id = document.id
+        event.createdTime = Calendar.getInstance().timeInMillis
 
         document
                 .set(event)
@@ -182,6 +183,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         users.document(user.email)
                 .update("introduction", user.introduction ,
+                        "experience", user.experience,
                         "city",user.city,
                         "district", user.district,
                         "gender", user.gender,
@@ -263,18 +265,26 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnFailureListener { e ->
                     Logger.w("Error adding document $e")
                 }
-
-//        users.document(user.email).collection("followedBy").document(userEmail)
-//                .set(UserManager.user)
-//                .addOnSuccessListener { documentReference ->
-//                    Logger.d("DocumentSnapshot added with ID: ${users}")
-//                }
-//                .addOnFailureListener { e ->
-//                    Logger.w("Error adding document $e")
-//                }
         users.document(user.email).update("followedBy",FieldValue.arrayUnion(userEmail))
         users.document(userEmail).update("followingEmail",FieldValue.arrayUnion(user.email))
         users.document(userEmail).update("followingName",FieldValue.arrayUnion(user.name))
+    }
+
+    override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val users = FirebaseFirestore.getInstance().collection(PATH_USER)
+
+        users.document(userEmail).collection("followList").document(user.email)
+                .delete()
+                .addOnSuccessListener { documentReference ->
+                    Logger.d("DocumentSnapshot added with ID: ${users}")
+                }
+                .addOnFailureListener { e ->
+                    Logger.w("Error adding document $e")
+                }
+        users.document(user.email).update("followedBy",FieldValue.arrayRemove(userEmail))
+        users.document(userEmail).update("followingEmail",FieldValue.arrayRemove(user.email))
+        users.document(userEmail).update("followingName",FieldValue.arrayRemove(user.name))
     }
 
     override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine { continuation ->
@@ -310,7 +320,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         chatRoom.chatRoomId = document.id
         chatRoom.latestTime = Calendar.getInstance().timeInMillis
 
-        chat.whereIn("attendees", listOf(chatRoom.attendees))
+        chat.whereIn("attendees", listOf(chatRoom.attendees, chatRoom.attendees.reversed()))
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.isEmpty) {
@@ -677,6 +687,149 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
                 }
     }
+
+    override suspend fun getMyArticle(userEmail: String): Result<List<Article>> = suspendCoroutine { continuation ->
+
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+
+        articles
+                .whereEqualTo("creatorEmail",userEmail)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Article>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val article = document.toObject(Article::class.java)
+                            list.add(article)
+                        }
+
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+
+                }
+    }
+
+
+    override fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>> {
+        val liveData = MutableLiveData<List<Event>>()
+        FirebaseFirestore.getInstance()
+                .collection(PATH_EVENTS)
+                .orderBy("createdTime", Query.Direction.DESCENDING)
+                .whereArrayContains("invitation", userEmail)
+                .addSnapshotListener { snapshot, exception ->
+                    Logger.i("add SnapshotListener detected")
+
+                    exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    }
+
+                    val list = mutableListOf<Event>()
+                    for (document in snapshot!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val event = document.toObject(Event::class.java)
+                        list.add(event)
+                    }
+                    liveData.value = list
+                }
+
+        return liveData
+
+    }
+
+    override suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
+        val document = events.document(event.id)
+
+        document
+                .update("invitation",FieldValue.arrayRemove(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+
+        document
+                .update("attendees",FieldValue.arrayUnion(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+
+        document
+                .update("attendeesName",FieldValue.arrayUnion(userName))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
+    override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
+        val document = events.document(event.id)
+
+        document
+                .update("invitation", FieldValue.arrayRemove(userEmail))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $event")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
 
 
 }

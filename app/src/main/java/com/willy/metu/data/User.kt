@@ -15,6 +15,7 @@ data class User(
         var identity: String= "",
         var tag: List<String> = listOf(""),
         var introduction: String = "",
+        var experience: String = "",
         var joinedTime: Long = 0,
         var followingEmail: List<String> = listOf(""),
         var followingName: List<String> = listOf(""),

@@ -1,77 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.willy.metu.followlist.FollowUserViewModel" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/title_list_tutor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tutor"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <View
-            android:id="@+id/divider_tutor"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/black_12_alpha"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/title_list_tutor"
-            app:layout_constraintStart_toStartOf="@id/title_list_tutor"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_tutor"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/divider_tutor"
-            app:layout_constraintStart_toStartOf="@id/divider_tutor"/>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title_list_student"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Student"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/recycler_tutor"
-            app:layout_constraintStart_toStartOf="@id/title_list_tutor"/>
+            <TextView
+                android:id="@+id/title_list_tutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Tutor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/divider_student"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/black_12_alpha"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/title_list_student"
-            app:layout_constraintStart_toStartOf="@id/title_list_student"/>
+            <View
+                android:id="@+id/divider_tutor"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black_12_alpha"
+                app:layout_constraintStart_toStartOf="@id/title_list_tutor"
+                app:layout_constraintTop_toBottomOf="@id/title_list_tutor" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_student"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            app:layout_constraintTop_toBottomOf="@id/divider_student"
-            app:layout_constraintStart_toStartOf="@id/divider_student"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_tutor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@id/divider_tutor"
+                app:layout_constraintTop_toBottomOf="@id/divider_tutor">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_tutor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_follow" />
+
+                <TextView
+                    android:id="@+id/no_value_tutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Following User"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/no_value_tutor_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:fontFamily="@font/roboto"
+                    android:text="EXPLORE MORE"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/no_value_tutor"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/title_list_student"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Student"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/title_list_tutor"
+                app:layout_constraintTop_toBottomOf="@id/layout_tutor" />
+
+            <View
+                android:id="@+id/divider_student"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black_12_alpha"
+                app:layout_constraintStart_toStartOf="@id/title_list_student"
+                app:layout_constraintTop_toBottomOf="@id/title_list_student" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@id/divider_student"
+                app:layout_constraintTop_toBottomOf="@id/divider_student">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_student"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:clipChildren="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_follow" />
+
+                <TextView
+                    android:id="@+id/no_value_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Following User"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/no_value_student_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:fontFamily="@font/roboto"
+                    android:text="EXPLORE MORE"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/no_value_student"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

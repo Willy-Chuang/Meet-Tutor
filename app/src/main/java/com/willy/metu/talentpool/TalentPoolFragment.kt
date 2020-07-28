@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentTalentpoolBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByType
@@ -31,9 +29,6 @@ class TalentPoolFragment : Fragment() {
         binding.recyclerArticle.layoutManager = LinearLayoutManager(context)
         binding.viewModel = viewModel
 
-        binding.buttonAddArticle.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToPostArticleDialog())
-        }
 
         val allType = binding.chipAll
         val studyGroup = binding.chipStudy
@@ -72,9 +67,20 @@ class TalentPoolFragment : Fragment() {
             viewModel.selectedType.observe(viewLifecycleOwner, Observer {type ->
 
                 if(type == "All Type") {
+                    binding.noValue.visibility = View.GONE
+                    binding.noValueImage.visibility = View.GONE
                     adapter.submitList(it)
                 } else {
-                    adapter.submitList(it.sortByType(type))
+
+                    if (it.sortByType(type).isEmpty()){
+                        binding.noValue.visibility = View.VISIBLE
+                        binding.noValueImage.visibility = View.VISIBLE
+                        adapter.submitList(it.sortByType(type))
+                    } else {
+                        binding.noValue.visibility = View.GONE
+                        binding.noValueImage.visibility = View.GONE
+                        adapter.submitList(it.sortByType(type))
+                    }
                 }
 
             })

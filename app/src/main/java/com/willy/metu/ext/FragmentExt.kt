@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import com.willy.metu.MeTuApplication
 import com.willy.metu.data.Answers
 import com.willy.metu.data.Article
+import com.willy.metu.data.Event
 import com.willy.metu.data.User
 import com.willy.metu.factory.*
 
@@ -35,5 +36,10 @@ fun Fragment.getVmFactory(userEmail: String, userName: String) : UserEmailViewMo
 fun Fragment.getVmFactory(article: Article) : ArticleViewModelFactory {
     val repository = (requireContext().applicationContext as MeTuApplication).meTuRepository
     return ArticleViewModelFactory(repository, article)
+}
+
+fun Fragment.getVmFactory(event: Event) : EventViewModelFactory {
+    val repository = (requireContext().applicationContext as MeTuApplication).meTuRepository
+    return EventViewModelFactory(repository, event)
 }
 

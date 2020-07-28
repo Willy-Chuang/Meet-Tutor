@@ -1,15 +1,14 @@
 package com.willy.metu.calendar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.NonNull
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,10 +23,8 @@ import com.willy.metu.databinding.FragmentCalendarBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByTimeStamp
 import com.willy.metu.util.*
-import kotlinx.android.synthetic.main.fragment_calendar.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import androidx.lifecycle.Observer
 
 class CalendarFragment : Fragment() {
 
@@ -132,19 +129,26 @@ class CalendarFragment : Fragment() {
         }
         )
 
+        binding.persistentBottomSheet.viewTreeObserver
+                .addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        val totalHeight = binding.viewContainer.height
+                        val shadowWeekHeight = binding.calendarViewWeek.height
+                        val monthHeight = binding.calendarView.height
+                        val topMargin = Utils.convertDpToPixelSize(16f, requireContext());
+                        binding.persistentBottomSheet.layoutParams.height = totalHeight - shadowWeekHeight - topMargin
+                        binding.persistentBottomSheet.requestLayout()
 
+                        bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(binding.persistentBottomSheet)
 
-        return binding.root
+                        bottomSheetBehavior.peekHeight = totalHeight - monthHeight - topMargin
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-
+                        binding.persistentBottomSheet.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                })
 
         // Identify BottomSheetBehavior to present different calendar layout
-
-        bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(persistent_bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from<NestedScrollView>(binding.persistentBottomSheet)
 
         bottomSheetBehavior.setBottomSheetCallback(object :
                 BottomSheetBehavior.BottomSheetCallback() {
@@ -172,6 +176,11 @@ class CalendarFragment : Fragment() {
                 }
             }
         })
+
+
+
+        return binding.root
+
     }
 
     // Change the layout of calendar

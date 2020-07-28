@@ -20,6 +20,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="32dp"
             android:padding="8dp"
+            android:background="@drawable/ripple_touch"
             app:srcCompat="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -99,21 +100,35 @@
             app:layout_constraintTop_toBottomOf="@id/spinner_city"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <View
+            android:id="@+id/layout_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            app:layout_constraintTop_toBottomOf="@id/spinner_district"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
             android:id="@+id/image_subject_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1.11"
             app:srcCompat="@drawable/image_pairing_location"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_shadow"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="#F3F3F3"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/button_next"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/full_size_button_height"
             android:layout_marginBottom="16dp"
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_colored_round_corner"

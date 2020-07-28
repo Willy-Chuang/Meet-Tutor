@@ -26,6 +26,7 @@ class QuestionnaireThreeFragment : Fragment() {
                 QuestionnaireThreeFragmentArgs.fromBundle(requireArguments()).selectedAnswers
         )
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -44,14 +45,18 @@ class QuestionnaireThreeFragment : Fragment() {
         viewModel.isPressed.value = ""
 
         binding.buttonMale.setOnClickListener {
-            if (viewModel.isPressed.value == "Male"){
+            if (viewModel.isPressed.value == "Male") {
                 viewModel.isPressed.value = ""
-            }else{ viewModel.isPressed.value = "Male"}
+            } else {
+                viewModel.isPressed.value = "Male"
+            }
         }
         binding.buttonFemale.setOnClickListener {
-            if(viewModel.isPressed.value == "Female") {
+            if (viewModel.isPressed.value == "Female") {
                 viewModel.isPressed.value = ""
-            }else{ viewModel.isPressed.value = "Female"}
+            } else {
+                viewModel.isPressed.value = "Female"
+            }
         }
 
         // Setup leave sequence with a dialog
@@ -61,9 +66,9 @@ class QuestionnaireThreeFragment : Fragment() {
 
         // Setup Finish button
         binding.buttonFinish.setOnClickListener {
-            if (viewModel.isPressed.value == ""){
-                Toast.makeText(MeTuApplication.appContext,"Please select a city", Toast.LENGTH_SHORT).show()
-            } else{
+            if (viewModel.isPressed.value == "") {
+                Toast.makeText(MeTuApplication.appContext, "Please select a gender", Toast.LENGTH_SHORT).show()
+            } else {
                 Logger.w("viewModel.navigateToResult.value=${viewModel.navigateToResult.value!!.apply {
                     gender = viewModel.isPressed.value.toString()
                 }}")
@@ -84,7 +89,7 @@ class QuestionnaireThreeFragment : Fragment() {
             if (it == "Male") {
                 binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy_picked)
                 binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
-            } else if (it == "Female"){
+            } else if (it == "Female") {
                 binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
                 binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl_picked)
             } else {

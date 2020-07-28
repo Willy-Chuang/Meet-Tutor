@@ -118,4 +118,14 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
         }
     }
 
+    fun checkIfComplete(): Boolean {
+
+        return !(articleDetail.value == null ||
+                articleSubject.value == null ||
+                articleType.value == null ||
+                articleTitle.value == null ||
+                articleDetail.value == null ||
+                articleCity.value == null )
+    }
+
 }

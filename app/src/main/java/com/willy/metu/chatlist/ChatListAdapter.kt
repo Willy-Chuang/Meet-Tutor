@@ -22,7 +22,7 @@ class ChatListAdapter () : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCa
 
             binding.chatRoom = chatRoom
 
-            val friendInfo = chatRoom.attendeesInfo.component1()
+            val friendInfo = chatRoom.attendeesInfo.first()
 
             binding.textChatName.text = friendInfo.userName
             binding.imageUrl = friendInfo.userImage

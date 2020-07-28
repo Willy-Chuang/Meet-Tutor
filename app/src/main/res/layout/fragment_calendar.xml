@@ -5,46 +5,49 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="com.willy.metu.calendar.CalendarBottomSheetViewModel" />
+
         <variable
             name="isLiveDataDesign"
             type="Boolean" />
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/view_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black_default_bg">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black_default_bg">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:mcv_dateTextAppearance="@style/calendarDateText"
+            app:mcv_selectionColor="@color/colorPrimary"
+            app:mcv_showOtherDates="all" />
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mcv_selectionColor="@color/colorPrimary"
-                app:mcv_dateTextAppearance="@style/calendarDateText"
-                app:mcv_showOtherDates="all" />
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:mcv_calendarMode="week"
+            app:mcv_dateTextAppearance="@style/calendarDateText"
+            app:mcv_selectionColor="@color/colorPrimary"
+            app:mcv_showOtherDates="all" />
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.core.widget.NestedScrollView
+        <com.willy.metu.util.TopRoundCornersNestedScrollView
             android:id="@+id/persistent_bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="540dp"
-            android:background="@drawable/bg_bottom_dialog_corner"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:elevation="8dp"
             android:orientation="vertical"
             app:behavior_hideable="false"
             app:behavior_peekHeight="232dp"
@@ -55,28 +58,37 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_grey_round_corner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_vacancy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/text_currently_vacant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Currently Vacant"
-                        android:textSize="20sp"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:textStyle="bold"
+                        android:text="Currently Vacant"
                         android:textColor="@color/black_12_alpha"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         android:visibility="@{viewModel.selectedLiveEvent.size() &lt;= 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/image_currently_vacant"
@@ -84,46 +96,38 @@
                         android:layout_height="100dp"
                         android:layout_marginTop="8dp"
                         android:alpha="0.8"
+                        android:contentDescription="@null"
                         android:visibility="@{viewModel.selectedLiveEvent.size() &lt;= 0 ? View.VISIBLE : View.GONE}"
-                        app:srcCompat="@drawable/ic_vacancy_image"
-                        app:layout_constraintTop_toBottomOf="@id/text_currently_vacant"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
+                        app:layout_constraintTop_toBottomOf="@id/text_currently_vacant"
+                        app:srcCompat="@drawable/ic_vacancy_image" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_schedule"
+                        events="@{viewModel.selectedLiveEvent}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="16dp"
-                        events="@{viewModel.selectedLiveEvent}"
                         app:layout_constraintTop_toBottomOf="@id/image_currently_vacant"
-                        tools:listitem="@layout/item_schedule"/>
-
+                        tools:listitem="@layout/item_schedule" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
                 <ImageView
                     android:id="@+id/button_add_event"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:layout_marginBottom="8dp"
-                    android:tint="@android:color/white"
                     android:background="@drawable/bg_colored_round_corner"
-                    app:srcCompat="@drawable/ic_add_white_24"
-                    app:layout_constraintTop_toBottomOf="@id/layout_vacancy"
+                    android:contentDescription="@null"
+                    android:padding="8dp"
+                    android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
+                    app:layout_constraintTop_toBottomOf="@id/layout_vacancy"
+                    app:srcCompat="@drawable/ic_add_white_24" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-
+        </com.willy.metu.util.TopRoundCornersNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

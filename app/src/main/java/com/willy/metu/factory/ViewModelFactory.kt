@@ -11,6 +11,7 @@ import com.willy.metu.followlist.FollowArticleViewModel
 import com.willy.metu.followlist.FollowUserViewModel
 import com.willy.metu.home.HomeViewModel
 import com.willy.metu.login.LoginViewModel
+import com.willy.metu.notify.NotifyViewModel
 import com.willy.metu.pair.QuestionnaireOneViewModel
 import com.willy.metu.profile.EditProfileViewModel
 import com.willy.metu.profile.ProfileViewModel
@@ -47,6 +48,8 @@ class ViewModelFactory constructor(
                     FollowArticleViewModel(meTuRepository)
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(meTuRepository)
+                isAssignableFrom(NotifyViewModel::class.java) ->
+                    NotifyViewModel(meTuRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

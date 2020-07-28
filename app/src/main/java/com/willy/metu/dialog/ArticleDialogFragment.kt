@@ -40,7 +40,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
         binding.viewModel = viewModel
 
         binding.buttonPost.setOnClickListener {
-            if(viewModel.articleCity.value != null || viewModel.articleType.value != null || viewModel.articleTitle.value != null || viewModel.articleSubject.value != null) {
+            if(viewModel.checkIfComplete()) {
                 viewModel.postArticle(viewModel.getArticle())
             } else {
                 Toast.makeText(requireContext(),"Please finish the required information",Toast.LENGTH_SHORT).show()

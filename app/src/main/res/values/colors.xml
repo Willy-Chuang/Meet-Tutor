@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFE561</color>
-    <color name="colorPrimaryDark">#ffe20d</color>
+    <color name="colorPrimaryDark">#FFC100</color>
     <color name="colorAccent">#FFC100</color>
     <color name="colorPrimaryAlpha">#F6E486</color>
+
+    <!-- Yellow Series -->
+    <color name="lightYellow">#FFE478</color>
 
     <!-- White Series -->
     <color name="white">#ffffff</color>
@@ -40,6 +43,8 @@
     <color name="pinkish">#EF6F6C</color>
     <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
+    <color name="peach">#FF7841</color>
+    <color name="light_yellow">#FFF7D7</color>
 
 
 

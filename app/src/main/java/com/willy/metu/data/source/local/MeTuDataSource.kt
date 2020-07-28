@@ -99,4 +99,24 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getMyArticle(userEmail: String): Result<List<Article>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

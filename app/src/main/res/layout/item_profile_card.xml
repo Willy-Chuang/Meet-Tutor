@@ -16,8 +16,9 @@
         android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="320dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
         android:elevation="4dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,13 +32,16 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_card_user"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="80dp"
                 android:layout_marginTop="36dp"
                 imageUrl="@{user.image}"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_card_name"
                 tools:src="@drawable/ic_cute_avatar"/>
             <TextView
                 android:id="@+id/text_card_name"
@@ -136,10 +140,25 @@
                 android:textColor="@color/black_12_alpha"
                 android:fontFamily="@font/roboto"
                 android:textStyle="bold"
-                android:text="@{ @string/card_about + user.name}"
+                android:text="@string/card_about"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chipGroup"
-                tools:text="About Sirius Black">
+                tools:text="About">
+            </TextView>
+
+            <TextView
+                android:id="@+id/title_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/black_12_alpha"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                android:text="@{ user.name}"
+                app:layout_constraintStart_toEndOf="@id/title_card_about"
+                app:layout_constraintTop_toBottomOf="@id/chipGroup"
+                tools:text="Sirius Black">
             </TextView>
 
             <TextView
@@ -150,6 +169,10 @@
                 android:layout_marginTop="4dp"
                 android:text="@{user.introduction}"
                 android:fontFamily="@font/roboto"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_card_about"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

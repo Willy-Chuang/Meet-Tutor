@@ -51,4 +51,15 @@ interface MeTuRepository {
 
     suspend fun getOneArticle(): Result<List<Article>>
 
+    suspend fun getMyArticle(userEmail: String): Result<List<Article>>
+
+    suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean>
+
+    fun getLiveMyEventInvitation(userEmail: String): MutableLiveData<List<Event>>
+
+    suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean>
+
+    suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean>
+
+
 }

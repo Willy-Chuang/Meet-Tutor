@@ -68,6 +68,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="eventDetailFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="273" />
+                            <option name="y" value="918" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="followListFragment">
                     <value>
                       <LayoutPositions>
@@ -128,6 +140,11 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="navigate_to_article">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_calendar_Fragment">
                     <value>
                       <LayoutPositions />
@@ -154,6 +171,11 @@
                     </value>
                   </entry>
                   <entry key="navigate_to_home_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_notify">
                     <value>
                       <LayoutPositions />
                     </value>
@@ -206,6 +228,18 @@
                   <entry key="navigate_to_user_detail">
                     <value>
                       <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="notifyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="24" />
+                            <option name="y" value="916" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
                     </value>
                   </entry>
                   <entry key="pairingResultFragment">
