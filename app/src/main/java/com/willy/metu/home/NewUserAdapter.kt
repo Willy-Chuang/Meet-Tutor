@@ -9,15 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.NavigationDirections
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemRecommendUserBinding
+import com.willy.metu.login.UserManager
 
-class NewUserAdapter(): ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
-    class UserViewHolder(private var binding: ItemRecommendUserBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(user: User){
+class NewUserAdapter() : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback) {
+    class UserViewHolder(private var binding: ItemRecommendUserBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: User) {
             binding.user = user
 
             binding.userImage.setOnClickListener {
-                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user.email)).onClick(binding.userImage)
-
+                if (user.email == UserManager.user.email) {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToProfile()).onClick(binding.userImage)
+                } else {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user.email)).onClick(binding.userImage)
+                }
             }
 
             binding.executePendingBindings()
@@ -28,6 +32,7 @@ class NewUserAdapter(): ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback)
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem.id == newItem.id
         }
@@ -45,7 +50,7 @@ class NewUserAdapter(): ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(holder) {
+        when (holder) {
             is UserViewHolder -> {
                 holder.bind((getItem(position) as User))
             }
