@@ -8,17 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
-import com.willy.metu.talentpool.TalentPoolViewModel
-import com.willy.metu.util.Logger
-import kotlinx.android.synthetic.main.activity_main.*
 
 class UserDetailFragment : Fragment() {
 
@@ -67,13 +62,13 @@ class UserDetailFragment : Fragment() {
 
 
 
-            if (it.followingEmail.component1() == "") {
+            if (it.followingEmail.isEmpty()) {
                 binding.textFollowing.text = "0"
             } else {
                 binding.textFollowing.text = it.followingEmail.size.toString()
             }
 
-            if (it.followedBy.component1() == "") {
+            if (it.followedBy.isEmpty()) {
                 binding.textFollowBy.text = "0"
             } else {
                 binding.textFollowBy.text = it.followedBy.size.toString()
