@@ -496,6 +496,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
 
         articles
+                .orderBy("createdTime",Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
 

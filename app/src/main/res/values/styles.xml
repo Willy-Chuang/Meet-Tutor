@@ -32,10 +32,10 @@
         <item name="checkedIconVisible">false</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">false</item>
-        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipBackgroundColor">@color/gray_f0f0f0</item>
         <item name="chipIconVisible">true</item>
-        <item name="textStartPadding">2dp</item>
-        <item name="textEndPadding">2dp</item>
+        <item name="textStartPadding">4dp</item>
+        <item name="textEndPadding">4dp</item>
         <item name="android:textAppearance">@style/ChipTextStyleAppearance</item>
     </style>
 

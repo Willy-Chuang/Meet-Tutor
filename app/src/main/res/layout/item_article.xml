@@ -54,6 +54,7 @@
                 android:layout_marginStart="24dp"
                 android:text="@{article.type}"
                 android:textColor="@color/white"
+                android:clickable="false"
                 app:chipBackgroundColor='@{article.type.equals("Study Group") ? @color/water_green : article.type.equals("Student") ? @color/orange : article.type.equals("Tutor") ? @color/pinkish : @color/blue}'
                 app:chipSpacingVertical="2dp"
                 app:layout_constraintTop_toTopOf="@id/image_bookmark"

@@ -20,10 +20,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file('/Users/willychuang/Desktop/TuitionProject/Release/meetu')
+            storePassword 'W1993820914'
+            keyAlias 'key0'
+            keyPassword 'W1993820914'
+        }
+    }
 
     buildTypes {
         release {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "false")
+            signingConfig signingConfigs.release
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -43,8 +52,8 @@ android {
     }
 
 
-
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

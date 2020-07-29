@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -30,9 +31,6 @@ class UserDetailFragment : Fragment() {
     ): View? {
         val binding = FragmentUserDetailBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
-//        val talentpoolViewModel = ViewModelProvider(this).get(TalentPoolViewModel::class.java)
-//
-//        talentpoolViewModel.user.value = null
 
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
@@ -47,7 +45,7 @@ class UserDetailFragment : Fragment() {
 
             if (genres != null) {
                 for (genre in genres) {
-                    val chip = Chip(chipGroup.getContext())
+                    val chip = Chip(context, null, R.attr.CustomChipChoice)
                     chip.text = genre
                     chipGroup.addView(chip)
                 }
