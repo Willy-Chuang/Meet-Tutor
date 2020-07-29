@@ -44,15 +44,47 @@ class TalentPoolAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Articl
                 }
             }
 
-            binding.buttonReadMore.setOnClickListener {
+//            binding.textDetail.viewTreeObserver
+//                    .addOnGlobalLayoutListener {
+//                        object : ViewTreeObserver.OnGlobalLayoutListener {
+//                            override fun onGlobalLayout() {
+//                                val layout = binding.textDetail.layout
+//                                if (layout != null) {
+//                                    val lines = layout.lineCount
+//                                    Logger.w("layout_lines= $lines")
+//                                    if (lines > 0) {
+//                                        if (layout.getEllipsisCount(lines - 1) > 0)
+//                                            Logger.w("EllipsisCount= ${layout.getEllipsisCount(lines - 1)}")
+//
+//                                    }
+//                                }
+//                                binding.textDetail.requestLayout()
+//
+//                                binding.textDetail.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                            }
+//
+//                        }
+//                    }
+
+            binding.layoutText.setOnClickListener {
                 binding.textDetail.maxLines = 99
-                binding.buttonReadMore.visibility = View.GONE
                 binding.buttonCollapse.visibility = View.VISIBLE
             }
 
+            binding.textDetail.setOnClickListener {
+                binding.textDetail.maxLines = 99
+                binding.buttonCollapse.visibility = View.VISIBLE
+            }
+
+//            binding.buttonReadMore.setOnClickListener {
+//                binding.textDetail.maxLines = 99
+//                binding.buttonReadMore.visibility = View.GONE
+//                binding.buttonCollapse.visibility = View.VISIBLE
+//            }
+
             binding.buttonCollapse.setOnClickListener {
                 binding.textDetail.maxLines = 2
-                binding.buttonReadMore.visibility = View.VISIBLE
+//                binding.buttonReadMore.visibility = View.VISIBLE
                 binding.buttonCollapse.visibility = View.GONE
             }
 
@@ -101,6 +133,7 @@ class TalentPoolAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Articl
             }
 
         }
+
 
 
         when (holder) {

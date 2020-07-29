@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.AdapterView
 import android.widget.SpinnerAdapter
 import android.widget.Toast
@@ -14,13 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.willy.metu.MainActivity
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.data.Answers
 import com.willy.metu.databinding.FragmentQuestionnaireOneBinding
-import com.willy.metu.databinding.FragmentStartPairingBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
 
@@ -70,7 +67,7 @@ class QuestionnaireOneFragment : Fragment() {
                     }
                 }
 
-        //Passing Value to Subject livedata
+        //Passing Value to Subject live data
         binding.spinnerSubjectMinor.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -85,11 +82,6 @@ class QuestionnaireOneFragment : Fragment() {
                         if (parent != null && pos != 0) {
                             viewModel.selectedMinorSubject.value = parent.selectedItem.toString()
                             viewModel.navigateToQuestionTwo.value?.subject = parent.selectedItem.toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    parent.selectedItem.toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
@@ -113,7 +105,7 @@ class QuestionnaireOneFragment : Fragment() {
         })
 
         //Setup next button to navigate to the next question, passing the selected answers along
-        binding.buttonNext.setOnClickListener { view ->
+        binding.buttonNext.setOnClickListener {
             if (viewModel.selectedMajorSubject.value == null) {
                 Toast.makeText(MeTuApplication.appContext,"Please select a category",Toast.LENGTH_SHORT).show()
             } else if (viewModel.selectedMinorSubject.value== null) {
@@ -133,11 +125,10 @@ class QuestionnaireOneFragment : Fragment() {
     }
 
     fun setSpinnerContent(array: Int): SpinnerAdapter {
-        val spinner = MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
-        return spinner
+        return MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
     }
 
-    fun setDialog() {
+    private fun setDialog() {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
-import com.willy.metu.data.Answers
 import com.willy.metu.databinding.FragmentQuestionnaireTwoBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
@@ -43,7 +41,7 @@ class QuestionnaireTwoFragment : Fragment(){
         val newTaipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.new_taipei_array)
         val taoyuanContent = MeTuApplication.instance.resources.getStringArray(R.array.taoyuan_array)
         val taichungContent = MeTuApplication.instance.resources.getStringArray(R.array.taichung_array)
-        val kaohsiung_array = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
+        val kaohsiungContent = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
 
 
         binding.lifecycleOwner = this
@@ -70,7 +68,7 @@ class QuestionnaireTwoFragment : Fragment(){
                             2 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(newTaipeiContent, districtIndicator)
                             3 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taoyuanContent, districtIndicator)
                             4 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taichungContent, districtIndicator)
-                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiung_array, districtIndicator)
+                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiungContent, districtIndicator)
                         }
                         if (parent != null && pos != 0) {
                             viewModel.selectedCity.value = parent.selectedItem.toString()
@@ -94,11 +92,6 @@ class QuestionnaireTwoFragment : Fragment(){
                         if (parent != null && pos != 0) {
                             viewModel.selectedDistrict.value = parent.selectedItem.toString()
                             viewModel.navigateToQuestionThree.value?.district = parent.selectedItem.toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    parent.selectedItem.toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
@@ -138,12 +131,8 @@ class QuestionnaireTwoFragment : Fragment(){
         return binding.root
     }
 
-//    fun setSpinnerContent(array: Int): SpinnerAdapter {
-//        val spinner = MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
-//        return spinner
-//    }
 
-    fun setDialog() {
+    private fun setDialog() {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)

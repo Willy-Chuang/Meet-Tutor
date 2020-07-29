@@ -174,16 +174,10 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.type.value = parent.selectedItem.toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    parent.selectedItem.toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                     }
                 }
-
-//        val adapter = CalendarBottomSheetAdapter()
 
 
         // Setup post button with error handling
@@ -222,7 +216,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         })
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
-            Logger.i("userInfo = "+ it.toString())
+            Logger.i("userInfo = $it")
         })
 
 
