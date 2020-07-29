@@ -1,11 +1,13 @@
 package com.willy.metu
 
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -29,7 +31,7 @@ import com.willy.metu.util.Logger
 import java.util.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity() : BaseActivity() {
 
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
@@ -279,18 +281,6 @@ class MainActivity : BaseActivity() {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
 
-//                when (UserManager.isLoggedIn) { // check user login status when open drawer
-//                    true -> {
-//                        viewModel.checkUser()
-//                    }
-//                    else -> {
-//                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLoginDialog())
-//                        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                            binding.drawerLayout.closeDrawer(GravityCompat.START)
-//                        }
-//                    }
-//                }
-
             }
         }.apply {
             binding.drawerLayout.addDrawerListener(this)
@@ -343,8 +333,27 @@ class MainActivity : BaseActivity() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            val manager = supportFragmentManager
+            val count = manager.findFragmentById(R.id.myNavHostFragment)!!.childFragmentManager.backStackEntryCount
+            if (count == 0) {
+                setDialog()
+            } else {
+                super.onBackPressed()
+            }
+
         }
+    }
+
+
+    private fun setDialog() {
+
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setCancelable(true)
+        alertDialogBuilder.setTitle("Sure To Leave?")
+        alertDialogBuilder.setMessage("Leaving will close the app")
+        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { _, _ -> finish()})
+        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, _ -> which.dismiss() })
+        alertDialogBuilder.show()
 
     }
 }
