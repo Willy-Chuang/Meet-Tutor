@@ -20,8 +20,8 @@ class ArticleAdapter (fragmentManager: FragmentManager): FragmentStatePagerAdapt
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 ->  "All Articles"
-            else ->  "My Articles"
+            0 ->  "All"
+            else ->  "My"
         }
     }
 }

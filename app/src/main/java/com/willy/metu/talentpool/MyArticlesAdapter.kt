@@ -11,6 +11,7 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
 import com.willy.metu.login.UserManager
+import com.willy.metu.util.Logger
 import kotlinx.android.synthetic.main.item_article.view.*
 
 class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article, RecyclerView.ViewHolder>(AllArticleAdapter) {
@@ -24,7 +25,11 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
 
             binding.imageBookmark.setOnClickListener {
                 viewModel.addArticlesToWishlist(article, UserManager.user.email)
+
                 bookmarkIcon.isSelected = !bookmarkIcon.isSelected
+
+                viewModel.checked.value = bookmarkIcon.isSelected
+                Logger.i("${bookmarkIcon.isSelected}")
             }
 
             binding.layoutUserInfo.setOnClickListener {

@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentTalentpoolBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortArticleToMyArticle
@@ -93,16 +96,30 @@ class MyArticlesFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
 
+        viewModel.checked.observe(viewLifecycleOwner, Observer {
+            Logger.d(it.toString())
+            if (it == true) {
+                snack(binding.layoutBottomnav, "Add to follow list")
+            } else {
+                snack(binding.layoutBottomnav, "Remove from follow list")
+            }
+        })
+
         viewModel.isAdded.observe(viewLifecycleOwner, Observer {
             Logger.d(it.toString())
         })
-
-
-
-
-
+        
         return binding.root
 
+    }
+
+    fun snack (baseView: View, content: String) {
+        Snackbar.make(baseView, content, Snackbar.LENGTH_SHORT).apply {
+            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams).apply {
+                setMargins(24, topMargin, 24, 24)
+            }
+            view.background = context.getDrawable(R.drawable.bg_all_round_r8_black)
+        }.show()
     }
 
 }

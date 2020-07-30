@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.willy.metu.NavigationDirections
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
@@ -25,7 +26,10 @@ class AllArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Articl
 
             binding.imageBookmark.setOnClickListener {
                 viewModel.addArticlesToWishlist(article, UserManager.user.email)
+
                 bookmarkIcon.isSelected = !bookmarkIcon.isSelected
+
+                viewModel.checked.value = bookmarkIcon.isSelected
             }
 
             binding.layoutUserInfo.setOnClickListener {
@@ -119,6 +123,10 @@ class AllArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Articl
 
     override fun getItemViewType(position: Int): Int {
         return ITEM_VIEW_TYPE_EVENT
+    }
+
+    fun View.snack(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+        Snackbar.make(this, message, duration).show()
     }
 
 
