@@ -1,6 +1,8 @@
 package com.willy.metu
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -9,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.willy.metu.calendar.CalendarBottomSheetAdapter
 import com.willy.metu.data.Event
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.TimeUtil
 
 @BindingAdapter("events")
@@ -63,5 +66,12 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                                 .placeholder(R.drawable.ic_face_black_24)
                                 .error(R.drawable.ic_face_black_24))
                 .into(imgView)
+    }
+}
+@BindingAdapter("setupApiStatus")
+fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    when (status) {
+        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
     }
 }

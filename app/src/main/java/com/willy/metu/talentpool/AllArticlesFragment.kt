@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -68,6 +69,8 @@ class AllArticlesFragment : Fragment() {
 
         viewModel.allLiveArticles.observe(viewLifecycleOwner, Observer {
 
+            binding.recyclerArticle.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_fade_in_animation)
+
             viewModel.selectedType.observe(viewLifecycleOwner, Observer { type ->
 
                 if (type == "All Type") {
@@ -110,7 +113,7 @@ class AllArticlesFragment : Fragment() {
 
     }
 
-    fun snack (baseView: View, content: String) {
+    fun snack(baseView: View, content: String) {
         Snackbar.make(baseView, content, Snackbar.LENGTH_SHORT).apply {
             view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams).apply {
                 setMargins(24, topMargin, 24, 24)

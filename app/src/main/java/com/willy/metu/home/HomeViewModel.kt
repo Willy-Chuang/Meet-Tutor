@@ -9,6 +9,8 @@ import com.willy.metu.data.Article
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.ext.excludeUser
+import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -219,8 +221,6 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
     fun addArticlesToWishlist(article: Article, userEmail: String){
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             when (val result = repository.addArticleToWishlist(article, userEmail)) {
                 is Result.Success -> {
                     _error.value = null
@@ -245,6 +245,15 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     fun getAllLiveSavedArticles(userEmail: String) {
         savedArticles = repository.getAllLiveSavedArticles(userEmail)
+    }
+
+    fun checkIfInfoComplete(): Boolean {
+        val userInfo = userInfo.value
+        return !(userInfo?.identity == "" || userInfo?.tag == listOf("") || userInfo?.district == "")
+    }
+
+    fun excludeUserFromList (subject: String) {
+        allUsers.value.excludeUser().sortUserBySubject(subject)
         _status.value = LoadApiStatus.DONE
     }
 

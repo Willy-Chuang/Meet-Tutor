@@ -28,6 +28,10 @@
         <item name="fontFamily">@font/roboto</item>
     </style>
 
+    <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="CustomChipChoiceStyle" parent="@style/Widget.MaterialComponents.Chip.Action">
         <item name="checkedIconVisible">false</item>
         <item name="android:focusable">true</item>

@@ -6,6 +6,9 @@
     <data>
 
         <import type="com.willy.metu.login.UserManager" />
+        <import type="android.widget.ProgressBar"/>
+        <import type="com.willy.metu.network.LoadApiStatus"/>
+        <import type="android.view.View"/>
 
         <variable
             name="viewModel"
@@ -22,6 +25,8 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false">
+
+
 
             <View
                 android:layout_width="match_parent"
@@ -243,6 +248,17 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/title_article"
                 app:layout_constraintTop_toBottomOf="@id/title_article"/>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:theme="@style/ProgressTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
