@@ -79,6 +79,15 @@ fun List<Article>?.sortArticleBySubject(subject: String) : List<Article>{
             ?: listOf()
 }
 
+fun List<Article>?.sortArticleToMyArticle(userEmail: String) : List<Article>{
+    return this?.filter {
+        it?.let {
+            it.creatorEmail == userEmail
+        }
+    }
+            ?: listOf()
+}
+
 fun List<User>?.sortUserBySubject(subject: String) : List<User>{
     return  this?.filter {
         it?.let {
