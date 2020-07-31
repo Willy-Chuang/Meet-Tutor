@@ -1,6 +1,8 @@
 package com.willy.metu
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -83,10 +85,12 @@ class MainActivity() : BaseActivity() {
 
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
