@@ -71,13 +71,25 @@ class MyArticlesFragment : Fragment() {
         viewModel.allLiveArticles.observe(viewLifecycleOwner, Observer {
 
             val myArticle = it.sortArticleToMyArticle(UserManager.user.email)
+
+            if (myArticle.isEmpty()) {
+                binding.noValue.visibility = View.VISIBLE
+                binding.noValueImage.visibility = View.VISIBLE
+            }
+
             binding.recyclerArticle.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
 
             viewModel.selectedType.observe(viewLifecycleOwner, Observer { type ->
 
                 if (type == "All Type") {
-                    binding.noValue.visibility = View.GONE
-                    binding.noValueImage.visibility = View.GONE
+
+                    if (myArticle.isEmpty()) {
+                        binding.noValueImage.visibility = View.VISIBLE
+                        binding.noValue.visibility = View.VISIBLE
+                    } else {
+                        binding.noValue.visibility = View.GONE
+                        binding.noValueImage.visibility = View.GONE
+                    }
                     adapter.submitList(myArticle)
                 } else {
 
