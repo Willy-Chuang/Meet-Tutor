@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.willy.metu.MainViewModel
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentHomeBinding
@@ -31,9 +33,12 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
 
         binding.viewModel = viewModel
+
+        //Setup RecyclerViews
 
         val recommendAdapter = RecommendAdapter()
         val newUserAdapter = NewUserAdapter()
@@ -87,7 +92,9 @@ class HomeFragment : Fragment() {
 
             viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
 
-                if (it.first().toString() == "") {
+                Logger.i("bias subject = $it")
+
+                if (it == "") {
                     binding.noValueArticles.visibility = View.VISIBLE
 
                 } else {
@@ -114,23 +121,6 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            Logger.i("viewModel.status.observe, it=$it")
-
-            val progress = binding.progress
-            when (it) {
-                LoadApiStatus.DONE -> {progress.visibility = View.GONE
-                 if (!viewModel.checkIfInfoComplete())  {
-                    Toast.makeText(requireContext(),"Go To Your Mom", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(),"Welcome Back", Toast.LENGTH_SHORT).show()
-                } }
-                LoadApiStatus.ERROR -> Toast.makeText(requireContext(),"Internet Failure", Toast.LENGTH_SHORT).show()
-                LoadApiStatus.LOADING -> progress.visibility = View.VISIBLE
-            }
-
-        })
-
-        viewModel.status.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
             when (it) {
                 LoadApiStatus.LOADING -> {
@@ -142,10 +132,16 @@ class HomeFragment : Fragment() {
                     Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
 
-                    if (!viewModel.checkIfInfoComplete())  {
-                        Toast.makeText(requireContext(),"Go To Your Mom", Toast.LENGTH_SHORT).show()
+                    if (!viewModel.checkIfInfoComplete()) {
+                        if (mainViewModel.noticed.value == false) {
+                            findNavController().navigate(NavigationDirections.navigateToFinishInfo())
+                            mainViewModel.noticed.value = true
+                        } else {
+                            Toast.makeText(requireContext(), "Remember to complete your profile", Toast.LENGTH_LONG).show()
+                        }
+
                     } else {
-                        Toast.makeText(requireContext(),"Welcome Back", Toast.LENGTH_SHORT).show()
+                        Logger.i("User Is Back")
                     }
                 }
             }

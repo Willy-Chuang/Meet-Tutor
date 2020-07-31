@@ -80,6 +80,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="finishInfoDialogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="485" />
+                            <option name="y" value="911" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="followListFragment">
                     <value>
                       <LayoutPositions>
@@ -161,6 +173,11 @@
                     </value>
                   </entry>
                   <entry key="navigate_to_edit_profile_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_event_detail">
                     <value>
                       <LayoutPositions />
                     </value>

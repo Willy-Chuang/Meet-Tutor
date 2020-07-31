@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class MainViewModel (private val repository: MeTuRepository): ViewModel(){
+class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     // user: MainViewModel has User info to provide Drawer UI
     private val _user = MutableLiveData<User>()
@@ -32,11 +32,14 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
     val editIsPressed = MutableLiveData<Boolean>()
     val saveIsPressed = MutableLiveData<Boolean>()
 
+    // Asked to finish the profile
+    val noticed = MutableLiveData<Boolean>()
+
     //Notifications
     val notifications: LiveData<List<Event>> = repository.getLiveMyEventInvitation(UserManager.user.email)
 
     // Notification Count
-    val countInNotify: LiveData<Int> = Transformations.map(notifications){it.size}
+    val countInNotify: LiveData<Int> = Transformations.map(notifications) { it.size }
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
@@ -125,6 +128,7 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        noticed.value = false
     }
 
     fun refresh() {
@@ -143,7 +147,7 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
         _navigateToHomeByBottomNav.value = null
     }
 
-    fun onNotifyNavigated(){
+    fun onNotifyNavigated() {
         _navigateToNotificationByBottomNav.value = null
     }
 
@@ -151,11 +155,11 @@ class MainViewModel (private val repository: MeTuRepository): ViewModel(){
         _navigateToChatListByBottomNav.value = null
     }
 
-    fun onTalentPoolNavigated(){
+    fun onTalentPoolNavigated() {
         _navigateToTalentPoolByBottomNav.value = null
     }
 
-    fun onPairingNavigated(){
+    fun onPairingNavigated() {
         _navigateToPairingByBottomNav.value = null
     }
 

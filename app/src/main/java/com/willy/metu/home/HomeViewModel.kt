@@ -19,11 +19,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
+class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     private val _allUsers = MutableLiveData<List<User>>()
 
-    val allUsers : LiveData<List<User>>
+    val allUsers: LiveData<List<User>>
         get() = _allUsers
 
     val biasSubject = MutableLiveData<String>()
@@ -31,17 +31,17 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     private val _newUsers = MutableLiveData<List<User>>()
 
-    val newUsers : LiveData<List<User>>
+    val newUsers: LiveData<List<User>>
         get() = _newUsers
 
     private val _userInfo = MutableLiveData<User>()
 
-    val userInfo : LiveData<User>
+    val userInfo: LiveData<User>
         get() = _userInfo
 
     private val _oneArticle = MutableLiveData<List<Article>>()
 
-    val oneArticle : LiveData<List<Article>>
+    val oneArticle: LiveData<List<Article>>
         get() = _oneArticle
 
 
@@ -228,7 +228,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     }
 
-    fun addArticlesToWishlist(article: Article, userEmail: String){
+    fun addArticlesToWishlist(article: Article, userEmail: String) {
         coroutineScope.launch {
 
             when (val result = repository.addArticleToWishlist(article, userEmail)) {
@@ -258,10 +258,10 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     fun checkIfInfoComplete(): Boolean {
         val userInfo = userInfo.value
-        return !(userInfo?.identity == "" || userInfo?.tag == listOf("") || userInfo?.district == "")
+        return !(userInfo?.identity == null || userInfo?.tag == listOf("") || userInfo?.district == null)
     }
 
-    fun excludeUserFromList (subject: String) {
+    fun excludeUserFromList(subject: String) {
         allUsers.value.excludeUser().sortUserBySubject(subject)
     }
 

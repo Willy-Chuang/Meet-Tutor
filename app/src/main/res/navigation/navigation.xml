@@ -9,7 +9,7 @@
         android:id="@+id/calendarFragment"
         android:name="com.willy.metu.calendar.CalendarFragment"
         android:label="CalendarFragment"
-        tools:layout="@layout/fragment_calendar"/>
+        tools:layout="@layout/fragment_calendar" />
 
     <action
         android:id="@+id/navigate_to_calendar_Fragment"
@@ -25,20 +25,21 @@
             app:argType="long" />
     </dialog>
 
-    <action android:id="@+id/navigate_to_post_event_dialog"
-        app:destination="@id/post_event_dialog"/>
+    <action
+        android:id="@+id/navigate_to_post_event_dialog"
+        app:destination="@id/post_event_dialog" />
 
     <fragment
         android:id="@+id/startPairingFragment"
         android:name="com.willy.metu.pair.StartPairingFragment"
         android:label="StartPairingFragment"
-        tools:layout="@layout/fragment_start_pairing"/>
+        tools:layout="@layout/fragment_start_pairing" />
 
     <action
         android:id="@+id/navigate_to_pairing_fragment"
         app:destination="@id/startPairingFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
 
     <activity
         android:id="@+id/loginActivity"
@@ -49,23 +50,23 @@
         android:id="@+id/homeFragment"
         android:name="com.willy.metu.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home" />
     <action
         android:id="@+id/navigate_to_home_fragment"
         app:destination="@id/homeFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/questionnaireOneFragment"
         android:name="com.willy.metu.pair.QuestionnaireOneFragment"
         android:label="QuestionnaireOneFragment"
         app:exitAnim="@anim/slide_out_left"
-        tools:layout="@layout/fragment_questionnaire_one"/>
+        tools:layout="@layout/fragment_questionnaire_one" />
     <action
         android:id="@+id/navigate_to_question_one"
         app:destination="@id/questionnaireOneFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"/>
+        app:exitAnim="@anim/slide_out_left" />
     <fragment
         android:id="@+id/questionnaireTwoFragment"
         android:name="com.willy.metu.pair.QuestionnaireTwoFragment"
@@ -73,14 +74,14 @@
         tools:layout="@layout/fragment_questionnaire_two">
         <argument
             android:name="selectedAnswers"
-            app:argType="com.willy.metu.data.Answers"/>
+            app:argType="com.willy.metu.data.Answers" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_question_two"
         app:destination="@id/questionnaireTwoFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"/>
+        app:exitAnim="@anim/slide_out_left" />
 
     <fragment
         android:id="@+id/questionnaireThreeFragment"
@@ -89,34 +90,34 @@
         tools:layout="@layout/fragment_questionnaire_three">
         <argument
             android:name="selectedAnswers"
-            app:argType="com.willy.metu.data.Answers"/>
+            app:argType="com.willy.metu.data.Answers" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_question_three"
         app:destination="@id/questionnaireThreeFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"/>
+        app:exitAnim="@anim/slide_out_left" />
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.willy.metu.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" />
 
     <action
         android:id="@+id/navigate_to_profile"
-        app:destination="@id/profileFragment"/>
+        app:destination="@id/profileFragment" />
 
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.willy.metu.profile.EditProfileFragment"
         android:label="EditProfileFragment"
-        tools:layout="@layout/fragment_edit_profile"/>
+        tools:layout="@layout/fragment_edit_profile" />
 
     <action
         android:id="@+id/navigate_to_edit_profile_fragment"
-        app:destination="@id/editProfileFragment"/>
+        app:destination="@id/editProfileFragment" />
 
     <fragment
         android:id="@+id/pairingResultFragment"
@@ -125,21 +126,21 @@
         tools:layout="@layout/fragment_pairing_result">
         <argument
             android:name="selectedAnswers"
-            app:argType="com.willy.metu.data.Answers"/>
+            app:argType="com.willy.metu.data.Answers" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_pairing_result_fragment"
-        app:destination="@id/pairingResultFragment"/>
+        app:destination="@id/pairingResultFragment" />
 
     <fragment
         android:id="@+id/followListFragment"
         android:name="com.willy.metu.followlist.FollowListFragment"
         android:label="FollowListFragment"
-        tools:layout="@layout/fragment_followlist"/>
+        tools:layout="@layout/fragment_followlist" />
     <action
         android:id="@+id/navigate_to_follow_list_fragment"
-        app:destination="@id/followListFragment"/>
+        app:destination="@id/followListFragment" />
 
     <fragment
         android:id="@+id/userDetailFragment"
@@ -148,23 +149,23 @@
         tools:layout="@layout/fragment_user_detail">
         <argument
             android:name="userEmail"
-            app:argType="string"/>
+            app:argType="string" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_user_detail"
-        app:destination="@id/userDetailFragment"/>
+        app:destination="@id/userDetailFragment" />
 
     <fragment
         android:id="@+id/chatListFragment"
         android:name="com.willy.metu.chatlist.ChatListFragment"
         android:label="ChatListFragment"
-        tools:layout="@layout/fragment_chat_list"/>
+        tools:layout="@layout/fragment_chat_list" />
     <action
         android:id="@+id/navigate_to_chat_list"
         app:destination="@id/chatListFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/chatRoomFragment"
@@ -181,38 +182,38 @@
 
     <action
         android:id="@+id/navigate_to_chat_room"
-        app:destination="@id/chatRoomFragment"/>
+        app:destination="@id/chatRoomFragment" />
 
     <fragment
         android:id="@+id/talentPoolFragment"
         android:name="com.willy.metu.talentpool.TalentPoolFragment"
         android:label="TalentPoolFragment"
-        tools:layout="@layout/fragment_talentpool"/>
+        tools:layout="@layout/fragment_talentpool" />
 
     <action
         android:id="@+id/navigate_to_talent_pool"
         app:destination="@+id/talentPoolFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
 
     <dialog
         android:id="@+id/post_article_dialog"
         android:name="com.willy.metu.dialog.ArticleDialogFragment"
         android:label="PostArticleDialog"
-        tools:layout="@layout/dialog_post_article"/>
+        tools:layout="@layout/dialog_post_article" />
     <action
         android:id="@+id/navigate_to_post_article_dialog"
-        app:destination="@+id/post_article_dialog"/>
+        app:destination="@+id/post_article_dialog" />
     <fragment
         android:id="@+id/itemFollowedArticlesFragment"
         android:name="com.willy.metu.followlist.ItemFollowedArticlesFragment"
         android:label="ItemFollowedArticlesFragment"
-        tools:layout="@layout/item_followed_users"/>
+        tools:layout="@layout/item_followed_users" />
     <fragment
         android:id="@+id/itemFollowedUsersFragment"
         android:name="com.willy.metu.followlist.ItemFollowedUsersFragment"
         android:label="ItemFollowedUsersFragment"
-        tools:layout="@layout/item_followed_articles"/>
+        tools:layout="@layout/item_followed_articles" />
 
     <fragment
         android:id="@+id/articleFragment"
@@ -221,24 +222,24 @@
         tools:layout="@layout/fragment_article">
         <argument
             android:name="article"
-            app:argType="com.willy.metu.data.Article"/>
+            app:argType="com.willy.metu.data.Article" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_article"
-        app:destination="@id/articleFragment"/>
+        app:destination="@id/articleFragment" />
 
     <fragment
         android:id="@+id/notifyFragment"
         android:name="com.willy.metu.notify.NotifyFragment"
         android:label="NotifyFragment"
-        tools:layout="@layout/fragment_notify"/>
+        tools:layout="@layout/fragment_notify" />
 
     <action
         android:id="@+id/navigate_to_notify"
         app:destination="@id/notifyFragment"
         app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/eventDetailFragment"
@@ -247,12 +248,22 @@
         tools:layout="@layout/fragment_event_detail">
         <argument
             android:name="event"
-            app:argType="com.willy.metu.data.Event"/>
+            app:argType="com.willy.metu.data.Event" />
     </fragment>
 
     <action
         android:id="@+id/navigate_to_event_detail"
-        app:destination="@id/eventDetailFragment"/>
+        app:destination="@id/eventDetailFragment" />
+
+    <dialog
+        android:id="@+id/finishInfoDialogFragment"
+        android:name="com.willy.metu.dialog.FinishInfoDialogFragment"
+        android:label="FinishInfoDialogFragment"
+        tools:layout="@layout/dialog_finish_info" />
+
+    <action
+        android:id="@+id/navigate_to_finish_info"
+        app:destination="@id/finishInfoDialogFragment" />
 
 
 </navigation>
