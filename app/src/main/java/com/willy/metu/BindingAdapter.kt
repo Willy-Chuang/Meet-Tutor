@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.willy.metu.calendar.CalendarBottomSheetAdapter
 import com.willy.metu.data.Event
 import com.willy.metu.network.LoadApiStatus
+import com.willy.metu.util.Logger
 import com.willy.metu.util.TimeUtil
 
 @BindingAdapter("events")
@@ -70,8 +71,15 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 @BindingAdapter("setupApiStatus")
 fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    Logger.d("bindApiStatus, status=$status")
     when (status) {
-        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
-        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+        LoadApiStatus.LOADING -> {
+            Logger.d("bindApiStatus=LoadApiStatus.LOADING")
+            view.visibility = View.VISIBLE
+        }
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+            Logger.d("bindApiStatus=LoadApiStatus.DONE")
+            view.visibility = View.GONE
+        }
     }
 }

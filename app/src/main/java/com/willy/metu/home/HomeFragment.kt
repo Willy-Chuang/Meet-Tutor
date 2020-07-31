@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,6 +18,8 @@ import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortArticleBySubject
 import com.willy.metu.ext.sortUserBySubject
+import com.willy.metu.network.LoadApiStatus
+import com.willy.metu.util.Logger
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +31,10 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
+        binding.viewModel = viewModel
+
         val recommendAdapter = RecommendAdapter()
         val newUserAdapter = NewUserAdapter()
         val articleAdapter = ArticleAdapter(viewModel)
@@ -36,15 +43,14 @@ class HomeFragment : Fragment() {
         newUserAdapter.setHasStableIds(true)
         articleAdapter.setHasStableIds(true)
 
-        binding.viewModel = viewModel
-        binding.recyclerRecommendation.adapter = recommendAdapter
         binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerRecommendation.adapter = recommendAdapter
 
-        binding.recyclerNewUser.adapter = newUserAdapter
         binding.recyclerNewUser.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerNewUser.adapter = newUserAdapter
 
-        binding.recyclerArticle.adapter = articleAdapter
         binding.recyclerArticle.layoutManager = LinearLayoutManager(context)
+        binding.recyclerArticle.adapter = articleAdapter
 
 
         viewModel.allUsers.observe(viewLifecycleOwner, Observer { users ->
@@ -73,6 +79,7 @@ class HomeFragment : Fragment() {
 
         viewModel.newUsers.observe(viewLifecycleOwner, Observer {
             binding.recyclerNewUser.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_fade_in_animation)
+
             newUserAdapter.submitList(it)
         })
 
@@ -90,6 +97,7 @@ class HomeFragment : Fragment() {
                     if (sortedList.isEmpty()) {
                         binding.noValueArticles.visibility = View.VISIBLE
                     } else {
+
                         articleAdapter.submitList(sortedList)
                     }
 
@@ -105,21 +113,43 @@ class HomeFragment : Fragment() {
             viewModel.biasSubject.value = it.tag.component1()
         })
 
-//        viewModel.status.observe(viewLifecycleOwner, Observer {
-//            val progress = binding.progress
-//            when (it) {
-//                LoadApiStatus.DONE -> {progress.visibility = View.GONE
-//                 if (!viewModel.checkIfInfoComplete())  {
-//                    Toast.makeText(requireContext(),"Go To Your Mom", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(requireContext(),"Welcome Back", Toast.LENGTH_SHORT).show()
-//                } }
-//                LoadApiStatus.ERROR -> Toast.makeText(requireContext(),"Internet Failure", Toast.LENGTH_SHORT).show()
-//                LoadApiStatus.LOADING -> progress.visibility = View.VISIBLE
-//            }
-//
-//            Logger.i("LOAD${it}")
-//        })
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            Logger.i("viewModel.status.observe, it=$it")
+
+            val progress = binding.progress
+            when (it) {
+                LoadApiStatus.DONE -> {progress.visibility = View.GONE
+                 if (!viewModel.checkIfInfoComplete())  {
+                    Toast.makeText(requireContext(),"Go To Your Mom", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(),"Welcome Back", Toast.LENGTH_SHORT).show()
+                } }
+                LoadApiStatus.ERROR -> Toast.makeText(requireContext(),"Internet Failure", Toast.LENGTH_SHORT).show()
+                LoadApiStatus.LOADING -> progress.visibility = View.VISIBLE
+            }
+
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+                    binding.progress.visibility = View.VISIBLE
+
+                }
+                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
+                    binding.progress.visibility = View.GONE
+
+                    if (!viewModel.checkIfInfoComplete())  {
+                        Toast.makeText(requireContext(),"Go To Your Mom", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(),"Welcome Back", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
 
         return binding.root
     }

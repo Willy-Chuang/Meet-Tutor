@@ -77,11 +77,19 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
         getNewestFiveUsers()
         getAllUsers()
         getUser(UserManager.user.email)
         getAllLiveSavedArticles(UserManager.user.email)
         getOneArticle()
+    }
+
+    var doneProgressCount = 4
+    fun doneProgress() {
+
+        doneProgressCount--
+        if (doneProgressCount == 0) _status.value = LoadApiStatus.DONE
     }
 
     fun getNewestFiveUsers() {
@@ -95,7 +103,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _newUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -128,7 +136,8 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _allUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+//                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -160,7 +169,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _userInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -195,7 +204,8 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _oneArticle.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+//                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -224,7 +234,6 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             when (val result = repository.addArticleToWishlist(article, userEmail)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     isAdded.value = result.data
                 }
                 is Result.Fail -> {
@@ -254,9 +263,10 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     fun excludeUserFromList (subject: String) {
         allUsers.value.excludeUser().sortUserBySubject(subject)
-        _status.value = LoadApiStatus.DONE
     }
 
 
-
+    fun onLoaded() {
+        _status.value = LoadApiStatus.DONE
+    }
 }

@@ -110,6 +110,11 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
 
         }
 
+//        holder.itemView.setOnLongClickListener{
+//            Toast.makeText(MeTuApplication.appContext,"Long click detected", Toast.LENGTH_SHORT).show()
+//            true
+//        }
+
 
 
         when (holder) {
