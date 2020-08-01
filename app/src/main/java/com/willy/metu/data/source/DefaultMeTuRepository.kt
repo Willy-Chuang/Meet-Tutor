@@ -28,6 +28,10 @@ class DefaultMeTuRepository(
         return remoteDataSource.postEvent(event)
     }
 
+    override suspend fun deleteArticle(article: Article): Result<Boolean> {
+        return remoteDataSource.deleteArticle(article)
+    }
+
     override suspend fun postUser(user: User): Result<Boolean> {
         return remoteDataSource.postUser(user)
     }

@@ -19,6 +19,9 @@
         <item name="android:windowBackground">#00ffffff</item>
     </style>
 
+    <style name="myDialog" parent="Theme.AppCompat.Dialog">
+    </style>
+
     <style name="AddEventDialog">
         <item name="android:windowBackground">@color/translucent_80</item>
     </style>

@@ -78,9 +78,9 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
+        getUser(UserManager.user.email)
         getNewestFiveUsers()
         getAllUsers()
-        getUser(UserManager.user.email)
         getAllLiveSavedArticles(UserManager.user.email)
         getOneArticle()
     }
@@ -204,7 +204,6 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
             _oneArticle.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-//                    _status.value = LoadApiStatus.DONE
                     doneProgress()
                     result.data
                 }
@@ -258,7 +257,7 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     fun checkIfInfoComplete(): Boolean {
         val userInfo = userInfo.value
-        return !(userInfo?.identity == null || userInfo?.tag == listOf("") || userInfo?.district == null)
+        return !(userInfo?.identity == null && userInfo?.tag == listOf(""))
     }
 
     fun excludeUserFromList(subject: String) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -75,9 +74,12 @@ class MyArticlesFragment : Fragment() {
             if (myArticle.isEmpty()) {
                 binding.noValue.visibility = View.VISIBLE
                 binding.noValueImage.visibility = View.VISIBLE
+            } else {
+                binding.noValue.visibility = View.GONE
+                binding.noValueImage.visibility = View.GONE
             }
 
-            binding.recyclerArticle.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
+//            binding.recyclerArticle.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
 
             viewModel.selectedType.observe(viewLifecycleOwner, Observer { type ->
 
@@ -107,7 +109,7 @@ class MyArticlesFragment : Fragment() {
             })
 
             adapter.submitList(myArticle)
-            adapter.notifyDataSetChanged()
+//            adapter.notifyDataSetChanged()
         })
 
         viewModel.checked.observe(viewLifecycleOwner, Observer {

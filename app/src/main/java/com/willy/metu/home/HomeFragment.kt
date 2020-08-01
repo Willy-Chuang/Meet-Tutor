@@ -132,6 +132,8 @@ class HomeFragment : Fragment() {
                     Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
 
+                    //Come and see tomorrow
+
                     if (!viewModel.checkIfInfoComplete()) {
                         if (mainViewModel.noticed.value == false) {
                             findNavController().navigate(NavigationDirections.navigateToFinishInfo())
@@ -143,6 +145,7 @@ class HomeFragment : Fragment() {
                     } else {
                         Logger.i("User Is Back")
                     }
+
                 }
             }
         })

@@ -490,6 +490,29 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
     }
 
+    override suspend fun deleteArticle(article: Article): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+        val document = articles.document(article.id)
+
+        document
+                .delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Publish: $article")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
     override fun getAllLiveArticle(): MutableLiveData<List<Article>> {
         val liveData = MutableLiveData<List<Article>>()
 

@@ -71,6 +71,10 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun deleteArticle(article: Article): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getAllLiveArticle(): MutableLiveData<List<Article>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -103,12 +103,12 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
         _status.value = LoadApiStatus.DONE
     }
 
-    fun delete(article: Article, userEmail: String) {
+    fun delete(article: Article) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.removeArticleFromWishlist(article,userEmail)) {
+            when (val result = repository.deleteArticle(article)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
