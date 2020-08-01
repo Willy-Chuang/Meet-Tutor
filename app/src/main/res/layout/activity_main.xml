@@ -78,7 +78,7 @@
                     android:elevation="@dimen/elevation_all"
                     android:visibility="@{(viewModel.currentFragmentType == CurrentFragmentType.CALENDAR || viewModel.currentFragmentType == CurrentFragmentType.PAIRONE || viewModel.currentFragmentType == CurrentFragmentType.PROFILE || viewModel.currentFragmentType == CurrentFragmentType.EDITPROFILE || viewModel.currentFragmentType == CurrentFragmentType.USERPROFILE || viewModel.currentFragmentType == CurrentFragmentType.FOLLOW || viewModel.currentFragmentType == CurrentFragmentType.CHAT || viewModel.currentFragmentType == CurrentFragmentType.PAIRTWO || viewModel.currentFragmentType == CurrentFragmentType.PAIRTHREE || viewModel.currentFragmentType == CurrentFragmentType.NEWCHAT ) ? View.GONE : View.VISIBLE}"
                     app:itemIconSize="@dimen/size_bottom_nav_icon"
-                    app:labelVisibilityMode="unlabeled"
+                    app:labelVisibilityMode="labeled"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

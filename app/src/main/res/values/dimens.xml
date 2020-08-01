@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
@@ -14,7 +14,9 @@
 
     <!-- Bottom Navigation -->
     <dimen name="height_bottom_nav_view_main">56dp</dimen>
-    <dimen name="size_bottom_nav_icon">36dp</dimen>
+    <dimen name="size_bottom_nav_icon">24dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>

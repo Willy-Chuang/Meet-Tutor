@@ -10,7 +10,7 @@
         <item name="CustomChipChoice">@style/CustomChipChoiceStyle</item>
     </style>
 
-    <style name="AppTheme.AppNoActionBar" parent="AppTheme" >
+    <style name="AppTheme.AppNoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -19,8 +19,7 @@
         <item name="android:windowBackground">#00ffffff</item>
     </style>
 
-    <style name="myDialog" parent="Theme.AppCompat.Dialog">
-    </style>
+    <style name="myDialog" parent="Theme.AppCompat.Dialog" />
 
     <style name="AddEventDialog">
         <item name="android:windowBackground">@color/translucent_80</item>
@@ -30,6 +29,7 @@
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/roboto</item>
     </style>
+
 
     <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@color/colorPrimary</item>
