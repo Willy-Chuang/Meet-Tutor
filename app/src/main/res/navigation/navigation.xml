@@ -265,5 +265,15 @@
         android:id="@+id/navigate_to_finish_info"
         app:destination="@id/finishInfoDialogFragment" />
 
+    <fragment
+        android:id="@+id/newChatFragment"
+        android:name="com.willy.metu.newchat.NewChatFragment"
+        android:label="NewChatFragment"
+        tools:layout="@layout/fragment_new_chat"/>
+
+    <action
+        android:id="@+id/navigate_to_new_chat"
+        app:destination="@id/newChatFragment"/>
+
 
 </navigation>

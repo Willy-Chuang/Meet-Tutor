@@ -8,6 +8,8 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.data.ChatRoom
 import com.willy.metu.databinding.FragmentChatListBinding
@@ -28,6 +30,10 @@ class ChatListFragment : Fragment() {
 
         val adapter = ChatListAdapter()
         binding.recyclerChatList.adapter = adapter
+
+        binding.buttonAdd.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToNewChat())
+        }
 
         viewModel.allLiveChatRooms.observe(viewLifecycleOwner, Observer {
             it.let {

@@ -247,6 +247,7 @@ class MainActivity() : BaseActivity() {
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
                 R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
                 R.id.eventDetailFragment -> CurrentFragmentType.EVENTDETAIL
+                R.id.newChatFragment -> CurrentFragmentType.NEWCHAT
                 else -> viewModel.currentFragmentType.value
             }
         }

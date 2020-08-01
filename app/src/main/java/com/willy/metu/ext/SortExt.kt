@@ -34,6 +34,13 @@ fun List<User>?.sortByTraits(answers:Answers) : List<User> {
             ?: listOf()
 }
 
+fun List<User>?.sortByName(name:String) : List<User> {
+    return this?.filter {
+        it.name.contains(name)
+    }
+            ?: listOf()
+}
+
 fun List<User>?.excludeUser() : List<User> {
     return this?.filter {
         it?.let {

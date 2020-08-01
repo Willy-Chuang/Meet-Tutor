@@ -53,6 +53,7 @@ class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
             CurrentFragmentType.USERPROFILE -> DrawerToggleType.BACK
             CurrentFragmentType.FOLLOW -> DrawerToggleType.BACK
             CurrentFragmentType.EVENTDETAIL -> DrawerToggleType.BACK
+            CurrentFragmentType.NEWCHAT -> DrawerToggleType.BACK
             else -> DrawerToggleType.NORMAL
         }
     }

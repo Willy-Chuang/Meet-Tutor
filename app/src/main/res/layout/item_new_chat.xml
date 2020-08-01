@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="user"
+            type="com.willy.metu.data.User" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_card_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/image_follow_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_all_round_corner"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                imageUrl="@{user.image}"
+                tools:src="@drawable/ic_cute_avatar"/>
+
+            <TextView
+                android:id="@+id/text_follow_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@{user.name}"
+                android:textStyle="bold"
+                android:textColor="@color/black_87_alpha"
+                android:fontFamily="@font/roboto"
+                app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
+                app:layout_constraintTop_toTopOf="@id/image_follow_avatar"
+                app:layout_constraintBottom_toBottomOf="@id/image_follow_avatar"
+                tools:text="Kiara Rig"/>
+
+            <ImageView
+                android:id="@+id/image_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/ic_forward"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
