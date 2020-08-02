@@ -15,10 +15,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.willy.metu.MainActivity
 import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.splash.SplashActivity
 import com.willy.metu.util.Logger
 import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
@@ -114,7 +114,9 @@ class LoginActivity : AppCompatActivity() {
             UserManager.user = currentUser
             viewModel.postUser(currentUser)
 
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
+            overridePendingTransition(0, android.R.anim.fade_out)
+
             finish()
         }
     }

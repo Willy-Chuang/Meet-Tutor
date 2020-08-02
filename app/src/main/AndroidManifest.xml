@@ -25,6 +25,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".splash.SplashActivity"
+            android:theme="@style/LogoTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
