@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/talent_pool"
-        android:icon="@drawable/ic_create_black_24"
+        android:icon="@drawable/ic_create"
         android:title=""
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/calendarFragment"
-        android:icon="@drawable/ic_calendar_black_24"
+        android:icon="@drawable/ic_calendar"
         android:title=""
         app:showAsAction="ifRoom" />
 
