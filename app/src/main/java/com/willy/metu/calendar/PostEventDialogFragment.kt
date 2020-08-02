@@ -91,9 +91,13 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
+                val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
+//                viewModel.startTime.value?.let {
+//                    timeTimeStamp > it
+//                }
+
                 binding.textSelectEndTime.text = "$hour : $minute"
                 Logger.i("$hour : $minute")
-                val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.endTime.value = timeTimeStamp
             }, hour, minute, true).show()
 
@@ -132,9 +136,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             datePicker()
         }
 
-        //Setup spinner
-//        binding.spinnerAttendee.adapter =
-//            SelectedUserSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.followed_users_array))
 
         binding.spinnerAttendee.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
