@@ -153,8 +153,8 @@ class PairingResultFragment : Fragment(), CardStackListener {
         Logger.w("ratio = $ratio")
 
         when (direction) {
-            Direction.Right -> viewModel.redBg.value = ratio
-            Direction.Left -> viewModel.blueBg.value = ratio
+            Direction.Left -> viewModel.redBg.value = ratio
+            Direction.Right -> viewModel.blueBg.value = ratio
             else -> {
                 viewModel.blueBg.value = 0f
                 viewModel.redBg.value = 0f
@@ -171,7 +171,7 @@ class PairingResultFragment : Fragment(), CardStackListener {
         viewModel.redBg.value = 0f
         viewModel.blueBg.value = 0f
 
-        if (direction == Direction.Left) {
+        if (direction == Direction.Right) {
 
             viewModel.swiped.value = true
             viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])

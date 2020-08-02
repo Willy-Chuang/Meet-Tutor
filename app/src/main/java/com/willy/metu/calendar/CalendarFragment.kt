@@ -22,7 +22,6 @@ import com.willy.metu.R
 import com.willy.metu.databinding.FragmentCalendarBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByTimeStamp
-import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.*
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -129,20 +128,6 @@ class CalendarFragment : Fragment() {
             }
         })
 
-        viewModel.status.observe(viewLifecycleOwner, Observer {
-            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
-            when (it) {
-                LoadApiStatus.LOADING -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
-                    binding.progress.visibility = View.VISIBLE
-
-                }
-                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
-                    binding.progress.visibility = View.GONE }
-            }
-
-        })
 
         binding.persistentBottomSheet.viewTreeObserver
                 .addOnGlobalLayoutListener(object : OnGlobalLayoutListener {

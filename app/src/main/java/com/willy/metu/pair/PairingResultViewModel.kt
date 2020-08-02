@@ -110,8 +110,6 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             when (val result = repository.postUserToFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null

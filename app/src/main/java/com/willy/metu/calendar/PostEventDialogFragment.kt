@@ -150,11 +150,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                         if (parent != null && pos != 0) {
 //                        viewModel.invitation.value = parent.selectedItem.toString()
                             viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos -1).toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    viewModel.userInfo.value?.followingEmail?.get(pos - 1).toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
