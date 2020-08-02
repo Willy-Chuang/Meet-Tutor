@@ -185,7 +185,6 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
         })
 
         // Progress Bar
-
         viewModel.status.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
             when (it) {

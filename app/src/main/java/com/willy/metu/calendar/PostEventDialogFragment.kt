@@ -20,6 +20,7 @@ import com.willy.metu.R
 import com.willy.metu.databinding.DialogPostEventBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import com.willy.metu.util.TimeUtil
 import java.lang.String.format
@@ -149,7 +150,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                             id: Long
                     ) {
                         if (parent != null && pos != 0) {
-//                        viewModel.invitation.value = parent.selectedItem.toString()
                             viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos -1).toString()
                         }
                     }
@@ -227,6 +227,22 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
         viewModel.location.observe(viewLifecycleOwner, Observer {
             Logger.i(it)
+        })
+
+        // Progress Bar
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+                    binding.progress.visibility = View.VISIBLE
+
+                }
+                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
+                    binding.progress.visibility = View.GONE
+                    viewModel.leave()
+                }}
         })
 
 
