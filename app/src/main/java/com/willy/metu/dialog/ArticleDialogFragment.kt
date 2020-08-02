@@ -18,6 +18,7 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.databinding.DialogPostArticleBinding
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.pair.QuestionSpinnerAdapter
 import com.willy.metu.util.Logger
 
@@ -170,7 +171,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
         })
 
 
-        //Boolean for cancel button
+        // Boolean for cancel button
         viewModel.leave.observe(viewLifecycleOwner, Observer {
             it?.let { needRefresh ->
                 if (needRefresh) {
@@ -181,6 +182,23 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                 findNavController().navigateUp()
                 viewModel.onLeft()
             }
+        })
+
+        // Progress Bar
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+                    binding.progress.visibility = View.VISIBLE
+
+                }
+                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
+                    binding.progress.visibility = View.GONE
+                    viewModel.leave()
+                }}
         })
 
 

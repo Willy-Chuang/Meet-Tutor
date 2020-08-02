@@ -100,7 +100,7 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    leave(true)
+//                    leave(true)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
