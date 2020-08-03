@@ -257,7 +257,7 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     fun checkIfInfoComplete(): Boolean {
         val userInfo = userInfo.value
-        return !(userInfo?.identity == null && userInfo?.tag == listOf(""))
+        return !(userInfo?.identity == "" && userInfo?.tag.isNullOrEmpty())
     }
 
     fun excludeUserFromList(subject: String) {

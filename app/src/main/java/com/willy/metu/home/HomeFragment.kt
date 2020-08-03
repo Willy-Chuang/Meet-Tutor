@@ -115,9 +115,28 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
-            binding.userSubject.text = it.tag.component1()
-            binding.userSubject2.text = it.tag.component1()
-            viewModel.biasSubject.value = it.tag.component1()
+
+            if (!viewModel.checkIfInfoComplete()) {
+                if (mainViewModel.noticed.value == false) {
+                    findNavController().navigate(NavigationDirections.navigateToFinishInfo())
+                    mainViewModel.noticed.value = true
+                } else {
+                    Toast.makeText(requireContext(), "Remember to complete your profile", Toast.LENGTH_LONG).show()
+                }
+
+            } else {
+                Logger.i("User Is Back")
+            }
+
+            if (it.tag.isNullOrEmpty()) {
+                Logger.i("Brand New User")
+
+            } else {
+                binding.userSubject.text = it.tag.component1()
+                binding.userSubject2.text = it.tag.component1()
+                viewModel.biasSubject.value = it.tag.component1()
+            }
+
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
@@ -131,20 +150,6 @@ class HomeFragment : Fragment() {
                 LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
                     Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
-
-                    //Come and see tomorrow
-
-                    if (!viewModel.checkIfInfoComplete()) {
-                        if (mainViewModel.noticed.value == false) {
-                            findNavController().navigate(NavigationDirections.navigateToFinishInfo())
-                            mainViewModel.noticed.value = true
-                        } else {
-                            Toast.makeText(requireContext(), "Remember to complete your profile", Toast.LENGTH_LONG).show()
-                        }
-
-                    } else {
-                        Logger.i("User Is Back")
-                    }
 
                 }
             }
