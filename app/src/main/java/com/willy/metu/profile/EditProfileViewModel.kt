@@ -18,6 +18,12 @@ import kotlinx.coroutines.launch
 
 class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel() {
 
+    //Get user data for profile
+    private var _personalInfo = MutableLiveData<User>()
+
+    val personalInfo : LiveData<User>
+        get() = _personalInfo
+
     //Variables for editable component
     var selectedGender = MutableLiveData<String>()
     var selectedIdentity = MutableLiveData<String>()
@@ -66,6 +72,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        getUserInfo(UserManager.user.email)
     }
 
     fun updateUser(user: User){
@@ -95,7 +102,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
         }
     }
 
-    fun getUserInfo(): User {
+    fun getUser(): User {
         return User (
                 id = UserManager.user.email,
                 image = UserManager.user.image,
@@ -125,6 +132,38 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
 
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
+    }
+
+    fun getUserInfo(userEmail: String) {
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getUser(userEmail)
+
+            _personalInfo.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
     }
 
 

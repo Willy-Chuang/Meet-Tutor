@@ -19,6 +19,7 @@ import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.ext.sortByTraits
 import com.willy.metu.login.UserManager
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import com.yuyakaido.android.cardstackview.*
 
@@ -58,36 +59,6 @@ class PairingResultFragment : Fragment(), CardStackListener {
             }
         }
 
-
-        // Observers
-
-        // Sort all users by selected traits
-        viewModel.allUsers.observe(viewLifecycleOwner, Observer {
-
-            viewModel.usersWithMatch.value = it.sortByTraits(viewModel.previousAnswers)
-
-        })
-
-        // Exclude User before submit list
-        viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
-            Logger.w(it.toString())
-            adapter.submitList(it.excludeUser())
-        })
-
-        viewModel.swiped.observe(viewLifecycleOwner, Observer {
-            Logger.v(it.toString() + "changed")
-        })
-
-        viewModel.redBg.observe(viewLifecycleOwner, Observer {
-            binding.bgRed.alpha = it
-            binding.textSkip.alpha = it
-        })
-
-        viewModel.blueBg.observe(viewLifecycleOwner, Observer {
-            binding.bgBlue.alpha = it
-            binding.textLike.alpha = it
-        })
-
         binding.buttonYes.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
                     .setDirection(Direction.Left)
@@ -115,6 +86,61 @@ class PairingResultFragment : Fragment(), CardStackListener {
         }
 
 
+
+        // Observers
+
+        // Sort all users by selected traits
+        viewModel.allUsers.observe(viewLifecycleOwner, Observer {
+
+            viewModel.usersWithMatch.value = it.sortByTraits(viewModel.previousAnswers)
+
+        })
+
+        // Exclude User before submit list
+        viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
+            Logger.w(it.toString())
+            val sortedList = it.excludeUser()
+            if (sortedList.isEmpty()) {
+                binding.layoutNoValue.visibility = View.VISIBLE
+                binding.noValueButton.setOnClickListener {
+                    findNavController().navigate(NavigationDirections.navigateToPairingFragment())
+                }
+            } else {
+                binding.layoutNoValue.visibility = View.GONE
+            }
+            adapter.submitList(it.excludeUser())
+        })
+
+        viewModel.swiped.observe(viewLifecycleOwner, Observer {
+            Logger.v(it.toString() + "changed")
+        })
+
+        viewModel.redBg.observe(viewLifecycleOwner, Observer {
+            binding.bgRed.alpha = it
+            binding.textSkip.alpha = it
+        })
+
+        viewModel.blueBg.observe(viewLifecycleOwner, Observer {
+            binding.bgBlue.alpha = it
+            binding.textLike.alpha = it
+        })
+
+        // Handling fetching data state with animation
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    binding.layoutLoading.visibility = View.VISIBLE
+                    binding.animSearching.playAnimation()
+                }
+                LoadApiStatus.DONE -> {
+                    binding.layoutLoading.visibility = View.GONE
+                    binding.animSearching.cancelAnimation()
+                }
+                else -> Toast.makeText(context, "Something Terrible Happened", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
         return binding.root
     }
 
@@ -127,8 +153,8 @@ class PairingResultFragment : Fragment(), CardStackListener {
         Logger.w("ratio = $ratio")
 
         when (direction) {
-            Direction.Right -> viewModel.redBg.value = ratio
-            Direction.Left -> viewModel.blueBg.value = ratio
+            Direction.Left -> viewModel.redBg.value = ratio
+            Direction.Right -> viewModel.blueBg.value = ratio
             else -> {
                 viewModel.blueBg.value = 0f
                 viewModel.redBg.value = 0f
@@ -145,12 +171,12 @@ class PairingResultFragment : Fragment(), CardStackListener {
         viewModel.redBg.value = 0f
         viewModel.blueBg.value = 0f
 
-        if (direction == Direction.Left) {
+        if (direction == Direction.Right) {
 
             viewModel.swiped.value = true
             viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
 
-            Toast.makeText(MeTuApplication.appContext, "Add To Wishlist", Toast.LENGTH_SHORT).show()
+            Toast.makeText(MeTuApplication.appContext, "Add To Follow List", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(MeTuApplication.appContext, "Bye", Toast.LENGTH_SHORT).show()
         }

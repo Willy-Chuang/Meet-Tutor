@@ -98,6 +98,7 @@ class CalendarFragment : Fragment() {
             it?.let {
                 adapter.notifyDataSetChanged()
                 binding.viewModel = viewModel
+
             }
 
         })
@@ -125,9 +126,8 @@ class CalendarFragment : Fragment() {
 
 
             }
+        })
 
-        }
-        )
 
         binding.persistentBottomSheet.viewTreeObserver
                 .addOnGlobalLayoutListener(object : OnGlobalLayoutListener {

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemFollowBinding
 
@@ -24,12 +25,10 @@ class StudentListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCal
 
             val genres = user.tag
 
-            if (genres != null) {
-                for (genre in genres) {
-                    val chip = Chip(chipGroup.getContext())
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
+            for (genre in genres) {
+                val chip = Chip(chipGroup.context, null, R.attr.CustomChipChoice)
+                chip.text = genre
+                chipGroup.addView(chip)
             }
 
             binding.layoutCardUser.setOnClickListener {

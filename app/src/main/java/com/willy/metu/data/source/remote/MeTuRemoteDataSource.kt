@@ -8,7 +8,6 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.*
 import com.willy.metu.data.source.MeTuDataSource
-import com.willy.metu.login.UserManager
 import com.willy.metu.util.Logger
 import java.util.*
 import kotlin.coroutines.resume
@@ -491,12 +490,36 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
     }
 
+    override suspend fun deleteArticle(article: Article): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
+        val document = articles.document(article.id)
+
+        document
+                .delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Publish: $article")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
     override fun getAllLiveArticle(): MutableLiveData<List<Article>> {
         val liveData = MutableLiveData<List<Article>>()
 
         val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
 
         articles
+                .orderBy("createdTime",Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
 
@@ -750,6 +773,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         val events = FirebaseFirestore.getInstance().collection(PATH_EVENTS)
         val document = events.document(event.id)
+        var success = 0
 
         document
                 .update("invitation",FieldValue.arrayRemove(userEmail))
@@ -757,7 +781,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 
@@ -775,7 +806,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 
@@ -793,7 +831,14 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
 
-                        continuation.resume(Result.Success(true))
+                        success++
+
+                        if (success == 3) {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            Logger.i("Still got work to do")
+                        }
+
                     } else {
                         task.exception?.let {
 

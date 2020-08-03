@@ -9,6 +9,8 @@ import com.willy.metu.data.Article
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.ext.excludeUser
+import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -17,11 +19,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
+class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     private val _allUsers = MutableLiveData<List<User>>()
 
-    val allUsers : LiveData<List<User>>
+    val allUsers: LiveData<List<User>>
         get() = _allUsers
 
     val biasSubject = MutableLiveData<String>()
@@ -29,17 +31,17 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     private val _newUsers = MutableLiveData<List<User>>()
 
-    val newUsers : LiveData<List<User>>
+    val newUsers: LiveData<List<User>>
         get() = _newUsers
 
     private val _userInfo = MutableLiveData<User>()
 
-    val userInfo : LiveData<User>
+    val userInfo: LiveData<User>
         get() = _userInfo
 
     private val _oneArticle = MutableLiveData<List<Article>>()
 
-    val oneArticle : LiveData<List<Article>>
+    val oneArticle: LiveData<List<Article>>
         get() = _oneArticle
 
 
@@ -75,11 +77,19 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+        getUser(UserManager.user.email)
         getNewestFiveUsers()
         getAllUsers()
-        getUser(UserManager.user.email)
         getAllLiveSavedArticles(UserManager.user.email)
         getOneArticle()
+    }
+
+    var doneProgressCount = 4
+    fun doneProgress() {
+
+        doneProgressCount--
+        if (doneProgressCount == 0) _status.value = LoadApiStatus.DONE
     }
 
     fun getNewestFiveUsers() {
@@ -93,7 +103,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _newUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -126,7 +136,8 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _allUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+//                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -158,7 +169,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _userInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -193,7 +204,7 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
             _oneArticle.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -216,15 +227,12 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     }
 
-    fun addArticlesToWishlist(article: Article, userEmail: String){
+    fun addArticlesToWishlist(article: Article, userEmail: String) {
         coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
 
             when (val result = repository.addArticleToWishlist(article, userEmail)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     isAdded.value = result.data
                 }
                 is Result.Fail -> {
@@ -245,9 +253,19 @@ class HomeViewModel (private val repository: MeTuRepository) : ViewModel() {
 
     fun getAllLiveSavedArticles(userEmail: String) {
         savedArticles = repository.getAllLiveSavedArticles(userEmail)
-        _status.value = LoadApiStatus.DONE
+    }
+
+    fun checkIfInfoComplete(): Boolean {
+        val userInfo = userInfo.value
+        return !(userInfo?.identity == "" && userInfo?.tag.isNullOrEmpty())
+    }
+
+    fun excludeUserFromList(subject: String) {
+        allUsers.value.excludeUser().sortUserBySubject(subject)
     }
 
 
-
+    fun onLoaded() {
+        _status.value = LoadApiStatus.DONE
+    }
 }

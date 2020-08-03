@@ -59,6 +59,7 @@
                 android:orientation="vertical">
 
                 <View
+                    android:id="@+id/indicator_pull"
                     android:layout_width="32dp"
                     android:layout_height="8dp"
                     android:layout_marginTop="8dp"

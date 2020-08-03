@@ -1,27 +1,23 @@
 package com.willy.metu.talentpool
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
-import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
 import com.willy.metu.login.UserManager
 import kotlinx.android.synthetic.main.item_article.view.*
 
 
-class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Article, RecyclerView.ViewHolder>(TalentPoolAdapter){
+class AllArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article, RecyclerView.ViewHolder>(AllArticleAdapter) {
 
-    class ArticleViewHolder(private var binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(article: Article, viewModel: TalentPoolViewModel){
+    class ArticleViewHolder(private var binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(article: Article, viewModel: TalentPoolViewModel) {
 
             binding.article = article
             val bookmarkIcon = binding.imageBookmark
@@ -29,27 +25,41 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
 
             binding.imageBookmark.setOnClickListener {
                 viewModel.addArticlesToWishlist(article, UserManager.user.email)
+
                 bookmarkIcon.isSelected = !bookmarkIcon.isSelected
+
+                viewModel.checked.value = bookmarkIcon.isSelected
             }
 
             binding.layoutUserInfo.setOnClickListener {
-                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+                if (article.creatorEmail == UserManager.user.email) {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToProfile()).onClick(binding.layoutUserInfo)
+                } else {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+                }
             }
 
-            binding.imageCreatorImage.setOnClickListener{
-                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+            binding.imageCreatorImage.setOnClickListener {
+                if (article.creatorEmail == UserManager.user.email) {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToProfile()).onClick(binding.layoutUserInfo)
+                } else {
+                    Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
+                }
             }
 
-            binding.buttonReadMore.setOnClickListener {
+            binding.layoutText.setOnClickListener {
                 binding.textDetail.maxLines = 99
-                binding.buttonReadMore.visibility = View.GONE
                 binding.buttonCollapse.visibility = View.VISIBLE
-//                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToArticle(article)).onClick(binding.buttonReadMore)
             }
+
+            binding.textDetail.setOnClickListener {
+                binding.textDetail.maxLines = 99
+                binding.buttonCollapse.visibility = View.VISIBLE
+            }
+
 
             binding.buttonCollapse.setOnClickListener {
                 binding.textDetail.maxLines = 2
-                binding.buttonReadMore.visibility = View.VISIBLE
                 binding.buttonCollapse.visibility = View.GONE
             }
 
@@ -63,6 +73,7 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.id == newItem.id
         }
@@ -84,7 +95,7 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
 
         viewModel.savedArticles.value?.forEach {
 
-            if(article.id == it.id) {
+            if (article.id == it.id) {
                 holder.itemView.image_bookmark.isSelected = true
                 holder.itemView.image_bookmark.setOnClickListener {
                     viewModel.addArticlesToWishlist(article, UserManager.user.email)
@@ -99,17 +110,19 @@ class TalentPoolAdapter (val viewModel: TalentPoolViewModel) : ListAdapter<Artic
         }
 
 
-        when(holder) {
+
+        when (holder) {
             is ArticleViewHolder -> {
-                holder.bind((getItem(position) as Article),viewModel)
+                holder.bind((getItem(position) as Article), viewModel)
+
             }
         }
     }
 
+
     override fun getItemViewType(position: Int): Int {
         return ITEM_VIEW_TYPE_EVENT
     }
-
 
 
 }

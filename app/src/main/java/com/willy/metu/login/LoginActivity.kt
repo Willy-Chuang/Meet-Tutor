@@ -1,9 +1,12 @@
 package com.willy.metu.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,18 +15,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_login.*
-import android.content.pm.PackageManager
-import android.os.Handler
-import android.util.Base64
-import android.util.Log
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.willy.metu.MainActivity
-import com.willy.metu.MainViewModel
 import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.ext.getVmFactory
+import com.willy.metu.splash.SplashActivity
+import com.willy.metu.util.Logger
+import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -65,12 +62,12 @@ class LoginActivity : AppCompatActivity() {
                 val md = MessageDigest.getInstance("SHA")
                 md.update(signature.toByteArray())
                 val hashKey = String(Base64.encode(md.digest(), 0))
-                Log.i("TAG", "printHashKey() Hash Key: $hashKey")
+                Logger.i("printHashKey() Hash Key: $hashKey")
             }
         } catch (e: NoSuchAlgorithmException) {
-            Log.e("TAG", "printHashKey()", e)
+            Logger.e("$e")
         } catch (e: Exception) {
-            Log.e("TAG", "printHashKey()", e)
+            Logger.e("$e")
         }
 
     }
@@ -117,26 +114,11 @@ class LoginActivity : AppCompatActivity() {
             UserManager.user = currentUser
             viewModel.postUser(currentUser)
 
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
+            overridePendingTransition(0, android.R.anim.fade_out)
+
             finish()
         }
     }
 
-//    fun setupUser(user: User) {
-//
-//        _user.value = user
-//        Logger.i("=============")
-//        Logger.i("| setupUser |")
-//        Logger.i("user=$user")
-//        Logger.i("MainViewModel=${this}")
-//        Logger.i("=============")
-//    }
-//
-//    fun checkUser() {
-//        if (user.value == null) {
-//            UserManager.userToken?.let {
-//                getUserProfile(it)
-//            }
-//        }
-//    }
 }

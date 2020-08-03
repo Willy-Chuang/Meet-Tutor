@@ -7,7 +7,6 @@ import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.data.Result
-import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
@@ -24,6 +23,8 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
     var savedArticles = MutableLiveData<List<Article>>()
 
     var isAdded = MutableLiveData<Boolean>()
+
+    var checked = MutableLiveData<Boolean>()
 
     var selectedType = MutableLiveData<String>()
 
@@ -102,12 +103,12 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
         _status.value = LoadApiStatus.DONE
     }
 
-    fun delete(article: Article, userEmail: String) {
+    fun delete(article: Article) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.removeArticleFromWishlist(article,userEmail)) {
+            when (val result = repository.deleteArticle(article)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

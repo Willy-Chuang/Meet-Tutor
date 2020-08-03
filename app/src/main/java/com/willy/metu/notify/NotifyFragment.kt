@@ -28,6 +28,7 @@ class NotifyFragment : Fragment() {
         val adapter = NotifyAdapter(viewModel)
 
         binding.recyclerNotify.adapter = adapter
+        adapter.notifyDataSetChanged()
         binding.recyclerNotify.layoutManager = LinearLayoutManager(context)
 
         viewModel.allLiveEventInvitations.observe(viewLifecycleOwner, Observer {
@@ -35,8 +36,10 @@ class NotifyFragment : Fragment() {
                 binding.noValue.visibility = View.VISIBLE
                 binding.noValueImage.visibility = View.VISIBLE
             } else {
-                adapter.submitList(it)
+                binding.noValue.visibility = View.GONE
+                binding.noValueImage.visibility = View.GONE
             }
+            adapter.submitList(it)
 
         })
 

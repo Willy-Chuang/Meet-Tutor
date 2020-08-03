@@ -6,15 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.Event
+import com.willy.metu.data.Result
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.willy.metu.data.Result
-import com.willy.metu.login.UserManager
 
 class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : ViewModel() {
 
@@ -116,7 +116,6 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
     fun getLiveAllEventsResult(userEmail: String){
         allLiveEvents = repository.getLiveAllEvents(userEmail)
-        _status.value = LoadApiStatus.DONE
     }
 
     fun getUser(userEmail: String) {

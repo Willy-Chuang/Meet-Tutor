@@ -80,6 +80,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="finishInfoDialogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="485" />
+                            <option name="y" value="911" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="followListFragment">
                     <value>
                       <LayoutPositions>
@@ -165,6 +177,16 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="navigate_to_event_detail">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_finish_info">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="navigate_to_follow_list_fragment">
                     <value>
                       <LayoutPositions />
@@ -228,6 +250,18 @@
                   <entry key="navigate_to_user_detail">
                     <value>
                       <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="newChatFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="695" />
+                            <option name="y" value="921" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
                     </value>
                   </entry>
                   <entry key="notifyFragment">

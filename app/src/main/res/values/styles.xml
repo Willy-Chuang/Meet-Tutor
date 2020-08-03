@@ -10,7 +10,7 @@
         <item name="CustomChipChoice">@style/CustomChipChoiceStyle</item>
     </style>
 
-    <style name="AppTheme.AppNoActionBar" parent="AppTheme" >
+    <style name="AppTheme.AppNoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -18,6 +18,8 @@
     <style name="ViewDialog">
         <item name="android:windowBackground">#00ffffff</item>
     </style>
+
+    <style name="myDialog" parent="Theme.AppCompat.Dialog" />
 
     <style name="AddEventDialog">
         <item name="android:windowBackground">@color/translucent_80</item>
@@ -28,14 +30,26 @@
         <item name="fontFamily">@font/roboto</item>
     </style>
 
+
+    <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="LogoTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="CustomChipChoiceStyle" parent="@style/Widget.MaterialComponents.Chip.Action">
         <item name="checkedIconVisible">false</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">false</item>
-        <item name="chipBackgroundColor">@color/white</item>
+        <item name="chipBackgroundColor">@color/gray_f0f0f0</item>
         <item name="chipIconVisible">true</item>
-        <item name="textStartPadding">2dp</item>
-        <item name="textEndPadding">2dp</item>
+        <item name="textStartPadding">4dp</item>
+        <item name="textEndPadding">4dp</item>
         <item name="android:textAppearance">@style/ChipTextStyleAppearance</item>
     </style>
 

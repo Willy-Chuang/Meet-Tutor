@@ -11,7 +11,6 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemArticleBinding
 import com.willy.metu.login.UserManager
-import com.willy.metu.talentpool.TalentPoolViewModel
 import kotlinx.android.synthetic.main.item_article.view.*
 
 class ArticleAdapter (val viewModel: HomeViewModel) : ListAdapter<Article, RecyclerView.ViewHolder>(ArticleAdapter){
@@ -36,16 +35,20 @@ class ArticleAdapter (val viewModel: HomeViewModel) : ListAdapter<Article, Recyc
                 Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(article.creatorEmail)).onClick(binding.layoutUserInfo)
             }
 
-            binding.buttonReadMore.setOnClickListener {
+            binding.textDetail.setOnClickListener {
                 binding.textDetail.maxLines = 99
                 binding.buttonReadMore.visibility = View.GONE
                 binding.buttonCollapse.visibility = View.VISIBLE
-//                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToArticle(article)).onClick(binding.buttonReadMore)
+            }
+
+            binding.layoutText.setOnClickListener {
+                binding.textDetail.maxLines = 99
+                binding.buttonReadMore.visibility = View.GONE
+                binding.buttonCollapse.visibility = View.VISIBLE
             }
 
             binding.buttonCollapse.setOnClickListener {
                 binding.textDetail.maxLines = 2
-                binding.buttonReadMore.visibility = View.VISIBLE
                 binding.buttonCollapse.visibility = View.GONE
             }
 

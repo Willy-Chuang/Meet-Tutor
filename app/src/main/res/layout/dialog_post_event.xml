@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <variable name="dialog" type="com.willy.metu.calendar.PostEventDialogFragment"/>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="dialog"
+            type="com.willy.metu.calendar.PostEventDialogFragment" />
+
         <variable
             name="viewModel"
             type="com.willy.metu.calendar.PostEventDialogViewModel" />
+
         <variable
             name="isLiveDataDesign"
             type="Boolean" />
@@ -22,7 +28,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_post_event"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/bg_all_round_corner"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,305 +42,306 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_close"
                 android:onClick="@{() -> viewModel.leave(false)}"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_close" />
 
             <TextView
                 android:id="@+id/title_create_appointment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp"
-                android:text="Create Appointment"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto"
+                android:text="Create Appointment"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/title_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="NAME"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black_12_alpha"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_create_appointment"/>
-
-            <EditText
-                android:id="@+id/edit_event_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:text="@={viewModel.title}"
-                android:hint="Add Title"
-                android:inputType="text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_name"/>
-
-            <TextView
-                android:id="@+id/title_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="TYPE"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black_12_alpha"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_event_title"/>
-
-            <ImageView
-                android:id="@+id/image_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.5"
-                app:srcCompat="@drawable/ic_clock_black_24"
-                app:layout_constraintTop_toBottomOf="@id/title_type"
-                app:layout_constraintStart_toStartOf="@id/title_type"/>
-
-            <Spinner
-                android:id="@+id/spinner_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                app:layout_constraintStart_toEndOf="@id/image_tag"
-                app:layout_constraintEnd_toEndOf="@id/edit_event_title"
-                app:layout_constraintTop_toTopOf="@id/image_tag"
-                app:layout_constraintBottom_toBottomOf="@id/image_tag"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_type">
-
-                <TextView
-                    android:id="@+id/title_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="TIME"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/black_12_alpha"
-                    android:textStyle="bold"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:id="@+id/image_clock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:alpha="0.5"
-                    app:srcCompat="@drawable/ic_clock_black_24"
-                    app:layout_constraintTop_toBottomOf="@id/title_time"
-                    app:layout_constraintStart_toStartOf="@id/title_time"/>
-
-                <TextView
-                    android:id="@+id/text_all_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="All-day"
-                    android:fontFamily="@font/roboto"
-                    app:layout_constraintStart_toEndOf="@id/image_clock"
-                    app:layout_constraintTop_toTopOf="@id/image_clock"
-                    app:layout_constraintBottom_toBottomOf="@id/image_clock"/>
-
-                <Switch
-                    android:id="@+id/switch_all_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="true"
-                    app:layout_constraintTop_toTopOf="@id/image_clock"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/text_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="THU, April 14, 2020"
-                    android:fontFamily="@font/roboto"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/image_clock"
-                    app:layout_constraintStart_toStartOf="@id/text_all_day"/>
-
-                <TextView
-                    android:id="@+id/text_select_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15:30"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@id/text_date"
-                    app:layout_constraintEnd_toEndOf="@id/switch_all_day"/>
-
-                <TextView
-                    android:id="@+id/text_select_end_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="18:00"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/text_select_start_time"
-                    app:layout_constraintEnd_toEndOf="@id/text_select_start_time"/>
-
-             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/title_attendee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="ATTENDEE"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black_12_alpha"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_time"/>
-
-            <ImageView
-                android:id="@+id/image_attendee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.5"
-                app:srcCompat="@drawable/ic_face_black_24"
-                app:layout_constraintTop_toBottomOf="@id/title_attendee"
-                app:layout_constraintStart_toStartOf="@id/title_attendee"/>
-
-            <Spinner
-                android:id="@+id/spinner_attendee"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                app:layout_constraintStart_toEndOf="@id/image_attendee"
-                app:layout_constraintEnd_toEndOf="@id/edit_event_title"
-                app:layout_constraintTop_toTopOf="@id/image_attendee"
-                app:layout_constraintBottom_toBottomOf="@id/image_attendee"/>
-
-            <TextView
-                android:id="@+id/title_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="LOCATION"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black_12_alpha"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_attendee"/>
-
-            <ImageView
-                android:id="@+id/image_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.5"
-                app:srcCompat="@drawable/ic_location_on_black_24"
-                app:layout_constraintTop_toBottomOf="@id/title_location"
-                app:layout_constraintStart_toStartOf="@id/title_location"/>
-
-            <EditText
-                android:id="@+id/text_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@={viewModel.location}"
-                android:hint="Set Location"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto"
-                app:layout_constraintStart_toEndOf="@id/image_location"
-                app:layout_constraintEnd_toEndOf="@id/edit_event_title"
-                app:layout_constraintTop_toTopOf="@id/image_location"
-                app:layout_constraintBottom_toBottomOf="@id/image_location"/>
-
-            <TextView
-                android:id="@+id/title_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="DESCRIPTION"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black_12_alpha"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_location"/>
-
-            <ImageView
-                android:id="@+id/image_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.5"
-                app:srcCompat="@drawable/ic_notes_black_24"
-                app:layout_constraintTop_toBottomOf="@id/title_description"
-                app:layout_constraintStart_toStartOf="@id/title_description"/>
-
-            <EditText
-                android:id="@+id/text_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@={viewModel.description}"
-                android:hint="Add Description"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto"
-                app:layout_constraintStart_toEndOf="@id/image_description"
-                app:layout_constraintEnd_toEndOf="@id/edit_event_title"
-                app:layout_constraintTop_toTopOf="@id/image_description"
-                app:layout_constraintBottom_toBottomOf="@id/image_description"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ScrollView
+                android:id="@+id/layout_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/text_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/title_create_appointment"
+                app:layout_constraintBottom_toTopOf="@id/button_save">
 
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height=""/>-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="NAME"
+                        android:textColor="@color/black_12_alpha"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/edit_event_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center_vertical"
+                        android:hint="Add Title"
+                        android:inputType="text"
+                        android:paddingHorizontal="8dp"
+                        android:text="@={viewModel.title}"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/title_name" />
+
+                    <TextView
+                        android:id="@+id/title_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="TYPE"
+                        android:textColor="@color/black_12_alpha"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/edit_event_title" />
+
+                    <ImageView
+                        android:id="@+id/image_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.5"
+                        app:layout_constraintStart_toStartOf="@id/title_type"
+                        app:layout_constraintTop_toBottomOf="@id/title_type"
+                        app:srcCompat="@drawable/ic_clock_black_24" />
+
+                    <Spinner
+                        android:id="@+id/spinner_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dialog"
+                        app:layout_constraintBottom_toBottomOf="@id/image_tag"
+                        app:layout_constraintEnd_toEndOf="@id/edit_event_title"
+                        app:layout_constraintStart_toEndOf="@id/image_tag"
+                        app:layout_constraintTop_toTopOf="@id/image_tag" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/spinner_type">
+
+                        <TextView
+                            android:id="@+id/title_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="24dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="TIME"
+                            android:textColor="@color/black_12_alpha"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/image_clock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.5"
+                            app:layout_constraintStart_toStartOf="@id/title_time"
+                            app:layout_constraintTop_toBottomOf="@id/title_time"
+                            app:srcCompat="@drawable/ic_clock_black_24" />
+
+                        <TextView
+                            android:id="@+id/text_all_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="All-day"
+                            app:layout_constraintBottom_toBottomOf="@id/image_clock"
+                            app:layout_constraintStart_toEndOf="@id/image_clock"
+                            app:layout_constraintTop_toTopOf="@id/image_clock" />
+
+                        <Switch
+                            android:id="@+id/switch_all_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:checked="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/image_clock" />
+
+                        <TextView
+                            android:id="@+id/text_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="THU, April 14, 2020"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="@id/text_all_day"
+                            app:layout_constraintTop_toBottomOf="@id/image_clock" />
+
+                        <TextView
+                            android:id="@+id/text_select_start_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15:30"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="@id/switch_all_day"
+                            app:layout_constraintTop_toTopOf="@id/text_date" />
+
+                        <TextView
+                            android:id="@+id/text_select_end_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="18:00"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="@id/text_select_start_time"
+                            app:layout_constraintTop_toBottomOf="@id/text_select_start_time" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/title_attendee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="ATTENDEE"
+                        android:textColor="@color/black_12_alpha"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_time" />
+
+                    <ImageView
+                        android:id="@+id/image_attendee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.5"
+                        app:layout_constraintStart_toStartOf="@id/title_attendee"
+                        app:layout_constraintTop_toBottomOf="@id/title_attendee"
+                        app:srcCompat="@drawable/ic_face_black_24" />
+
+                    <Spinner
+                        android:id="@+id/spinner_attendee"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dialog"
+                        app:layout_constraintBottom_toBottomOf="@id/image_attendee"
+                        app:layout_constraintEnd_toEndOf="@id/edit_event_title"
+                        app:layout_constraintStart_toEndOf="@id/image_attendee"
+                        app:layout_constraintTop_toTopOf="@id/image_attendee" />
+
+                    <TextView
+                        android:id="@+id/title_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="LOCATION"
+                        android:textColor="@color/black_12_alpha"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/image_attendee" />
+
+                    <ImageView
+                        android:id="@+id/image_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.5"
+                        app:layout_constraintStart_toStartOf="@id/title_location"
+                        app:layout_constraintTop_toBottomOf="@id/title_location"
+                        app:srcCompat="@drawable/ic_location_on_black_24" />
+
+                    <EditText
+                        android:id="@+id/text_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:hint="Set Location"
+                        android:text="@={viewModel.location}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/image_location"
+                        app:layout_constraintEnd_toEndOf="@id/edit_event_title"
+                        app:layout_constraintStart_toEndOf="@id/image_location"
+                        app:layout_constraintTop_toTopOf="@id/image_location" />
+
+                    <TextView
+                        android:id="@+id/title_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="DESCRIPTION"
+                        android:textColor="@color/black_12_alpha"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/image_location" />
+
+                    <ImageView
+                        android:id="@+id/image_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.5"
+                        app:layout_constraintStart_toStartOf="@id/title_description"
+                        app:layout_constraintTop_toBottomOf="@id/title_description"
+                        app:srcCompat="@drawable/ic_notes_black_24" />
+
+                    <EditText
+                        android:id="@+id/text_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:hint="Add Description"
+                        android:text="@={viewModel.description}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/image_description"
+                        app:layout_constraintEnd_toEndOf="@id/edit_event_title"
+                        app:layout_constraintStart_toEndOf="@id/image_description"
+                        app:layout_constraintTop_toTopOf="@id/image_description" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
 
             <View
                 android:id="@+id/button_save"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/bg_dialog_buttom"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_description"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -342,11 +349,21 @@
                 android:text="SAVE"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="@id/button_save"
-                app:layout_constraintStart_toStartOf="@id/button_save"
+                app:layout_constraintBottom_toBottomOf="@id/button_save"
                 app:layout_constraintEnd_toEndOf="@id/button_save"
-                app:layout_constraintBottom_toBottomOf="@id/button_save"/>
+                app:layout_constraintStart_toStartOf="@id/button_save"
+                app:layout_constraintTop_toTopOf="@id/button_save" />
 
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/ProgressTheme"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@id/layout_scroll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/button_save" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

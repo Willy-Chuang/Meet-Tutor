@@ -3,7 +3,6 @@ package com.willy.metu.calendar
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.willy.metu.R
 import com.willy.metu.databinding.DialogPostEventBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
+import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import com.willy.metu.util.TimeUtil
 import java.lang.String.format
@@ -76,7 +76,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 binding.textSelectStartTime.text = "$hour : $minute"
-                Log.i("TIMEEEE", "$hour : $minute")
+                Logger.i("$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
                 viewModel.startTime.value = timeTimeStamp
             }, hour, minute, true).show()
@@ -84,7 +84,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         }
 
         viewModel.startTime.observe(viewLifecycleOwner, Observer {
-            Log.i("TIMEEE", "${it}")
+            Logger.i( "$it")
         })
 
         binding.textSelectEndTime.setOnClickListener {
@@ -92,9 +92,13 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
-                binding.textSelectEndTime.text = "$hour : $minute"
-                Log.i("TIMEEEE", "$hour : $minute")
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
+//                viewModel.startTime.value?.let {
+//                    timeTimeStamp > it
+//                }
+
+                binding.textSelectEndTime.text = "$hour : $minute"
+                Logger.i("$hour : $minute")
                 viewModel.endTime.value = timeTimeStamp
             }, hour, minute, true).show()
 
@@ -133,9 +137,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             datePicker()
         }
 
-        //Setup spinner
-//        binding.spinnerAttendee.adapter =
-//            SelectedUserSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(R.array.followed_users_array))
 
         binding.spinnerAttendee.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
@@ -149,13 +150,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                             id: Long
                     ) {
                         if (parent != null && pos != 0) {
-//                        viewModel.invitation.value = parent.selectedItem.toString()
                             viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos -1).toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    viewModel.userInfo.value?.followingEmail?.get(pos - 1).toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
@@ -175,16 +170,10 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.type.value = parent.selectedItem.toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    parent.selectedItem.toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                     }
                 }
-
-//        val adapter = CalendarBottomSheetAdapter()
 
 
         // Setup post button with error handling
@@ -223,7 +212,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         })
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
-            Logger.i("userInfo = "+ it.toString())
+            Logger.i("userInfo = $it")
         })
 
 
@@ -238,6 +227,22 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
         viewModel.location.observe(viewLifecycleOwner, Observer {
             Logger.i(it)
+        })
+
+        // Progress Bar
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
+                    binding.progress.visibility = View.VISIBLE
+
+                }
+                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
+                    binding.progress.visibility = View.GONE
+                    viewModel.leave()
+                }}
         })
 
 

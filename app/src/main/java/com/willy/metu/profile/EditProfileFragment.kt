@@ -151,12 +151,38 @@ class EditProfileFragment : Fragment() {
                     }
                 }
 
+
+        viewModel.personalInfo.observe(viewLifecycleOwner, Observer {
+
+            // Preload Gender
+            if(it.gender == "Male") {
+                binding.radioGender.check(R.id.radio_male)
+            } else if (it.gender == "Female") {
+                binding.radioGender.check(R.id.radio_female)
+            } else {
+                binding.radioGender.clearCheck()
+            }
+
+            // Preload Identity
+            if (it.identity == "Student") {
+                binding.radioIdentity.check(R.id.radio_student)
+            } else if (it.identity == "Tutor") {
+                binding.radioIdentity.check(R.id.radio_tutor)
+            } else {
+                binding.radioIdentity.clearCheck()
+            }
+
+            // Preload Introduction
+            binding.editIntroduction.setText(it.introduction)
+
+            // Preload Experience
+            binding.editExperience.setText(it.experience)
+
+
+        })
+
         //Observers for editable components
         viewModel.selectedTags.observe(viewLifecycleOwner, Observer {
-            //            if (it.size > 3) {
-//                val selected = chipGroup.checkedChipId
-//                chipGroup.findViewById<>(selected).isClickable
-//            }
 
             Logger.i(it.toString())
         })
@@ -184,7 +210,7 @@ class EditProfileFragment : Fragment() {
         mainViewModel.saveIsPressed.observe(viewLifecycleOwner, Observer {
             if (it) {
                 if (viewModel.checkIfComplete()) {
-                    viewModel.updateUser(viewModel.getUserInfo())
+                    viewModel.updateUser(viewModel.getUser())
                     findNavController().navigate(NavigationDirections.navigateToProfile())
                     mainViewModel.saveIsPressed.value = false
                 } else {

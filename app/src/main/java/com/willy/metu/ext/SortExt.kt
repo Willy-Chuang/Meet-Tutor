@@ -34,6 +34,13 @@ fun List<User>?.sortByTraits(answers:Answers) : List<User> {
             ?: listOf()
 }
 
+fun List<User>?.sortByName(name:String) : List<User> {
+    return this?.filter {
+        it.name.contains(name)
+    }
+            ?: listOf()
+}
+
 fun List<User>?.excludeUser() : List<User> {
     return this?.filter {
         it?.let {
@@ -74,6 +81,15 @@ fun List<Article>?.sortArticleBySubject(subject: String) : List<Article>{
     return this?.filter {
         it?.let {
             it.subject == subject
+        }
+    }
+            ?: listOf()
+}
+
+fun List<Article>?.sortArticleToMyArticle(userEmail: String) : List<Article>{
+    return this?.filter {
+        it?.let {
+            it.creatorEmail == userEmail
         }
     }
             ?: listOf()

@@ -1,11 +1,15 @@
 package com.willy.metu
 
+import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -29,7 +33,7 @@ import com.willy.metu.util.Logger
 import java.util.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity() : BaseActivity() {
 
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
@@ -81,10 +85,13 @@ class MainActivity : BaseActivity() {
 
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
@@ -241,6 +248,7 @@ class MainActivity : BaseActivity() {
                 R.id.chatRoomFragment -> CurrentFragmentType.CHAT
                 R.id.post_article_dialog -> CurrentFragmentType.POSTARTICLE
                 R.id.eventDetailFragment -> CurrentFragmentType.EVENTDETAIL
+                R.id.newChatFragment -> CurrentFragmentType.NEWCHAT
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -278,18 +286,6 @@ class MainActivity : BaseActivity() {
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-
-//                when (UserManager.isLoggedIn) { // check user login status when open drawer
-//                    true -> {
-//                        viewModel.checkUser()
-//                    }
-//                    else -> {
-//                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLoginDialog())
-//                        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                            binding.drawerLayout.closeDrawer(GravityCompat.START)
-//                        }
-//                    }
-//                }
 
             }
         }.apply {
@@ -343,8 +339,27 @@ class MainActivity : BaseActivity() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            val manager = supportFragmentManager
+            val count = manager.findFragmentById(R.id.myNavHostFragment)!!.childFragmentManager.backStackEntryCount
+            if (count == 0) {
+                setDialog()
+            } else {
+                super.onBackPressed()
+            }
+
         }
+    }
+
+
+    private fun setDialog() {
+
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setCancelable(true)
+        alertDialogBuilder.setTitle("Sure To Leave?")
+        alertDialogBuilder.setMessage("Leaving will close the app")
+        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { _, _ -> finish()})
+        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, _ -> which.dismiss() })
+        alertDialogBuilder.show()
 
     }
 }

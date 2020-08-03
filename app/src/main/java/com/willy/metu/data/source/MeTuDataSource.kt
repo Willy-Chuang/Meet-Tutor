@@ -37,6 +37,8 @@ interface MeTuDataSource {
 
     suspend fun postArticle(article: Article): Result<Boolean>
 
+    suspend fun deleteArticle(article: Article): Result<Boolean>
+
     fun getAllLiveArticle(): MutableLiveData<List<Article>>
 
     suspend fun addArticleToWishlist(article: Article, userEmail: String): Result<Boolean>
