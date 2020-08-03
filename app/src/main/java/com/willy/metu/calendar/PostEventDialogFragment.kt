@@ -123,13 +123,12 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val month = selectedDate[1]
             val date = selectedDate[2]
             activity?.let {
-                DatePickerDialog(
-                        it,
-                        dateListener,
-                        year.toInt(),
-                        month.toInt() - 1,
-                        date.toInt()
-                ).show()
+
+                val datePickerDialog = DatePickerDialog(
+                        it, dateListener, year.toInt(), month.toInt() - 1, date.toInt()
+                )
+                datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+                datePickerDialog.show()
             }
         }
 
@@ -183,7 +182,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                 val event = viewModel.getEvent(UserManager.user.email)
                 Logger.d("$event")
                 viewModel.post(event)
-//                adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(MeTuApplication.appContext,
                         "Please complete the form", Toast.LENGTH_SHORT).show()
