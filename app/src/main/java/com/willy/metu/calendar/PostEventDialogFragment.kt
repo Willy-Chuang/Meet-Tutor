@@ -93,13 +93,18 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             val minute = calendar.get(Calendar.MINUTE)
             TimePickerDialog(activity, { _, hour, minute ->
                 val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
-//                viewModel.startTime.value?.let {
-//                    timeTimeStamp > it
-//                }
+                viewModel.startTime.value?.let {
+                    if (timeTimeStamp > it){
+                        binding.textSelectEndTime.text = "$hour : $minute"
+                        Logger.i("$hour : $minute")
+                        viewModel.endTime.value = timeTimeStamp
+                   } else {
+                        Toast.makeText(MeTuApplication.appContext,
+                                "Please select a valid time", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-                binding.textSelectEndTime.text = "$hour : $minute"
-                Logger.i("$hour : $minute")
-                viewModel.endTime.value = timeTimeStamp
+
             }, hour, minute, true).show()
 
         }
