@@ -1,4 +1,4 @@
-package com.willy.metu.profile
+package com.willy.metu.editprofile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +20,7 @@ import com.willy.metu.databinding.FragmentEditProfileBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.pair.QuestionSpinnerAdapter
 import com.willy.metu.util.Logger
+import java.util.*
 
 
 class EditProfileFragment : Fragment() {
@@ -31,13 +32,13 @@ class EditProfileFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentEditProfileBinding.inflate(inflater, container, false)
-        //Initialized viewModel for layout
+        // Initialized viewModel for layout
         binding.viewModel = viewModel
 
-        //Call mainViewModel to observe if the save button is pressed
+        // Call mainViewModel to observe if the save button is pressed
         val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
-        //Set variables for content
+        // Set variables for content
         val cityIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_city)
         val districtIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_district)
         val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
@@ -49,35 +50,36 @@ class EditProfileFragment : Fragment() {
         val kaohsiungContent = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
 
 
-        //Setup chip group for tag selection
+        // Setup chip group for tag selection
         val chipGroup = binding.chipGroup
         chipGroup.isSingleSelection = false
-        val genres = MeTuApplication.instance.resources.getStringArray(R.array.all_tag_array)
+        val types = MeTuApplication.instance.resources.getStringArray(R.array.all_tag_array)
 
-        for (genre in genres) {
+        for (type in types) {
             val chip = LayoutInflater.from(requireContext()).inflate(R.layout.chip_layout, chipGroup, false) as Chip
-            chip.text = genre
+            chip.text = type
 
             chip.setOnCheckedChangeListener { c, isChecked ->
                 if (isChecked) {
 
+                    // Restrict max chip selection
                     if (viewModel.itemList.size > 2) {
                         c.isChecked = false
-                        Toast.makeText(requireContext(), "You can only select 3 subject", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.reminder_subject_max), Toast.LENGTH_SHORT).show()
                         return@setOnCheckedChangeListener
                     }
 
-                    //Check if the list already contains the tag, if not then add to list
-                    if (viewModel.itemList.contains(chip.text.toString())) {
+                    // Check if the list already contains the tag, if not then add to list
+                    if (viewModel.itemList.contains(c.text.toString())) {
                         Logger.d("Has Been Added")
                     } else {
-                        viewModel.itemList.add(chip.text.toString())
+                        viewModel.itemList.add(c.text.toString())
                         viewModel.selectedTags.value = viewModel.itemList
                     }
 
                     // Remove tag from list when uncheck
                 } else {
-                    viewModel.itemList.remove(chip.text.toString())
+                    viewModel.itemList.remove(c.text.toString())
                     viewModel.selectedTags.value = viewModel.itemList
                 }
             }
@@ -85,14 +87,14 @@ class EditProfileFragment : Fragment() {
         }
 
         // Setup Radio button (Gender, Identity)
-        binding.radioGender.setOnCheckedChangeListener { group, checkedId ->
+        binding.radioGender.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_male -> viewModel.selectedGender.value = "Male"
                 R.id.radio_female -> viewModel.selectedGender.value = "Female"
             }
         }
 
-        binding.radioIdentity.setOnCheckedChangeListener { group, checkedId ->
+        binding.radioIdentity.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_tutor -> viewModel.selectedIdentity.value = "Tutor"
                 R.id.radio_student -> viewModel.selectedIdentity.value = "Student"
@@ -142,34 +144,26 @@ class EditProfileFragment : Fragment() {
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.selectedDistrict.value = parent.selectedItem.toString()
-                            Toast.makeText(
-                                    MeTuApplication.appContext,
-                                    parent.selectedItem.toString(),
-                                    Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
                 }
 
 
+        // Preload info if user has already filled in advance
         viewModel.personalInfo.observe(viewLifecycleOwner, Observer {
 
             // Preload Gender
-            if(it.gender == "Male") {
-                binding.radioGender.check(R.id.radio_male)
-            } else if (it.gender == "Female") {
-                binding.radioGender.check(R.id.radio_female)
-            } else {
-                binding.radioGender.clearCheck()
+            when (it.gender.toLowerCase(Locale.ROOT)) {
+                "male" -> binding.radioGender.check(R.id.radio_male)
+                "female" -> binding.radioGender.check(R.id.radio_female)
+                else -> binding.radioIdentity.clearCheck()
             }
 
             // Preload Identity
-            if (it.identity == "Student") {
-                binding.radioIdentity.check(R.id.radio_student)
-            } else if (it.identity == "Tutor") {
-                binding.radioIdentity.check(R.id.radio_tutor)
-            } else {
-                binding.radioIdentity.clearCheck()
+            when (it.identity.toLowerCase(Locale.ROOT)) {
+                "student" -> binding.radioIdentity.check(R.id.radio_student)
+                "tutor" -> binding.radioIdentity.check(R.id.radio_tutor)
+                else -> binding.radioIdentity.clearCheck()
             }
 
             // Preload Introduction
@@ -181,9 +175,9 @@ class EditProfileFragment : Fragment() {
 
         })
 
+
         //Observers for editable components
         viewModel.selectedTags.observe(viewLifecycleOwner, Observer {
-
             Logger.i(it.toString())
         })
 
@@ -214,7 +208,7 @@ class EditProfileFragment : Fragment() {
                     findNavController().navigate(NavigationDirections.navigateToProfile())
                     mainViewModel.saveIsPressed.value = false
                 } else {
-                    Toast.makeText(MeTuApplication.appContext, "Finishing the info would help when pairing", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MeTuApplication.appContext, getString(R.string.reminder_finish_user_info), Toast.LENGTH_SHORT).show()
                 }
             }
         })

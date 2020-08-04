@@ -13,7 +13,7 @@
 
     <action
         android:id="@+id/navigate_to_calendar_Fragment"
-        app:destination="@id/calendarFragment" />
+        app:destination="@id/item_calendar" />
 
     <dialog
         android:id="@+id/post_event_dialog"
@@ -111,7 +111,7 @@
 
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.willy.metu.profile.EditProfileFragment"
+        android:name="com.willy.metu.editprofile.EditProfileFragment"
         android:label="EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile" />
 
@@ -269,11 +269,11 @@
         android:id="@+id/newChatFragment"
         android:name="com.willy.metu.newchat.NewChatFragment"
         android:label="NewChatFragment"
-        tools:layout="@layout/fragment_new_chat"/>
+        tools:layout="@layout/fragment_new_chat" />
 
     <action
         android:id="@+id/navigate_to_new_chat"
-        app:destination="@id/newChatFragment"/>
+        app:destination="@id/newChatFragment" />
 
 
 </navigation>

@@ -36,18 +36,6 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
 
-        //Setup chips to show user's tags
-//        val chipGroup = binding.chipGroup
-//        val genres = viewModel.personalInfo.value?.tag
-//
-//        if (genres != null) {
-//            for (genre in genres) {
-//                val chip = Chip(chipGroup.getContext())
-//                chip.text = genre
-//                chipGroup.addView(chip)
-//            }
-//        }
-
         // When Edit button is pressed, navigate to edit mode
         mainViewModel.editIsPressed.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -61,16 +49,14 @@ class ProfileFragment : Fragment() {
             //Setup chips to show user's tags
             val chipGroup = binding.chipGroup
 
-            val genres = it.tag
-//            val rippleColor = MeTuApplication.instance.getColorStateList(R.color.transparent)
+            val subjects = it.tag
 
-            if (genres != null) {
-                for (genre in genres) {
-//                    val chip = Chip(chipGroup.getContext())
-                    val chip = Chip(context, null, R.attr.CustomChipChoice)
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
+
+            for (subject in subjects) {
+
+                val chip = Chip(context, null, R.attr.CustomChipChoice)
+                chip.text = subject
+                chipGroup.addView(chip)
             }
         })
 

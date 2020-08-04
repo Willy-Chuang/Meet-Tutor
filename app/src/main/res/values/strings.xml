@@ -11,6 +11,8 @@
     <string name="spinner_select_district">Select District</string>
     <string name="card_about">About</string>
     <string name="empty_string" />
+    <string name="reminder_subject_max">You can only select 3 subject</string>
+    <string name="reminder_finish_user_info">Finishing the info would help when pairing</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

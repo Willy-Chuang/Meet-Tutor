@@ -55,7 +55,7 @@ class ProfileViewModel (private val repository: MeTuRepository) : ViewModel() {
         getUserInfo(UserManager.user.email)
     }
 
-    fun getUserInfo(userEmail: String) {
+    private fun getUserInfo(userEmail: String) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING

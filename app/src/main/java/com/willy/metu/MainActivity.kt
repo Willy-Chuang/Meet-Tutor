@@ -155,17 +155,17 @@ class MainActivity() : BaseActivity() {
         // If the current fragment is -- ,calendar button won't inflate
         viewModel.currentFragmentType.observe(this, Observer { type ->
             type?.let {
-                menu.findItem(R.id.talent_pool).isVisible = when (it) {
+                menu.findItem(R.id.item_talent_pool).isVisible = when (it) {
                     CurrentFragmentType.TALENTPOOL -> true
                     else -> false
                 }
-                menu.findItem(R.id.calendarFragment).isVisible = when (it) {
+                menu.findItem(R.id.item_calendar).isVisible = when (it) {
                     CurrentFragmentType.CALENDAR,
                     CurrentFragmentType.PROFILE,
                     CurrentFragmentType.EDITPROFILE -> false
                     else -> true
                 }
-                val profileModeMenu = menu.findItem(R.id.profile_mode)
+                val profileModeMenu = menu.findItem(R.id.item_profile_mode)
                 profileModeMenu.isVisible = when (it) {
                     CurrentFragmentType.PROFILE -> {
                         profileModeMenu.title = "EDIT"
@@ -186,9 +186,9 @@ class MainActivity() : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
-            R.id.calendarFragment -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
-            R.id.profile_mode -> {
+            R.id.item_talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
+            R.id.item_calendar -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+            R.id.item_profile_mode -> {
                 when (item.title.toString().toLowerCase(Locale.ROOT)) {
                     "edit" -> viewModel.editIsPressed.value = true
                     "save" -> viewModel.saveIsPressed.value = true
@@ -208,7 +208,6 @@ class MainActivity() : BaseActivity() {
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
 
                 // Setup BottomNav selected as well as fragment title
-
                 R.id.startPairingFragment -> {
                     val pairing = binding.bottomNavView.menu.findItem(R.id.navigation_pairing)
                     pairing.isChecked = true
@@ -236,7 +235,6 @@ class MainActivity() : BaseActivity() {
                 }
 
                 // Setup fragment title
-
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
                 R.id.questionnaireTwoFragment -> CurrentFragmentType.PAIRTWO

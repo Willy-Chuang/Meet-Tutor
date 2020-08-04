@@ -1,4 +1,4 @@
-package com.willy.metu.profile
+package com.willy.metu.editprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel() {
+class EditProfileViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     //Get user data for profile
     private var _personalInfo = MutableLiveData<User>()
 
-    val personalInfo : LiveData<User>
+    val personalInfo: LiveData<User>
         get() = _personalInfo
 
     //Variables for editable component
@@ -30,10 +30,9 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
     var selectedCity = MutableLiveData<String>()
     var selectedDistrict = MutableLiveData<String>()
     var selectedTags = MutableLiveData<List<String>>()
-    val itemList:MutableList<String> = ArrayList()
+    val itemList: MutableList<String> = ArrayList()
     var introduction = MutableLiveData<String>()
     var experience = MutableLiveData<String>()
-
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -75,7 +74,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
         getUserInfo(UserManager.user.email)
     }
 
-    fun updateUser(user: User){
+    fun updateUser(user: User) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -103,7 +102,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
     }
 
     fun getUser(): User {
-        return User (
+        return User(
                 id = UserManager.user.email,
                 image = UserManager.user.image,
                 name = UserManager.user.name,
@@ -134,7 +133,7 @@ class EditProfileViewModel (private val repository: MeTuRepository) : ViewModel(
         _leave.value = needRefresh
     }
 
-    fun getUserInfo(userEmail: String) {
+    private fun getUserInfo(userEmail: String) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING

@@ -14,7 +14,7 @@ import com.willy.metu.login.LoginViewModel
 import com.willy.metu.newchat.NewChatViewModel
 import com.willy.metu.notify.NotifyViewModel
 import com.willy.metu.pair.QuestionnaireOneViewModel
-import com.willy.metu.profile.EditProfileViewModel
+import com.willy.metu.editprofile.EditProfileViewModel
 import com.willy.metu.profile.ProfileViewModel
 import com.willy.metu.talentpool.TalentPoolViewModel
 
