@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewModel(){
+class ArticleDialogViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -65,8 +65,6 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
     }
 
 
-
-
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }
@@ -75,9 +73,9 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
         _leave.value = null
     }
 
-    fun getArticle () : Article {
+    fun getArticle(): Article {
         return Article(
-                id= "",
+                id = "",
                 createdTime = 0,
                 creatorName = UserManager.user.name,
                 creatorEmail = UserManager.user.email,
@@ -91,7 +89,7 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
         )
     }
 
-    fun postArticle (article: Article) {
+    fun postArticle(article: Article) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -100,7 +98,6 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-//                    leave(true)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -125,7 +122,7 @@ class ArticleDialogViewModel (private val repository: MeTuRepository) : ViewMode
                 articleType.value == null ||
                 articleTitle.value == null ||
                 articleDetail.value == null ||
-                articleCity.value == null )
+                articleCity.value == null)
     }
 
 }

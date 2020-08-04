@@ -13,6 +13,7 @@
     <string name="empty_string" />
     <string name="reminder_subject_max">You can only select 3 subject</string>
     <string name="reminder_finish_user_info">Finishing the info would help when pairing</string>
+    <string name="reminder_finish_article">Please finish the required information</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

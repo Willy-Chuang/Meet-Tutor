@@ -25,6 +25,7 @@ import com.willy.metu.util.Logger
 class ArticleDialogFragment : AppCompatDialogFragment() {
 
     private val viewModel by viewModels<ArticleDialogViewModel> { getVmFactory() }
+    lateinit var binding: DialogPostArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +37,19 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val binding = DialogPostArticleBinding.inflate(inflater,container,false)
+        binding = DialogPostArticleBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
 
         binding.buttonPost.setOnClickListener {
-            if(viewModel.checkIfComplete()) {
+            if (viewModel.checkIfComplete()) {
                 viewModel.postArticle(viewModel.getArticle())
             } else {
-                Toast.makeText(requireContext(),"Please finish the required information",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.reminder_finish_article), Toast.LENGTH_SHORT).show()
             }
         }
 
-       //Content and Indicator setup for spinner
+        // Content and Indicator setup for spinner
         val majorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_category)
         val minorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_subject)
         val typeIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_type)
@@ -60,8 +61,8 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
 
         binding.spinnerSubjectMajor.adapter = QuestionSpinnerAdapter(majorContent, majorIndicator)
         binding.spinnerSubjectMinor.adapter = QuestionSpinnerAdapter(defaultContent, minorIndicator)
-        binding.spinnerType.adapter = QuestionSpinnerAdapter(typeContent,typeIndicator)
-        binding.spinnerLocation.adapter = QuestionSpinnerAdapter(locationContent,locationIndicator)
+        binding.spinnerType.adapter = QuestionSpinnerAdapter(typeContent, typeIndicator)
+        binding.spinnerLocation.adapter = QuestionSpinnerAdapter(locationContent, locationIndicator)
 
         binding.spinnerType.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
@@ -69,10 +70,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.articleType.value = parent.selectedItem.toString()
@@ -80,26 +78,17 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     }
                 }
 
-        //When main category is selected, change the related content of subject
+        // When main category is selected, change the related content of subject
         binding.spinnerSubjectMajor.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
-                        when (pos) {
-                            1 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.language_array,minorIndicator)
-                            2 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.curriculum_array,minorIndicator)
-                            3 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.music_array,minorIndicator)
-                            4 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.art_array,minorIndicator)
-                            5 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.sport_array,minorIndicator)
-                            6 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.exam_array,minorIndicator)
-                        }
+                        setupMinorSpinner(pos)
+
                         if (parent != null && pos != 0) {
                             viewModel.articleSubject.value = parent.selectedItem.toString()
                         }
@@ -107,17 +96,14 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     }
                 }
 
-        //Passing Value to Subject livedata
+        // Passing Value to Subject livedata
         binding.spinnerSubjectMinor.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.articleSubject.value = parent.selectedItem.toString()
@@ -125,17 +111,14 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     }
                 }
 
-        //Passing Value to City livedata
+        // Passing Value to City livedata
         binding.spinnerLocation.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
                             viewModel.articleCity.value = parent.selectedItem.toString()
@@ -144,8 +127,7 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                 }
 
 
-
-        //Observers for entered values
+        // Observers for entered values
         viewModel.articleType.observe(viewLifecycleOwner, Observer {
             Logger.d(it)
         })
@@ -197,7 +179,8 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
                     Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
                     viewModel.leave()
-                }}
+                }
+            }
         })
 
 
@@ -205,9 +188,25 @@ class ArticleDialogFragment : AppCompatDialogFragment() {
         return binding.root
     }
 
-    fun setSpinnerContent(array: Int, indicator: String): SpinnerAdapter {
-        val spinner = QuestionSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array),indicator)
-        return spinner
+    private fun setSpinnerContent(array: Int): SpinnerAdapter {
+        return QuestionSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array), MeTuApplication.instance.resources.getString(R.string.spinner_select_category))
+    }
+
+    fun setupMinorSpinner(pos: Int) {
+        binding.spinnerSubjectMinor.adapter = setSpinnerContent(
+
+                when (pos) {
+                    1 -> R.array.language_array
+                    2 -> R.array.curriculum_array
+                    3 -> R.array.music_array
+                    4 -> R.array.art_array
+                    5 -> R.array.sport_array
+                    6 -> R.array.exam_array
+                    else -> R.array.default_array
+                }
+
+        )
+
     }
 
 }
