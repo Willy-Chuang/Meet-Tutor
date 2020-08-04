@@ -13,7 +13,7 @@
 
     <action
         android:id="@+id/navigate_to_calendar_Fragment"
-        app:destination="@id/item_calendar" />
+        app:destination="@id/calendarFragment" />
 
     <dialog
         android:id="@+id/post_event_dialog"

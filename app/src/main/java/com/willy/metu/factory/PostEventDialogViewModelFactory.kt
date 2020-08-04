@@ -2,9 +2,7 @@ package com.willy.metu.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.calendar.PostEventDialogViewModel
-import com.willy.metu.data.SelectedEvent
 import com.willy.metu.data.source.MeTuRepository
 
 @Suppress("UNCHECKED_CAST")

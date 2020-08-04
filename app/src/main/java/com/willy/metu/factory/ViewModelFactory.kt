@@ -3,10 +3,11 @@ package com.willy.metu.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.willy.metu.MainViewModel
-import com.willy.metu.calendar.CalendarBottomSheetViewModel
+import com.willy.metu.calendar.CalendarViewModel
 import com.willy.metu.chatlist.ChatListViewModel
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.dialog.ArticleDialogViewModel
+import com.willy.metu.editprofile.EditProfileViewModel
 import com.willy.metu.followlist.FollowArticleViewModel
 import com.willy.metu.followlist.FollowUserViewModel
 import com.willy.metu.home.HomeViewModel
@@ -14,7 +15,6 @@ import com.willy.metu.login.LoginViewModel
 import com.willy.metu.newchat.NewChatViewModel
 import com.willy.metu.notify.NotifyViewModel
 import com.willy.metu.pair.QuestionnaireOneViewModel
-import com.willy.metu.editprofile.EditProfileViewModel
 import com.willy.metu.profile.ProfileViewModel
 import com.willy.metu.talentpool.TalentPoolViewModel
 
@@ -25,8 +25,8 @@ class ViewModelFactory constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(CalendarBottomSheetViewModel::class.java) ->
-                    CalendarBottomSheetViewModel(meTuRepository)
+                isAssignableFrom(CalendarViewModel::class.java) ->
+                    CalendarViewModel(meTuRepository)
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(meTuRepository)
                 isAssignableFrom(QuestionnaireOneViewModel::class.java) ->

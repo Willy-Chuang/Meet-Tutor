@@ -9,11 +9,8 @@
 
         <variable
             name="viewModel"
-            type="com.willy.metu.calendar.CalendarBottomSheetViewModel" />
+            type="com.willy.metu.calendar.CalendarViewModel" />
 
-        <variable
-            name="isLiveDataDesign"
-            type="Boolean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

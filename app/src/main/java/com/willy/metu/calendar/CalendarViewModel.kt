@@ -8,15 +8,19 @@ import com.willy.metu.R
 import com.willy.metu.data.Event
 import com.willy.metu.data.Result
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.ext.sortByTimeStamp
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
+import com.willy.metu.util.TimeUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import java.util.*
 
-class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : ViewModel() {
+class CalendarViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     //Get all events with user as attendee
 
@@ -28,7 +32,10 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
     var allLiveEvents = MutableLiveData<List<Event>>()
 
     //Selected date for safe arg
-    val navigationToPostDialog = MutableLiveData<Long>()
+    private val _navigationToPostDialog = MutableLiveData<Long>()
+
+    val navigationToPostDialog : LiveData<Long>
+        get() = _navigationToPostDialog
 
 
     //Query Selected Events
@@ -40,9 +47,6 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
 
     val selectedLiveEvent = MutableLiveData<List<Event>>()
 
-    //Get value of selectedDate as timestamp
-
-    var currentDate = MutableLiveData<Long>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -73,6 +77,7 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         Logger.i("------------------------------------")
 
         getLiveAllEventsResult(UserManager.user.email)
+        todayDate()
 
         if (MeTuApplication.instance.isLiveDataDesign()) {
             getLiveAllEventsResult(UserManager.user.email)
@@ -81,7 +86,7 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         }
     }
 
-    fun getAllEventsResult(userEmail: String) {
+    private fun getAllEventsResult(userEmail: String) {
 
         coroutineScope.launch {
 
@@ -114,7 +119,7 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
         }
     }
 
-    fun getLiveAllEventsResult(userEmail: String){
+    private fun getLiveAllEventsResult(userEmail: String){
         allLiveEvents = repository.getLiveAllEvents(userEmail)
     }
 
@@ -145,6 +150,14 @@ class CalendarBottomSheetViewModel(private val repository: MeTuRepository) : Vie
                 }
             }
         }
+    }
+    fun createDailyEvent (toTimeStamp: Long) {
+        selectedLiveEvent.value = allLiveEvents.value.sortByTimeStamp(toTimeStamp)
+        _navigationToPostDialog.value = toTimeStamp
+    }
+
+    private fun todayDate() {
+        _navigationToPostDialog.value = TimeUtil.dateToStamp(LocalDate.now().toString(), Locale.TAIWAN)
     }
 
 }

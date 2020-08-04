@@ -8,16 +8,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.data.Event
 import com.willy.metu.databinding.ItemScheduleBinding
-import com.willy.metu.util.Logger
 
-class CalendarBottomSheetAdapter(val viewModel: CalendarBottomSheetViewModel) : ListAdapter<Event, RecyclerView.ViewHolder>(DiffCallback){
+class CalendarBottomSheetAdapter(val viewModel: CalendarViewModel) : ListAdapter<Event, RecyclerView.ViewHolder>(DiffCallback){
 
     class EventViewHolder(private var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(event: Event, viewModel: CalendarBottomSheetViewModel) {
+        fun bind(event: Event, viewModel: CalendarViewModel) {
             binding.event = event
 
             //Setup click to show detail
-            binding.layoutScheduleDetail.visibility = View.GONE
+//            binding.layoutScheduleDetail.visibility = View.GONE
             binding.layoutCard.setOnClickListener {
                 if (binding.layoutScheduleDetail.visibility == View.GONE) {
                     binding.layoutScheduleDetail.visibility = View.VISIBLE

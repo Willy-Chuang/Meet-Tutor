@@ -2,7 +2,6 @@ package com.willy.metu.notify
 
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.bold
 import androidx.navigation.Navigation
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.NavigationDirections
 import com.willy.metu.calendar.CalendarBottomSheetAdapter
-import com.willy.metu.calendar.CalendarBottomSheetViewModel
 import com.willy.metu.data.Event
 import com.willy.metu.databinding.ItemNotifyEventBinding
 import com.willy.metu.login.UserManager
