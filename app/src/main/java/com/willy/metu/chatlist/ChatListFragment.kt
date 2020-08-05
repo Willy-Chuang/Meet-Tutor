@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.data.ChatRoom
+import com.willy.metu.data.UserInfo
 import com.willy.metu.databinding.FragmentChatListBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -41,15 +42,13 @@ class ChatListFragment : Fragment() {
 
                 it.forEach {chatRoom ->
 
-                    val theOtherPersonInfo = chatRoom.attendeesInfo.filter {userInfo ->
-                        userInfo.userEmail != UserManager.user.email
-                    }
-                    chatRoom.attendeesInfo = theOtherPersonInfo
+                    // Remove my info to make the new info list contains only the other user's info
+                    chatRoom.attendeesInfo = excludeMyInfo(chatRoom.attendeesInfo)
 
                     filteredChatRoom.add(chatRoom)
                 }
 
-                viewModel.filteredChatRooms.value = filteredChatRoom
+                viewModel.createFilteredChatRooms(filteredChatRoom)
 
             }
         })
@@ -73,6 +72,12 @@ class ChatListFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun excludeMyInfo (attendeesInfo: List<UserInfo>) : List<UserInfo>{
+        return attendeesInfo.filter {
+            it.userEmail != UserManager.user.email
+        }
     }
 
 }
