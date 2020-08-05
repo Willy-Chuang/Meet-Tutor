@@ -1,4 +1,4 @@
-package com.willy.metu.calendar
+package com.willy.metu.postevent
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 class PostEventDialogViewModel(
         private val repository: MeTuRepository,
@@ -95,15 +96,16 @@ class PostEventDialogViewModel(
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
         getUser(UserManager.user.email)
+        setInitialTime()
     }
 
     fun getEvent(userEmail: String): Event {
 
-        val attendees = listOf<String>(userEmail)
+        val attendees = listOf(userEmail)
 
-        val attendeesName = listOf<String>(UserManager.user.name)
+        val attendeesName = listOf(UserManager.user.name)
 
-        val invitation = listOf<String>(invitation.value.toString())
+        val invitation = listOf(invitation.value.toString())
 
 
         return Event(
@@ -185,6 +187,34 @@ class PostEventDialogViewModel(
 
     fun onLeft() {
         _leave.value = null
+    }
+
+    private fun setInitialTime() {
+        eventTime.value = TimeUtil.dateToStamp(date, Locale.TAIWAN)
+    }
+
+    fun setAllDay(answer: Boolean) {
+        isAllDay.value = answer
+    }
+
+    fun setEventTime(timeStamp: Long) {
+        eventTime.value = timeStamp
+    }
+
+    fun setStartTime(timeStamp: Long) {
+        startTime.value = timeStamp
+    }
+
+    fun setEndTime(timeStamp: Long) {
+        endTime.value = timeStamp
+    }
+
+    fun setType(selectedType: String){
+        type.value = selectedType
+    }
+
+    fun setInvitation(pos: Int) {
+        invitation.value = userInfo.value?.followingEmail?.get(pos - 1).toString()
     }
 
     fun checkIfComplete(): Boolean {

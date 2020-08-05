@@ -9,11 +9,11 @@
 
         <variable
             name="dialog"
-            type="com.willy.metu.calendar.PostEventDialogFragment" />
+            type="com.willy.metu.postevent.PostEventDialogFragment" />
 
         <variable
             name="viewModel"
-            type="com.willy.metu.calendar.PostEventDialogViewModel" />
+            type="com.willy.metu.postevent.PostEventDialogViewModel" />
 
         <variable
             name="isLiveDataDesign"

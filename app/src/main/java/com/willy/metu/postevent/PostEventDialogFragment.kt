@@ -1,4 +1,4 @@
-package com.willy.metu.calendar
+package com.willy.metu.postevent
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -23,16 +23,22 @@ import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import com.willy.metu.util.TimeUtil
+import kotlinx.android.synthetic.main.dialog_post_event.view.*
 import java.lang.String.format
 import java.util.*
 
 class PostEventDialogFragment : AppCompatDialogFragment() {
+
+    val TIME_PICKER_TYPE_START = 0x01
+    val TIME_PICKER_TYPE_END = 0x02
 
     private val viewModel by viewModels<PostEventDialogViewModel> {
         getVmFactory(
                 PostEventDialogFragmentArgs.fromBundle(requireArguments()).selectedDate
         )
     }
+
+    lateinit var binding: DialogPostEventBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,99 +50,40 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val binding = DialogPostEventBinding.inflate(inflater, container, false)
+        binding = DialogPostEventBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.dialog = this
         binding.viewModel = viewModel
 
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
         //Setup switch - show time if all-day disabled (default: true)
-        val AlldaySwitch = binding.switchAllDay
-        AlldaySwitch.setOnClickListener {
-            if (AlldaySwitch.isChecked) {
-                binding.textSelectStartTime.visibility = View.GONE
-                binding.textSelectEndTime.visibility = View.GONE
-                viewModel.isAllDay.value = true
+        binding.switchAllDay.setOnClickListener {
+            if (it.switch_all_day.isChecked) {
+                timeSectionVisibility(false)
+                viewModel.setAllDay(true)
             } else {
-                binding.textSelectStartTime.visibility = View.VISIBLE
-                binding.textSelectEndTime.visibility = View.VISIBLE
-                viewModel.isAllDay.value = false
+                timeSectionVisibility(true)
+                viewModel.setAllDay(false)
             }
         }
 
-        //Set up initial date from safe arg
-
+        // Set up initial date from safe arg
         binding.textDate.text = viewModel.date
-        viewModel.eventTime.value = TimeUtil.dateToStamp(viewModel.date, Locale.TAIWAN)
 
-        //Setup Time Picker
-
+        // Setup Time Picker - Start Time
         binding.textSelectStartTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-            TimePickerDialog(activity, { _, hour, minute ->
-                binding.textSelectStartTime.text = "$hour : $minute"
-                Logger.i("$hour : $minute")
-                val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
-                viewModel.startTime.value = timeTimeStamp
-            }, hour, minute, true).show()
-
+            showTimePickerDialog(TIME_PICKER_TYPE_START,hour,minute)
         }
 
-        viewModel.startTime.observe(viewLifecycleOwner, Observer {
-            Logger.i( "$it")
-        })
-
+        // Setup Time Picker - End Time
         binding.textSelectEndTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-            TimePickerDialog(activity, { _, hour, minute ->
-                val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
-                viewModel.startTime.value?.let {
-                    if (timeTimeStamp > it){
-                        binding.textSelectEndTime.text = "$hour : $minute"
-                        Logger.i("$hour : $minute")
-                        viewModel.endTime.value = timeTimeStamp
-                   } else {
-                        Toast.makeText(MeTuApplication.appContext,
-                                "Please select a valid time", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-
-            }, hour, minute, true).show()
-
+            showTimePickerDialog(TIME_PICKER_TYPE_END,hour,minute)
         }
 
-
-        //Setup Date Picker
-
-        fun datePicker() {
-            val calender = Calendar.getInstance()
-            val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                calender.set(year, month, day)
-                format("yyyy-MM-dd")
-                var newMonth = format("%02d", month + 1)
-                var newDay = format("%02d", day)
-                binding.textDate.text = "$year-$newMonth-$newDay"
-                val dateTimestamp = TimeUtil.dateToStamp("$year-$newMonth-$newDay", Locale.TAIWAN)
-                viewModel.eventTime.value = dateTimestamp
-            }
-            val selectedDate = viewModel.date.split("-")
-            val year = selectedDate[0]
-            val month = selectedDate[1]
-            val date = selectedDate[2]
-            activity?.let {
-
-                val datePickerDialog = DatePickerDialog(
-                        it, dateListener, year.toInt(), month.toInt() - 1, date.toInt()
-                )
-                datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
-                datePickerDialog.show()
-            }
-        }
-
+        // Setup Date Picker
         binding.textDate.setOnClickListener {
             datePicker()
         }
@@ -148,13 +95,10 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
-                            viewModel.invitation.value = viewModel.userInfo.value?.followingEmail?.get(pos -1).toString()
+                            viewModel.setInvitation(pos)
                         }
                     }
                 }
@@ -167,13 +111,11 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
-                            viewModel.type.value = parent.selectedItem.toString()
+                            val selectedType = parent.selectedItem.toString()
+                            viewModel.setType(selectedType)
 
                         }
                     }
@@ -181,25 +123,22 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
 
 
         // Setup post button with error handling
-
         binding.buttonSave.setOnClickListener {
             if (viewModel.checkIfComplete()) {
                 val event = viewModel.getEvent(UserManager.user.email)
-                Logger.d("$event")
                 viewModel.post(event)
+                Logger.d("$event")
             } else {
                 Toast.makeText(MeTuApplication.appContext,
-                        "Please complete the form", Toast.LENGTH_SHORT).show()
+                        getString(R.string.reminder_post_event), Toast.LENGTH_SHORT).show()
             }
         }
 
 
-        //Observers
-
+        // Observers
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
             binding.spinnerAttendee.adapter =
                     SelectedUserSpinnerAdapter(it.followingName)
-
         })
 
         viewModel.leave.observe(viewLifecycleOwner, Observer {
@@ -218,8 +157,6 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             Logger.i("userInfo = $it")
         })
 
-
-
         viewModel.title.observe(viewLifecycleOwner, Observer {
             Logger.i(it)
         })
@@ -232,25 +169,94 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             Logger.i(it)
         })
 
+        viewModel.startTime.observe(viewLifecycleOwner, Observer {
+            Logger.i("$it")
+        })
+
+        viewModel.isAllDay.observe(viewLifecycleOwner, Observer {
+            Logger.i("$it")
+        })
+
         // Progress Bar
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
             when (it) {
                 LoadApiStatus.LOADING -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
                     binding.progress.visibility = View.VISIBLE
 
                 }
                 LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
                     viewModel.leave()
-                }}
+                }
+            }
         })
 
 
         return binding.root
     }
 
+    private fun timeSectionVisibility(required: Boolean) {
 
+        if (required) {
+            binding.textSelectStartTime.visibility = View.VISIBLE
+            binding.textSelectEndTime.visibility = View.VISIBLE
+        } else {
+            binding.textSelectStartTime.visibility = View.GONE
+            binding.textSelectEndTime.visibility = View.GONE
+        }
+    }
+
+    private fun datePicker() {
+        val calender = Calendar.getInstance()
+        val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            calender.set(year, month, day)
+            format("yyyy-MM-dd")
+            val newMonth = format("%02d", month + 1)
+            val newDay = format("%02d", day)
+            binding.textDate.text = "$year-$newMonth-$newDay"
+            val dateTimestamp = TimeUtil.dateToStamp("$year-$newMonth-$newDay", Locale.TAIWAN)
+            viewModel.setEventTime(dateTimestamp)
+        }
+        val selectedDate = viewModel.date.split("-")
+        val year = selectedDate[0]
+        val month = selectedDate[1]
+        val date = selectedDate[2]
+        activity?.let {
+
+            val datePickerDialog = DatePickerDialog(
+                    it, dateListener, year.toInt(), month.toInt() - 1, date.toInt()
+            )
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
+            datePickerDialog.show()
+        }
+    }
+
+
+    private fun showTimePickerDialog(type: Int, startHour: Int, startMinute: Int) {
+        TimePickerDialog(activity, { _, hour, minute ->
+
+            when (type) {
+                TIME_PICKER_TYPE_START -> {
+
+                    binding.textSelectStartTime.text = "$hour : $minute"
+                    Logger.i("$hour : $minute")
+                    viewModel.setStartTime(TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN))
+                }
+                TIME_PICKER_TYPE_END -> {
+                    val timeTimeStamp = TimeUtil.timeToStamp("$hour:$minute", Locale.TAIWAN)
+                    viewModel.startTime.value?.let {
+                        if (timeTimeStamp > it) {
+                            binding.textSelectEndTime.text = "$hour : $minute"
+                            Logger.i("$hour : $minute")
+                            viewModel.setEndTime(timeTimeStamp)
+                        } else {
+                            Toast.makeText(MeTuApplication.appContext,
+                                    getString(R.string.reminder_invalid_time), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+        }, startHour, startMinute, true).show()
+    }
 }

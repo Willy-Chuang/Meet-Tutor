@@ -1,4 +1,4 @@
-package com.willy.metu.calendar
+package com.willy.metu.postevent
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -13,14 +13,14 @@ class SelectedUserSpinnerAdapter(private val strings: List<String>) : BaseAdapte
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val binding = ItemFollowedUserSpinnerBinding.inflate(LayoutInflater.from(parent?.context),parent,false)
+        val binding = ItemFollowedUserSpinnerBinding.inflate(LayoutInflater.from(parent?.context), parent, false)
 
-        if(position == 0){
+        if (position == 0) {
             binding.user = MeTuApplication.instance.resources.getString(R.string.spinner_select_member)
             binding.textSpinnerTitle.setTextColor(MeTuApplication.appContext.resources.getColor(R.color.black_12_alpha))
 
         } else {
-            binding.user = strings[position-1]
+            binding.user = strings[position - 1]
         }
 
         return binding.root
@@ -30,7 +30,7 @@ class SelectedUserSpinnerAdapter(private val strings: List<String>) : BaseAdapte
         return if (position == 0)
             0
         else
-            strings[position-1]
+            strings[position - 1]
     }
 
     override fun getItemId(position: Int): Long {

@@ -14,6 +14,8 @@
     <string name="reminder_subject_max">You can only select 3 subject</string>
     <string name="reminder_finish_user_info">Finishing the info would help when pairing</string>
     <string name="reminder_finish_article">Please finish the required information</string>
+    <string name="reminder_invalid_time">Please select a valid time</string>
+    <string name="reminder_post_event">Please complete the form</string>
 
     <string-array name="tag_array">
         <item>Reading</item>
