@@ -16,6 +16,7 @@
     <string name="reminder_finish_article">Please finish the required information</string>
     <string name="reminder_invalid_time">Please select a valid time</string>
     <string name="reminder_post_event">Please complete the form</string>
+    <string name="reminder_chatroom_message">Please send something</string>
 
     <string-array name="tag_array">
         <item>Reading</item>
