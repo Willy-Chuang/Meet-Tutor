@@ -6,7 +6,7 @@ import com.willy.metu.MainViewModel
 import com.willy.metu.calendar.CalendarViewModel
 import com.willy.metu.chatlist.ChatListViewModel
 import com.willy.metu.data.source.MeTuRepository
-import com.willy.metu.dialog.ArticleDialogViewModel
+import com.willy.metu.postarticle.PostArticleDialogViewModel
 import com.willy.metu.editprofile.EditProfileViewModel
 import com.willy.metu.followlist.FollowArticleViewModel
 import com.willy.metu.followlist.FollowUserViewModel
@@ -41,8 +41,8 @@ class ViewModelFactory constructor(
                     FollowUserViewModel(meTuRepository)
                 isAssignableFrom(ChatListViewModel::class.java) ->
                     ChatListViewModel(meTuRepository)
-                isAssignableFrom(ArticleDialogViewModel::class.java) ->
-                    ArticleDialogViewModel(meTuRepository)
+                isAssignableFrom(PostArticleDialogViewModel::class.java) ->
+                    PostArticleDialogViewModel(meTuRepository)
                 isAssignableFrom(TalentPoolViewModel::class.java) ->
                     TalentPoolViewModel(meTuRepository)
                 isAssignableFrom(FollowArticleViewModel::class.java) ->

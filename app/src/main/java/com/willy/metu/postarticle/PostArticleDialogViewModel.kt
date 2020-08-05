@@ -1,4 +1,4 @@
-package com.willy.metu.dialog
+package com.willy.metu.postarticle
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ArticleDialogViewModel(private val repository: MeTuRepository) : ViewModel() {
+class PostArticleDialogViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     private val _leave = MutableLiveData<Boolean>()
 

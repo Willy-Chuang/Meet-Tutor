@@ -198,7 +198,7 @@
 
     <dialog
         android:id="@+id/post_article_dialog"
-        android:name="com.willy.metu.dialog.ArticleDialogFragment"
+        android:name="com.willy.metu.postarticle.PostArticleDialogFragment"
         android:label="PostArticleDialog"
         tools:layout="@layout/dialog_post_article" />
     <action

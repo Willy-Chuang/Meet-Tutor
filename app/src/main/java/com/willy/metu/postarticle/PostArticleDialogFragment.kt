@@ -1,4 +1,4 @@
-package com.willy.metu.dialog
+package com.willy.metu.postarticle
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,9 +22,9 @@ import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.pair.QuestionSpinnerAdapter
 import com.willy.metu.util.Logger
 
-class ArticleDialogFragment : AppCompatDialogFragment() {
+class PostArticleDialogFragment : AppCompatDialogFragment() {
 
-    private val viewModel by viewModels<ArticleDialogViewModel> { getVmFactory() }
+    private val viewModel by viewModels<PostArticleDialogViewModel> { getVmFactory() }
     lateinit var binding: DialogPostArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
