@@ -257,9 +257,9 @@
 
     <dialog
         android:id="@+id/finishInfoDialogFragment"
-        android:name="com.willy.metu.dialog.FinishInfoDialogFragment"
+        android:name="com.willy.metu.newmember.NewMemberDialogFragment"
         android:label="FinishInfoDialogFragment"
-        tools:layout="@layout/dialog_finish_info" />
+        tools:layout="@layout/dialog_new_member" />
 
     <action
         android:id="@+id/navigate_to_finish_info"
