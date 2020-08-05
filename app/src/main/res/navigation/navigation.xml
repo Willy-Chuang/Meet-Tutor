@@ -256,14 +256,14 @@
         app:destination="@id/eventDetailFragment" />
 
     <dialog
-        android:id="@+id/finishInfoDialogFragment"
+        android:id="@+id/newMemberDialogFragment"
         android:name="com.willy.metu.newmember.NewMemberDialogFragment"
         android:label="FinishInfoDialogFragment"
         tools:layout="@layout/dialog_new_member" />
 
     <action
-        android:id="@+id/navigate_to_finish_info"
-        app:destination="@id/finishInfoDialogFragment" />
+        android:id="@+id/navigate_to_new_member"
+        app:destination="@id/newMemberDialogFragment" />
 
     <fragment
         android:id="@+id/newChatFragment"

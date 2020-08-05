@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
 
             if (!viewModel.checkIfInfoComplete()) {
                 if (mainViewModel.noticed.value == false) {
-                    findNavController().navigate(NavigationDirections.navigateToFinishInfo())
+                    findNavController().navigate(NavigationDirections.navigateToNewMember())
                     mainViewModel.noticed.value = true
                 } else {
                     Toast.makeText(requireContext(), "Remember to complete your profile", Toast.LENGTH_LONG).show()
