@@ -1,10 +1,12 @@
 package com.willy.metu.calendar
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.annotation.RequiresApi
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +25,7 @@ import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.*
 import org.threeten.bp.LocalDate
 import java.util.*
+
 
 class CalendarFragment : Fragment() {
 
@@ -58,11 +61,12 @@ class CalendarFragment : Fragment() {
         // Layout bottom sheet for different size of device
         binding.persistentBottomSheet.viewTreeObserver
                 .addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                    @RequiresApi(Build.VERSION_CODES.Q)
                     override fun onGlobalLayout() {
                         val totalHeight = binding.viewContainer.height
                         val shadowWeekHeight = binding.calendarViewWeek.height
                         val monthHeight = binding.calendarView.height
-                        val topMargin = Utils.convertDpToPixelSize(16f, requireContext());
+                        val topMargin = Utils.convertDpToPixelSize(resources.getFloat(R.dimen.bottom_sheet_top_margin), requireContext())
                         binding.persistentBottomSheet.layoutParams.height = totalHeight - shadowWeekHeight - topMargin
                         binding.persistentBottomSheet.requestLayout()
 
