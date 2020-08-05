@@ -123,6 +123,7 @@ class CalendarFragment : Fragment() {
 
                     addDotDecoration(year, month, day)
                 }
+                viewModel.createDailyEvent(TimeUtil.dateToStamp(localDate.toString(), Locale.TAIWAN))
             }
         })
 

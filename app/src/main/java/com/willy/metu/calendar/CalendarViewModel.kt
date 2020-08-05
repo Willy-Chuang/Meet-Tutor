@@ -128,9 +128,7 @@ class CalendarViewModel(private val repository: MeTuRepository) : ViewModel() {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = repository.getUser(userEmail)
-
-            when (result) {
+            when (val result = repository.getUser(userEmail)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

@@ -37,7 +37,6 @@ class PostEventDialogViewModel(
 
     val date = TimeUtil.stampToDate(selectedDate)
 
-
     private val _event = MutableLiveData<SelectedEvent>()
 
     val event: LiveData<SelectedEvent>
@@ -47,17 +46,35 @@ class PostEventDialogViewModel(
 
     val title = MutableLiveData<String>()
 
-    val eventTime = MutableLiveData<Long>()
+    private val _eventTime = MutableLiveData<Long>()
 
-    val invitation = MutableLiveData<String>()
+    val eventTime : LiveData<Long>
+        get() = _eventTime
 
-    val type = MutableLiveData<String>()
+    private val _invitation = MutableLiveData<String>()
 
-    val isAllDay = MutableLiveData<Boolean>()
+    val invitation : LiveData<String>
+        get() = _invitation
 
-    val startTime = MutableLiveData<Long>()
+    private val _type = MutableLiveData<String>()
 
-    val endTime = MutableLiveData<Long>()
+    val type : LiveData<String>
+        get() = _type
+
+    private val _isAllDay =  MutableLiveData<Boolean>()
+
+    val isAllDay : LiveData<Boolean>
+        get() = _isAllDay
+
+    private val _startTime = MutableLiveData<Long>()
+
+    val startTime : LiveData<Long>
+        get() = _startTime
+
+    private val _endTime = MutableLiveData<Long>()
+
+    val endTime : LiveData<Long>
+        get() = _endTime
 
     val location = MutableLiveData<String>()
 
@@ -190,31 +207,31 @@ class PostEventDialogViewModel(
     }
 
     private fun setInitialTime() {
-        eventTime.value = TimeUtil.dateToStamp(date, Locale.TAIWAN)
+        _eventTime.value = TimeUtil.dateToStamp(date, Locale.TAIWAN)
     }
 
     fun setAllDay(answer: Boolean) {
-        isAllDay.value = answer
+        _isAllDay.value = answer
     }
 
     fun setEventTime(timeStamp: Long) {
-        eventTime.value = timeStamp
+        _eventTime.value = timeStamp
     }
 
     fun setStartTime(timeStamp: Long) {
-        startTime.value = timeStamp
+        _startTime.value = timeStamp
     }
 
     fun setEndTime(timeStamp: Long) {
-        endTime.value = timeStamp
+        _endTime.value = timeStamp
     }
 
     fun setType(selectedType: String){
-        type.value = selectedType
+        _type.value = selectedType
     }
 
     fun setInvitation(pos: Int) {
-        invitation.value = userInfo.value?.followingEmail?.get(pos - 1).toString()
+        _invitation.value = userInfo.value?.followingEmail?.get(pos - 1).toString()
     }
 
     fun checkIfComplete(): Boolean {
