@@ -19,6 +19,9 @@
     <string name="reminder_chatroom_message">Please send something</string>
     <string name="reminder_new_member_bold">Finish your profile</string>
     <string name="reminder_new_member">\" to have a full experience of the platform!\"</string>
+    <string name="reminder_user_info">Remember to complete your profile</string>
+    <string name="logger_no_bias">Tourist with no interest</string>
+    <string name="logger_user_return">User Is Back</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

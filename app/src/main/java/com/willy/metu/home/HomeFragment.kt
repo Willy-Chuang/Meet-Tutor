@@ -11,15 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.MainViewModel
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentHomeBinding
-import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
-import com.willy.metu.ext.sortArticleBySubject
-import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 
@@ -27,15 +24,15 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModels<HomeViewModel> { getVmFactory() }
 
+    lateinit var binding: FragmentHomeBinding
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-
-
         binding.viewModel = viewModel
 
         //Setup RecyclerViews
@@ -44,117 +41,117 @@ class HomeFragment : Fragment() {
         val newUserAdapter = NewUserAdapter()
         val articleAdapter = ArticleAdapter(viewModel)
 
-        recommendAdapter.setHasStableIds(true)
-        newUserAdapter.setHasStableIds(true)
-        articleAdapter.setHasStableIds(true)
-
-        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerRecommendation.adapter = recommendAdapter
-
-        binding.recyclerNewUser.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerNewUser.adapter = newUserAdapter
-
-        binding.recyclerArticle.layoutManager = LinearLayoutManager(context)
         binding.recyclerArticle.adapter = articleAdapter
 
 
-        viewModel.allUsers.observe(viewLifecycleOwner, Observer { users ->
-
-            binding.recyclerRecommendation.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_fade_in_animation)
-
-            viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
-
-                viewModel.excludeUserFromList(it)
-
-                val sortedList = users.excludeUser().sortUserBySubject(it)
-
-                if (sortedList.isEmpty()) {
-                    binding.noValueRecommendation.visibility = View.VISIBLE
-                    binding.noValueRecommendationButton.visibility = View.VISIBLE
-                    binding.noValueRecommendationButton.setOnClickListener {
-                        findNavController().navigate(NavigationDirections.navigateToEditProfileFragment())
-                    }
-                } else {
-                    recommendAdapter.submitList(sortedList)
-                }
-
-            })
-
-        })
-
         viewModel.newUsers.observe(viewLifecycleOwner, Observer {
-            binding.recyclerNewUser.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_fade_in_animation)
 
+            setupRecyclerAnimation(binding.recyclerNewUser)
             newUserAdapter.submitList(it)
+
         })
 
-        viewModel.oneArticle.observe(viewLifecycleOwner, Observer { article ->
 
-            viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
+        viewModel.biasSubject.observe(viewLifecycleOwner, Observer {
 
-                Logger.i("bias subject = $it")
+            // Filter new users if they have default value
+            if (it == "") {
+                recommendationValueVisibility(false)
+                relatedArticleValueVisibility(false)
+            } else {
+                // Filter all users based on the user's bias subject, then submit list as recommendation
+                viewModel.recommendedUserList.observe(viewLifecycleOwner, Observer {users ->
 
-                if (it == "") {
-                    binding.noValueArticles.visibility = View.VISIBLE
+                    setupRecyclerAnimation(binding.recyclerRecommendation)
 
-                } else {
-
-                    val sortedList = article.sortArticleBySubject(it)
-
-                    if (sortedList.isEmpty()) {
-                        binding.noValueArticles.visibility = View.VISIBLE
+                    if (users.isNullOrEmpty()) {
+                        recommendationValueVisibility(false)
                     } else {
-
-                        articleAdapter.submitList(sortedList)
+                        recommendationValueVisibility(true)
+                        recommendAdapter.submitList(users)
                     }
+                })
+                // Filter all articles based on the user's bias subject, then submit list as related
+                viewModel.recommendedArticleList.observe(viewLifecycleOwner, Observer {articles ->
 
-                }
-
-            })
-
+                    if (articles.isNullOrEmpty()) {
+                        relatedArticleValueVisibility(false)
+                    } else {
+                        relatedArticleValueVisibility(true)
+                        articleAdapter.submitList(articles)
+                    }
+                })
+            }
         })
+
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
 
+            // Show new member dialog if his/hers info isn't complete
             if (!viewModel.checkIfInfoComplete()) {
                 if (mainViewModel.noticed.value == false) {
                     findNavController().navigate(NavigationDirections.navigateToNewMember())
                     mainViewModel.noticed.value = true
                 } else {
-                    Toast.makeText(requireContext(), "Remember to complete your profile", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.reminder_user_info), Toast.LENGTH_LONG).show()
                 }
-
             } else {
-                Logger.i("User Is Back")
+                Logger.i(getString(R.string.logger_user_return))
             }
 
+            // Get the first subject of user as bias subject
             if (it.tag.isNullOrEmpty()) {
-                Logger.i("Brand New User")
-
+                Logger.i(getString(R.string.logger_no_bias))
             } else {
-                binding.userSubject.text = it.tag.component1()
-                binding.userSubject2.text = it.tag.component1()
-                viewModel.biasSubject.value = it.tag.component1()
+                setBiasSubject(it.tag.component1())
             }
 
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
             when (it) {
                 LoadApiStatus.LOADING -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.LOADING")
                     binding.progress.visibility = View.VISIBLE
-
                 }
                 LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
-                    Logger.d("viewModel.test.observe=LoadApiStatus.DONE")
                     binding.progress.visibility = View.GONE
-
                 }
             }
         })
 
         return binding.root
+    }
+
+    private fun setupRecyclerAnimation(recyclerView: RecyclerView) {
+        recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_fade_in_animation)
+    }
+
+    private fun setBiasSubject(subject: String) {
+        binding.userSubject.text = subject
+        binding.userSubject2.text = subject
+        viewModel.setBiasSubject(subject)
+    }
+
+    private fun recommendationValueVisibility(withValue: Boolean) {
+        if (withValue) {
+            binding.noValueRecommendation.visibility = View.GONE
+            binding.noValueRecommendationButton.visibility = View.GONE
+        } else {
+            binding.noValueRecommendation.visibility = View.VISIBLE
+            binding.noValueRecommendationButton.visibility = View.VISIBLE
+            binding.noValueRecommendationButton.setOnClickListener {
+                findNavController().navigate(NavigationDirections.navigateToEditProfileFragment())
+            }
+        }
+    }
+
+    private fun relatedArticleValueVisibility(withValue: Boolean) {
+        if (withValue) {
+            binding.noValueArticles.visibility = View.GONE
+        } else {
+            binding.noValueArticles.visibility = View.VISIBLE
+        }
     }
 }
