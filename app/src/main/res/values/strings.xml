@@ -22,6 +22,7 @@
     <string name="reminder_user_info">Remember to complete your profile</string>
     <string name="logger_no_bias">Tourist with no interest</string>
     <string name="logger_user_return">User Is Back</string>
+    <string name="token_id">906661261750-eq9rl8502jk5v6at1ik754gfj7cm4t80.apps.googleusercontent.com</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

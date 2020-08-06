@@ -2,6 +2,8 @@ package com.willy.metu.data.source.local
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
 import com.willy.metu.data.*
 import com.willy.metu.data.source.MeTuDataSource
 
@@ -120,6 +122,10 @@ class MeTuLocalDataSource(val context: Context) : MeTuDataSource {
     }
 
     override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun firebaseAuthWithGoogle(account: GoogleSignInAccount?): Result<FirebaseUser> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

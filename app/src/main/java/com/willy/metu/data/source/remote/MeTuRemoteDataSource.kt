@@ -1,6 +1,10 @@
 package com.willy.metu.data.source.remote
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -867,6 +871,27 @@ object MeTuRemoteDataSource : MeTuDataSource {
                         task.exception?.let {
 
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
+
+    override suspend fun firebaseAuthWithGoogle(account : GoogleSignInAccount?): Result<FirebaseUser> = suspendCoroutine { continuation ->
+        val credential = GoogleAuthProvider.getCredential(account?.idToken,null)
+        val auth = FirebaseAuth.getInstance()
+        auth?.signInWithCredential(credential)
+                ?.addOnCompleteListener {
+                    task ->
+                    if(task.isSuccessful){
+                        Logger.i("Post: $credential")
+                        continuation.resume(Result.Success(task.result!!.user))
+                    }else{
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents.")
                             continuation.resume(Result.Error(it))
                             return@addOnCompleteListener
                         }

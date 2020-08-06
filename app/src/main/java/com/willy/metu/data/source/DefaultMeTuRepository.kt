@@ -1,6 +1,8 @@
 package com.willy.metu.data.source
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
 import com.willy.metu.data.*
 
 class DefaultMeTuRepository(
@@ -122,5 +124,9 @@ class DefaultMeTuRepository(
 
     override suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean> {
         return remoteDataSource.declineEvent(event, userEmail)
+    }
+
+    override suspend fun firebaseAuthWithGoogle(account : GoogleSignInAccount?): Result<FirebaseUser>{
+        return remoteDataSource.firebaseAuthWithGoogle(account)
     }
 }
