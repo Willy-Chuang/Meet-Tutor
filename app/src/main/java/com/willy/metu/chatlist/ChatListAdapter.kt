@@ -16,6 +16,7 @@ class ChatListAdapter : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCallb
 
             binding.chatRoom = chatRoom
 
+            // Chat room has been filtered, the attendee info only holds the other user's info
             val friendInfo = chatRoom.attendeesInfo.first()
 
             binding.textChatName.text = friendInfo.userName

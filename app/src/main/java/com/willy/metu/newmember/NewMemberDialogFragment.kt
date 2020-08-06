@@ -25,12 +25,12 @@ class NewMemberDialogFragment : AppCompatDialogFragment() {
 
         val binding = DialogNewMemberBinding.inflate(inflater, container, false)
 
-        val string = SpannableStringBuilder()
+        val reminder = SpannableStringBuilder()
                 .bold { append(getString(R.string.reminder_new_member_bold)) }
                 .append(getString(R.string.reminder_new_member))
 
         binding.layoutDialog.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_fade_in))
-        binding.textContent.text = string
+        binding.textContent.text = reminder
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

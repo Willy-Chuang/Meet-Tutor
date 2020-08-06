@@ -8,6 +8,8 @@ import com.willy.metu.R
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.ext.sortToOnlyStudents
+import com.willy.metu.ext.sortToOnlyTutors
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -25,10 +27,17 @@ class FollowUserViewModel (private val repository: MeTuRepository) : ViewModel()
         get() = _allFollowedList
 
     //For list of following students
-    val followedStudents = MutableLiveData<List<User>>()
+    private val _followedStudents = MutableLiveData<List<User>>()
+
+    val followedStudents: LiveData<List<User>>
+        get() = _followedStudents
+
 
     //For list of following tutors
-    val followedTutors = MutableLiveData<List<User>>()
+    private val _followedTutors = MutableLiveData<List<User>>()
+
+    val followedTutors: LiveData<List<User>>
+        get() = _followedTutors
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -61,7 +70,7 @@ class FollowUserViewModel (private val repository: MeTuRepository) : ViewModel()
         getFollowList(UserManager.user.email)
     }
 
-    fun getFollowList(userEmail: String) {
+    private fun getFollowList(userEmail: String) {
 
         coroutineScope.launch {
 
@@ -93,5 +102,14 @@ class FollowUserViewModel (private val repository: MeTuRepository) : ViewModel()
             }
         }
     }
+
+    fun createListOfStudents(userList: List<User>) {
+        _followedStudents.value = userList.sortToOnlyStudents()
+    }
+
+    fun createListOfTutors(userList: List<User>) {
+        _followedTutors.value = userList.sortToOnlyTutors()
+    }
+
 
 }
