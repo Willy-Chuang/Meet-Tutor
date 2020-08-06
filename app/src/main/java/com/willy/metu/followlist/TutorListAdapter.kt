@@ -12,30 +12,24 @@ import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemFollowBinding
 
-class TutorListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
+class TutorListAdapter : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
     class UserViewHolder(private var binding: ItemFollowBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(User: User){
-            binding.user = User
-
-            var user: User
-            user = User
+        fun bind(user: User){
+            binding.user = user
 
             //Setup chips to show user's tags
             val chipGroup = binding.chipGroup
 
             val genres = user.tag
 
-            if (genres != null) {
-                for (genre in genres) {
-                    val chip = Chip(chipGroup.context, null, R.attr.CustomChipChoice)
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
+            for (genre in genres) {
+                val chip = Chip(chipGroup.context, null, R.attr.CustomChipChoice)
+                chip.text = genre
+                chipGroup.addView(chip)
             }
 
             binding.layoutCardUser.setOnClickListener {
                 Navigation.createNavigateOnClickListener(NavigationDirections.navigateToUserDetail(user.email)).onClick(binding.layoutCardUser)
-
             }
 
             binding.executePendingBindings()
@@ -50,12 +44,12 @@ class TutorListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallb
             return oldItem.id == newItem.id
         }
 
-        private const val ITEM_VIEW_TYPE_EVENT = 0x00
+        private const val ITEM_VIEW_TYPE_USER = 0x00
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_EVENT -> UserViewHolder(ItemFollowBinding.inflate(
+            ITEM_VIEW_TYPE_USER -> UserViewHolder(ItemFollowBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -71,6 +65,6 @@ class TutorListAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallb
     }
 
     override fun getItemViewType(position: Int): Int {
-        return ITEM_VIEW_TYPE_EVENT
+        return ITEM_VIEW_TYPE_USER
     }
 }

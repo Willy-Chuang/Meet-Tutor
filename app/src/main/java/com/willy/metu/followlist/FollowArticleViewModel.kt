@@ -54,7 +54,7 @@ class FollowArticleViewModel (private val repository: MeTuRepository) : ViewMode
         getAllSavedArticles(UserManager.user.email)
     }
 
-    fun getAllSavedArticles (userEmail: String) {
+    private fun getAllSavedArticles (userEmail: String) {
 
         coroutineScope.launch {
 

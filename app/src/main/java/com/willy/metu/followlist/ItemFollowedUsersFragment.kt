@@ -49,9 +49,9 @@ class ItemFollowedUsersFragment : Fragment() {
             setupRecyclerAnimation(binding.recyclerStudent)
 
             if (it.isEmpty()) {
-                studentNoValueVisibility(false)
+                studentValueVisibility(false)
             } else {
-                studentNoValueVisibility(true)
+                studentValueVisibility(true)
                 studentAdapter.submitList(it)
             }
 
@@ -62,9 +62,9 @@ class ItemFollowedUsersFragment : Fragment() {
             setupRecyclerAnimation(binding.recyclerTutor)
 
             if (it.isEmpty()) {
-                tutorNoValueVisibility(false)
+                tutorValueVisibility(false)
             } else {
-                tutorNoValueVisibility(true)
+                tutorValueVisibility(true)
                 tutorAdapter.submitList(it)
             }
 
@@ -78,7 +78,7 @@ class ItemFollowedUsersFragment : Fragment() {
         recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_animation)
     }
 
-    private fun studentNoValueVisibility(withValue: Boolean) {
+    private fun studentValueVisibility(withValue: Boolean) {
         if (withValue) {
             binding.noValueStudent.visibility = View.GONE
             binding.noValueStudentButton.visibility = View.GONE
@@ -91,7 +91,7 @@ class ItemFollowedUsersFragment : Fragment() {
         }
     }
 
-    private fun tutorNoValueVisibility(withValue: Boolean) {
+    private fun tutorValueVisibility(withValue: Boolean) {
         if (withValue) {
             binding.noValueTutor.visibility = View.GONE
             binding.noValueTutorButton.visibility = View.GONE
