@@ -30,6 +30,8 @@
     <string name="dialog_leave_content">Leaving will lead to losing record of the questionnaire</string>
     <string name="dialog_leave_btn_pos">Sure</string>
     <string name="dialog_leave_btn_neg">Cancel</string>
+    <string name="reminder_select_city">Please select a city</string>
+    <string name="reminder_select_district">Please select a district</string>
 
     <string-array name="tag_array">
         <item>Reading</item>
