@@ -53,7 +53,7 @@ class NotifyViewModel (private val repository: MeTuRepository): ViewModel(){
         getLiveAllEventInvitations(UserManager.user.email)
     }
 
-    fun getLiveAllEventInvitations(userEmail: String){
+    private fun getLiveAllEventInvitations(userEmail: String){
         allLiveEventInvitations = repository.getLiveMyEventInvitation(userEmail)
         _status.value = LoadApiStatus.DONE
     }
