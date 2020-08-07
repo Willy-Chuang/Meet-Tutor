@@ -20,7 +20,7 @@ class AnswerViewModelFactory constructor(
                     isAssignableFrom(QuestionnaireTwoViewModel::class.java) ->
                         QuestionnaireTwoViewModel(repository, answers)
                     isAssignableFrom(QuestionnaireThreeViewModel::class.java) ->
-                        QuestionnaireThreeViewModel(repository, answers)
+                        QuestionnaireThreeViewModel(answers)
                     isAssignableFrom(PairingResultViewModel::class.java) ->
                         PairingResultViewModel(repository, answers)
 

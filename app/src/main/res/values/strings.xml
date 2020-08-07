@@ -32,6 +32,7 @@
     <string name="dialog_leave_btn_neg">Cancel</string>
     <string name="reminder_select_city">Please select a city</string>
     <string name="reminder_select_district">Please select a district</string>
+    <string name="reminder_select_gender">Please select a gender</string>
 
     <string-array name="tag_array">
         <item>Reading</item>
