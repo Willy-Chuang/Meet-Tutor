@@ -24,6 +24,12 @@
     <string name="logger_user_return">User Is Back</string>
     <string name="token_id">906661261750-eq9rl8502jk5v6at1ik754gfj7cm4t80.apps.googleusercontent.com</string>
     <string name="text_invitation">\ has sent an invitation of event: \</string>
+    <string name="reminder_select_category">Please select a category</string>
+    <string name="reminder_select_subject">Please select a subject</string>
+    <string name="dialog_title_leave">Sure To Leave?</string>
+    <string name="dialog_leave_content">Leaving will lead to losing record of the questionnaire</string>
+    <string name="dialog_leave_btn_pos">Sure</string>
+    <string name="dialog_leave_btn_neg">Cancel</string>
 
     <string-array name="tag_array">
         <item>Reading</item>
