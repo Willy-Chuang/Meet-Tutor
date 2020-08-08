@@ -16,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ProfileViewModel (private val repository: MeTuRepository) : ViewModel() {
+class ProfileViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     //Get user data for profile
     private var _personalInfo = MutableLiveData<User>()
 
-    val personalInfo : LiveData<User>
+    val personalInfo: LiveData<User>
         get() = _personalInfo
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -86,7 +86,6 @@ class ProfileViewModel (private val repository: MeTuRepository) : ViewModel() {
             }
         }
     }
-
 
 
 }
