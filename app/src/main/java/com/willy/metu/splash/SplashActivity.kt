@@ -23,14 +23,10 @@ class SplashActivity : AppCompatActivity() {
 
             startActivity(Intent(this, MainActivity::class.java))
 
-            leave(this)
+            finish()
 
         }, duration)
     }
 
-
-    fun leave(view: SplashActivity) {
-        finish()
-    }
 
 }
