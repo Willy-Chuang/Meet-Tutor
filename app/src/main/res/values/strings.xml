@@ -33,6 +33,8 @@
     <string name="reminder_select_city">Please select a city</string>
     <string name="reminder_select_district">Please select a district</string>
     <string name="reminder_select_gender">Please select a gender</string>
+    <string name="toast_add_follow">Add To Follow List</string>
+    <string name="toast_bye">Bye</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

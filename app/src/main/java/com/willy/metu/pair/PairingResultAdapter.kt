@@ -5,41 +5,31 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.willy.metu.MeTuApplication
-import com.willy.metu.calendar.CalendarBottomSheetAdapter
-import com.willy.metu.data.Event
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemProfileCardBinding
-import com.willy.metu.util.Logger
 
 class PairingResultAdapter(val viewModel: PairingResultViewModel) : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
 
     class UserViewHolder(private val binding: ItemProfileCardBinding): RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
-        fun bind(User: User, viewModel: PairingResultViewModel) {
+        fun bind(user: User, viewModel: PairingResultViewModel) {
             binding.lifecycleOwner = this
 
-            binding.user = User
-            var user: User
-            user = User
+            binding.user = user
 
             //Setup chips to show user's tags
             val chipGroup = binding.chipGroup
 
             val genres = user.tag
 
-            if (genres != null) {
-                for (genre in genres) {
-                    val chip = Chip(chipGroup.getContext())
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
+            for (genre in genres) {
+                val chip = Chip(chipGroup.getContext())
+                chip.text = genre
+                chipGroup.addView(chip)
             }
 
             binding.executePendingBindings()

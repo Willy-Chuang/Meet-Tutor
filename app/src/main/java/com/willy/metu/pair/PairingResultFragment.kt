@@ -14,10 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentPairingResultBinding
 import com.willy.metu.ext.excludeUser
 import com.willy.metu.ext.getVmFactory
-import com.willy.metu.ext.sortByTraits
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
@@ -32,16 +32,19 @@ class PairingResultFragment : Fragment(), CardStackListener {
     }
 
     private lateinit var layoutManager: CardStackLayoutManager
+    lateinit var binding: FragmentPairingResultBinding
     lateinit var adapter: PairingResultAdapter
     private var count = 0
-    val myEmail = UserManager.user.email
+    private val myEmail = UserManager.user.email
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentPairingResultBinding.inflate(inflater, container, false)
+        binding = FragmentPairingResultBinding.inflate(inflater, container, false)
+
+        // Setup card stack recyclerview
         val stackView = binding.stackView
         adapter = PairingResultAdapter(viewModel)
         layoutManager = CardStackLayoutManager(requireContext(), this).apply {
@@ -50,7 +53,6 @@ class PairingResultFragment : Fragment(), CardStackListener {
             setMaxDegree(20.0f)
             setStackFrom(StackFrom.Top)
         }
-
         stackView.layoutManager = layoutManager
         stackView.adapter = adapter
         stackView.itemAnimator.apply {
@@ -60,23 +62,15 @@ class PairingResultFragment : Fragment(), CardStackListener {
         }
 
         binding.buttonYes.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
-            layoutManager.setSwipeAnimationSetting(setting)
+
+            setupSwipeAnimation(Direction.Left)
             binding.stackView.swipe()
+
         }
 
         binding.buttonNo.setOnClickListener {
 
-            val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
-            layoutManager.setSwipeAnimationSetting(setting)
+            setupSwipeAnimation(Direction.Right)
             binding.stackView.swipe()
 
         }
@@ -86,58 +80,37 @@ class PairingResultFragment : Fragment(), CardStackListener {
         }
 
 
-
         // Observers
 
         // Sort all users by selected traits
         viewModel.allUsers.observe(viewLifecycleOwner, Observer {
-
-            viewModel.usersWithMatch.value = it.sortByTraits(viewModel.previousAnswers)
-
+            viewModel.createSortedList(it)
         })
 
         // Exclude User before submit list
         viewModel.usersWithMatch.observe(viewLifecycleOwner, Observer {
-            Logger.w(it.toString())
-            val sortedList = it.excludeUser()
-            if (sortedList.isEmpty()) {
-                binding.layoutNoValue.visibility = View.VISIBLE
-                binding.noValueButton.setOnClickListener {
-                    findNavController().navigate(NavigationDirections.navigateToPairingFragment())
-                }
-            } else {
-                binding.layoutNoValue.visibility = View.GONE
-            }
-            adapter.submitList(it.excludeUser())
-        })
 
-        viewModel.swiped.observe(viewLifecycleOwner, Observer {
-            Logger.v(it.toString() + "changed")
+            val sortedList = it.excludeUser()
+
+            if (sortedList.isEmpty()) {
+                matchValueVisibility(false)
+            } else {
+                matchValueVisibility(true)
+            }
+            adapter.submitList(sortedList)
         })
 
         viewModel.redBg.observe(viewLifecycleOwner, Observer {
-            binding.bgRed.alpha = it
-            binding.textSkip.alpha = it
+            setupSkipAlpha(it)
         })
 
         viewModel.blueBg.observe(viewLifecycleOwner, Observer {
-            binding.bgBlue.alpha = it
-            binding.textLike.alpha = it
+            setupFollowAlpha(it)
         })
 
         // Handling fetching data state with animation
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                LoadApiStatus.LOADING -> {
-                    binding.layoutLoading.visibility = View.VISIBLE
-                    binding.animSearching.playAnimation()
-                }
-                LoadApiStatus.DONE -> {
-                    binding.layoutLoading.visibility = View.GONE
-                    binding.animSearching.cancelAnimation()
-                }
-                else -> Toast.makeText(context, "Something Terrible Happened", Toast.LENGTH_SHORT).show()
-            }
+            setupSearchAnimation(it)
         })
 
 
@@ -150,14 +123,12 @@ class PairingResultFragment : Fragment(), CardStackListener {
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
 
-        Logger.w("ratio = $ratio")
-
         when (direction) {
-            Direction.Left -> viewModel.redBg.value = ratio
-            Direction.Right -> viewModel.blueBg.value = ratio
+            Direction.Left -> viewModel.setRedBg(ratio)
+            Direction.Right -> viewModel.setBlueBg(ratio)
             else -> {
-                viewModel.blueBg.value = 0f
-                viewModel.redBg.value = 0f
+                viewModel.setRedBg(0f)
+                viewModel.setBlueBg(0f)
             }
         }
     }
@@ -166,33 +137,26 @@ class PairingResultFragment : Fragment(), CardStackListener {
 
         val maxAmount = viewModel.usersWithMatch.value?.size
 
-        Logger.i(count.toString())
-        Logger.i(maxAmount.toString())
-        viewModel.redBg.value = 0f
-        viewModel.blueBg.value = 0f
+        viewModel.setRedBg(0f)
+        viewModel.setBlueBg(0f)
 
-        if (direction == Direction.Right) {
+        setupSwipeAction(direction)
 
-            viewModel.swiped.value = true
-            viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
-
-            Toast.makeText(MeTuApplication.appContext, "Add To Follow List", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(MeTuApplication.appContext, "Bye", Toast.LENGTH_SHORT).show()
-        }
-
+        // Add count on every swipe & when count reaches max amount of the list, navigate.
         count++
         if (count == maxAmount) {
             findNavController().navigate(NavigationDirections.navigateToFollowListFragment())
         }
 
+        Logger.i(count.toString())
+        Logger.i(maxAmount.toString())
 
     }
 
     override fun onCardCanceled() {
 
-        viewModel.redBg.value = 0f
-        viewModel.blueBg.value = 0f
+        viewModel.setRedBg(0f)
+        viewModel.setBlueBg(0f)
 
     }
 
@@ -201,8 +165,61 @@ class PairingResultFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardRewound() {
-        Logger.w("rewind")
         count--
+    }
 
+    private fun setupSwipeAnimation(direction: Direction) {
+        val setting = SwipeAnimationSetting.Builder()
+                .setDirection(direction)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+        layoutManager.setSwipeAnimationSetting(setting)
+    }
+
+    private fun setupSkipAlpha(alpha: Float) {
+        binding.bgRed.alpha = alpha
+        binding.textSkip.alpha = alpha
+    }
+
+    private fun setupFollowAlpha(alpha: Float) {
+        binding.bgBlue.alpha = alpha
+        binding.textLike.alpha = alpha
+    }
+
+    private fun setupSwipeAction(direction: Direction?) {
+        if (direction == Direction.Right) {
+
+            viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
+
+            Toast.makeText(MeTuApplication.appContext, getString(R.string.toast_add_follow), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(MeTuApplication.appContext, getString(R.string.toast_bye), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun matchValueVisibility(withValue: Boolean) {
+        if (withValue) {
+            binding.layoutNoValue.visibility = View.GONE
+        } else {
+            binding.layoutNoValue.visibility = View.VISIBLE
+            binding.noValueButton.setOnClickListener {
+                findNavController().navigate(NavigationDirections.navigateToPairingFragment())
+            }
+        }
+    }
+
+    private fun setupSearchAnimation (status: LoadApiStatus) {
+        when (status) {
+            LoadApiStatus.LOADING -> {
+                binding.layoutLoading.visibility = View.VISIBLE
+                binding.animSearching.playAnimation()
+            }
+            LoadApiStatus.DONE -> {
+                binding.layoutLoading.visibility = View.GONE
+                binding.animSearching.cancelAnimation()
+            }
+            else -> Toast.makeText(context, "Something Terrible Happened", Toast.LENGTH_SHORT).show()
+        }
     }
 }
