@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel(){
+class TalentPoolViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     var allLiveArticles = MutableLiveData<List<Article>>()
 
@@ -24,18 +24,18 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     private var _checked = MutableLiveData<Boolean>()
 
-    val checked : LiveData<Boolean>
+    val checked: LiveData<Boolean>
         get() = _checked
 
     private var _selectedType = MutableLiveData<String>()
 
-    val selectedType : LiveData<String>
+    val selectedType: LiveData<String>
         get() = _selectedType
 
     // Deleted article title for snack bar to show
     private val _deletedArticleTitle = MutableLiveData<String>()
 
-    val deletedArticleTitle : LiveData<String>
+    val deletedArticleTitle: LiveData<String>
         get() = _deletedArticleTitle
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -75,12 +75,12 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     }
 
-    private fun getAllLiveArticles(){
+    private fun getAllLiveArticles() {
         allLiveArticles = repository.getAllLiveArticle()
         _status.value = LoadApiStatus.DONE
     }
 
-    fun addArticlesToWishlist(article: Article, userEmail: String){
+    fun addArticlesToWishlist(article: Article, userEmail: String) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -138,21 +138,17 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     }
 
-    fun setType (type : String) {
+    fun setType(type: String) {
         _selectedType.value = type
     }
 
-    fun isChecked (value : Boolean) {
+    fun isChecked(value: Boolean) {
         _checked.value = value
     }
 
-    fun passDeletedTitle (title: String){
+    fun passDeletedTitle(title: String) {
         _deletedArticleTitle.value = title
     }
-
-
-
-
 
 
 }

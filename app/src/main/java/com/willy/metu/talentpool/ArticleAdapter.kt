@@ -6,13 +6,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 
-class ArticleAdapter (fragmentManager: FragmentManager): FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ArticleAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
 
         return when (position) {
-            0 ->  AllArticlesFragment()
-            else ->  MyArticlesFragment()
+            0 -> AllArticlesFragment()
+            else -> MyArticlesFragment()
         }
     }
 
@@ -22,8 +22,8 @@ class ArticleAdapter (fragmentManager: FragmentManager): FragmentStatePagerAdapt
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 ->  MeTuApplication.appContext.getString(R.string.pager_title_all)
-            else ->  MeTuApplication.appContext.getString(R.string.pager_title_my)
+            0 -> MeTuApplication.appContext.getString(R.string.pager_title_all)
+            else -> MeTuApplication.appContext.getString(R.string.pager_title_my)
         }
     }
 }

@@ -20,7 +20,7 @@ import com.willy.metu.util.Logger
 class AllArticlesFragment : Fragment() {
 
     private val viewModel by viewModels<TalentPoolViewModel> { getVmFactory() }
-    lateinit var binding : FragmentArticleBinding
+    lateinit var binding: FragmentArticleBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -115,11 +115,11 @@ class AllArticlesFragment : Fragment() {
         }.show()
     }
 
-    private fun articleValueVisibility (withValue: Boolean) {
+    private fun articleValueVisibility(withValue: Boolean) {
         if (withValue) {
             binding.noValue.visibility = View.GONE
             binding.noValueImage.visibility = View.GONE
-        }else {
+        } else {
             binding.noValue.visibility = View.VISIBLE
             binding.noValueImage.visibility = View.VISIBLE
         }

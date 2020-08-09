@@ -29,8 +29,8 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
                 alertDialogBuilder.setCancelable(true)
                 alertDialogBuilder.setTitle(MeTuApplication.appContext.getString(R.string.dialog_title_delete))
                 alertDialogBuilder.setMessage(MeTuApplication.appContext.getString(R.string.dialog_delete_content))
-                alertDialogBuilder.setPositiveButton(MeTuApplication.appContext.getString(R.string.dialog_btn_pos)) {
-                    _, _ -> viewModel.delete(article)
+                alertDialogBuilder.setPositiveButton(MeTuApplication.appContext.getString(R.string.dialog_btn_pos)) { _, _ ->
+                    viewModel.delete(article)
                     viewModel.passDeletedTitle(article.title)
                 }
                 alertDialogBuilder.setNegativeButton(MeTuApplication.appContext.getString(R.string.dialog_btn_neg)) { which, _ -> which.dismiss() }

@@ -15,9 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserDetailViewModel (private val repository: MeTuRepository, private val userEmail: String): ViewModel(){
+class UserDetailViewModel(private val repository: MeTuRepository, private val userEmail: String) : ViewModel() {
 
-    val selectedUserEmail = userEmail
+    private val selectedUserEmail = userEmail
 
     private val _userInfo = MutableLiveData<User>()
 
@@ -31,7 +31,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
     private val _myArticles = MutableLiveData<List<Article>>()
 
-    val myArticles : LiveData<List<Article>>
+    val myArticles: LiveData<List<Article>>
         get() = _myArticles
 
 
@@ -78,26 +78,26 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
     fun getChatRoom(): ChatRoom {
 
-        var attendeeOne = UserInfo().apply {
+        val attendeeOne = UserInfo().apply {
             userEmail = UserManager.user.email
             userImage = UserManager.user.image
             userName = UserManager.user.name
         }
 
-        var attendeeTwo = UserInfo().apply {
+        val attendeeTwo = UserInfo().apply {
             userEmail = selectedUserEmail
             userImage = userInfo.value!!.image
             userName = userInfo.value!!.name
         }
 
-        var attendeeList = listOf(UserManager.user.email, userInfo.value!!.email)
+        val attendeeList = listOf(UserManager.user.email, userInfo.value!!.email)
 
 
 
         return ChatRoom(
                 chatRoomId = "",
                 latestTime = 0,
-                attendeesInfo = listOf(attendeeOne,attendeeTwo),
+                attendeesInfo = listOf(attendeeOne, attendeeTwo),
                 attendees = attendeeList
         )
     }
@@ -201,9 +201,6 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         _leave.value = needRefresh
     }
 
-    fun onLeft() {
-        _leave.value = null
-    }
 
     fun postUserToFollow(userEmail: String, user: User) {
 
@@ -211,7 +208,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.postUserToFollow(userEmail,user)) {
+            when (val result = repository.postUserToFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -240,7 +237,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.removeUserFromFollow(userEmail,user)) {
+            when (val result = repository.removeUserFromFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

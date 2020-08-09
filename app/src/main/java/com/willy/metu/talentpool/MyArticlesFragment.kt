@@ -126,11 +126,11 @@ class MyArticlesFragment : Fragment() {
         }.show()
     }
 
-    private fun articleValueVisibility (withValue: Boolean) {
+    private fun articleValueVisibility(withValue: Boolean) {
         if (withValue) {
             binding.noValue.visibility = View.GONE
             binding.noValueImage.visibility = View.GONE
-        }else {
+        } else {
             binding.noValue.visibility = View.VISIBLE
             binding.noValueImage.visibility = View.VISIBLE
         }

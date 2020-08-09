@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
+import com.willy.metu.data.User
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -24,96 +25,43 @@ class UserDetailFragment : Fragment() {
         )
     }
 
+    lateinit var binding: FragmentUserDetailBinding
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentUserDetailBinding.inflate(inflater, container, false)
+        binding = FragmentUserDetailBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
 
+        // Setup back button
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
 
-            //Setup chips to show user's tags
-            val chipGroup = binding.chipGroup
+            setupLayout(it)
 
-            val genres = it.tag
+            // Check if the user is in my follow list already, and setup follow button base on the result
+            viewModel.myInfo.observe(viewLifecycleOwner, Observer { my ->
 
-            if (genres != null) {
-                for (genre in genres) {
-                    val chip = Chip(context, null, R.attr.CustomChipChoice)
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
-            }
-            binding.textUserName.text = it.name
-            binding.textUserIdentity.text = it.identity
-            binding.textProfileCity.text = it.city
-            binding.textProfileDistrict.text = it.district
-            binding.textIntroduction.text = it.introduction
-            binding.textExperience.text = it.experience
-            binding.imageUrl = it.image
-
-
-
-            if (it.followingEmail.isEmpty()) {
-                binding.textFollowing.text = "0"
-            } else {
-                binding.textFollowing.text = it.followingEmail.size.toString()
-            }
-
-            if (it.followedBy.isEmpty()) {
-                binding.textFollowBy.text = "0"
-            } else {
-                binding.textFollowBy.text = it.followedBy.size.toString()
-            }
-
-            binding.buttonMessage.setOnClickListener { view ->
-                viewModel.createChatRoom(viewModel.getChatRoom())
-                Handler().postDelayed({ findNavController().navigate(NavigationDirections.navigateToChatRoom(it.email, it.name)) }, 500)
-
-            }
-
-            binding.buttonFollow.setOnClickListener { view ->
-                viewModel.postUserToFollow(UserManager.user.email, it)
-
-            }
-
-            viewModel.getMyArticle(it.email)
-
-            viewModel.myInfo.observe(viewLifecycleOwner, Observer { me ->
-
-                if (me.followingEmail.contains(it.email)) {
-                    binding.buttonUnfollow.visibility = View.VISIBLE
-                    binding.buttonFollow.visibility = View.GONE
-                    binding.buttonUnfollow.setOnClickListener { view ->
-                        binding.buttonUnfollow.visibility = View.GONE
-                        binding.buttonFollow.visibility = View.VISIBLE
-                        viewModel.removeUserFromFollow(UserManager.user.email, it)
-                        viewModel.getMyUserInfo(UserManager.user.email)
-                    }
+                if (my.followingEmail.contains(it.email)) {
+                    showFollowButton(false)
+                    setupFollowButton(true, it)
                 } else {
-                    binding.buttonFollow.visibility = View.VISIBLE
-                    binding.buttonUnfollow.visibility = View.GONE
-                    binding.buttonFollow.setOnClickListener { view ->
-                        binding.buttonFollow.visibility = View.GONE
-                        binding.buttonUnfollow.visibility = View.VISIBLE
-                        viewModel.postUserToFollow(UserManager.user.email, it)
-                        viewModel.getMyUserInfo(UserManager.user.email)
-
-                    }
-
+                    showFollowButton(true)
+                    setupFollowButton(false, it)
                 }
 
             })
 
+            // Get user article to set count on the list
+            viewModel.getMyArticle(it.email)
 
-            viewModel.myArticles.observe(viewLifecycleOwner, Observer {
-                binding.textPosts.text = it.size.toString()
+            viewModel.myArticles.observe(viewLifecycleOwner, Observer { list ->
+                binding.textPosts.text = list.size.toString()
             })
 
 
@@ -121,5 +69,71 @@ class UserDetailFragment : Fragment() {
 
         return binding.root
 
+    }
+
+
+    private fun setupLayout(user: User) {
+        val chipGroup = binding.chipGroup
+        val genres = user.tag
+
+        for (genre in genres) {
+            val chip = Chip(context, null, R.attr.CustomChipChoice)
+            chip.text = genre
+            chipGroup.addView(chip)
+        }
+        binding.textUserName.text = user.name
+        binding.textUserIdentity.text = user.identity
+        binding.textProfileCity.text = user.city
+        binding.textProfileDistrict.text = user.district
+        binding.textIntroduction.text = user.introduction
+        binding.textExperience.text = user.experience
+        binding.imageUrl = user.image
+
+        binding.buttonMessage.setOnClickListener { _ ->
+            viewModel.createChatRoom(viewModel.getChatRoom())
+            Handler().postDelayed({ findNavController().navigate(NavigationDirections.navigateToChatRoom(user.email, user.name)) }, 500)
+        }
+
+
+        if (user.followingEmail.isEmpty()) {
+            binding.textFollowing.text = "0"
+        } else {
+            binding.textFollowing.text = user.followingEmail.size.toString()
+        }
+
+        if (user.followedBy.isEmpty()) {
+            binding.textFollowBy.text = "0"
+        } else {
+            binding.textFollowBy.text = user.followedBy.size.toString()
+        }
+
+    }
+
+    private fun showFollowButton(show: Boolean) {
+        if (show) {
+            binding.buttonFollow.visibility = View.VISIBLE
+            binding.buttonUnfollow.visibility = View.GONE
+        } else {
+            binding.buttonUnfollow.visibility = View.VISIBLE
+            binding.buttonFollow.visibility = View.GONE
+        }
+    }
+
+    private fun setupFollowButton(contains: Boolean, user: User) {
+        if (contains) {
+            binding.buttonUnfollow.setOnClickListener {
+                showFollowButton(true)
+                viewModel.removeUserFromFollow(UserManager.user.email, user)
+                viewModel.getMyUserInfo(UserManager.user.email)
+            }
+        } else {
+            binding.buttonFollow.setOnClickListener {
+                showFollowButton(false)
+                viewModel.postUserToFollow(UserManager.user.email, user)
+                viewModel.getMyUserInfo(UserManager.user.email)
+
+            }
+
+        }
     }
 }
