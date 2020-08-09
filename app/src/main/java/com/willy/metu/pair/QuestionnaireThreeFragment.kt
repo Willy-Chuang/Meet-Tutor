@@ -101,9 +101,13 @@ class QuestionnaireThreeFragment : Fragment() {
     }
 
     private fun navigateToNext() {
-        findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!.apply {
-            gender = viewModel.isPressed.value.toString()
-        }))
+
+        viewModel.navigateToResult.value?.let {
+            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(it.apply {
+                gender = viewModel.isPressed.value.toString()
+            }))
+        }
+
     }
 
     private fun setupDrawable(gender: String) {

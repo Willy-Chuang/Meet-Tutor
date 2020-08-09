@@ -45,6 +45,7 @@
     <string name="dialog_leave_app_content">Leaving will close the app</string>
     <string name="menu_item_title_edit">EDIT</string>
     <string name="menu_item_title_save">SAVE</string>
+    <string name="logger_already_added">Has Been Added</string>
 
     <string-array name="tag_array">
         <item>Reading</item>

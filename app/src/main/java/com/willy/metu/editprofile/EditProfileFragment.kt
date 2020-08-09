@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,12 +27,14 @@ import java.util.*
 class EditProfileFragment : Fragment() {
 
     private val viewModel by viewModels<EditProfileViewModel> { getVmFactory() }
+    lateinit var binding: FragmentEditProfileBinding
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+        binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+
         // Initialized viewModel for layout
         binding.viewModel = viewModel
 
@@ -43,11 +46,6 @@ class EditProfileFragment : Fragment() {
         val districtIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_district)
         val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
         val cityContent = MeTuApplication.instance.resources.getStringArray(R.array.city_array)
-        val taipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.taipei_array)
-        val newTaipeiContent = MeTuApplication.instance.resources.getStringArray(R.array.new_taipei_array)
-        val taoyuanContent = MeTuApplication.instance.resources.getStringArray(R.array.taoyuan_array)
-        val taichungContent = MeTuApplication.instance.resources.getStringArray(R.array.taichung_array)
-        val kaohsiungContent = MeTuApplication.instance.resources.getStringArray(R.array.kaohsiung_array)
 
 
         // Setup chip group for tag selection
@@ -71,16 +69,14 @@ class EditProfileFragment : Fragment() {
 
                     // Check if the list already contains the tag, if not then add to list
                     if (viewModel.itemList.contains(c.text.toString())) {
-                        Logger.d("Has Been Added")
+                        Logger.d(getString(R.string.logger_already_added))
                     } else {
-                        viewModel.itemList.add(c.text.toString())
-                        viewModel.selectedTags.value = viewModel.itemList
+                        viewModel.setTags(c.text.toString(),false)
                     }
 
                     // Remove tag from list when uncheck
                 } else {
-                    viewModel.itemList.remove(c.text.toString())
-                    viewModel.selectedTags.value = viewModel.itemList
+                    viewModel.setTags(c.text.toString(),true)
                 }
             }
             chipGroup.addView(chip)
@@ -89,15 +85,15 @@ class EditProfileFragment : Fragment() {
         // Setup Radio button (Gender, Identity)
         binding.radioGender.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_male -> viewModel.selectedGender.value = "Male"
-                R.id.radio_female -> viewModel.selectedGender.value = "Female"
+                R.id.radio_male -> viewModel.setGender("Male")
+                R.id.radio_female -> viewModel.setGender("Female")
             }
         }
 
         binding.radioIdentity.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_tutor -> viewModel.selectedIdentity.value = "Tutor"
-                R.id.radio_student -> viewModel.selectedIdentity.value = "Student"
+                R.id.radio_tutor -> viewModel.setIdentity("Tutor")
+                R.id.radio_student -> viewModel.setIdentity("Student")
             }
         }
 
@@ -112,20 +108,12 @@ class EditProfileFragment : Fragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
-                        when (pos) {
-                            1 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taipeiContent, districtIndicator)
-                            2 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(newTaipeiContent, districtIndicator)
-                            3 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taoyuanContent, districtIndicator)
-                            4 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(taichungContent, districtIndicator)
-                            5 -> binding.spinnerDistrict.adapter = QuestionSpinnerAdapter(kaohsiungContent, districtIndicator)
-                        }
+                        setupDistrictSpinner(pos)
+
                         if (parent != null && pos != 0) {
-                            viewModel.selectedCity.value = parent.selectedItem.toString()
+                            viewModel.setCity(parent.selectedItem.toString())
                         }
 
                     }
@@ -137,13 +125,10 @@ class EditProfileFragment : Fragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
-                            viewModel.selectedDistrict.value = parent.selectedItem.toString()
+                            viewModel.setDistrict(parent.selectedItem.toString())
                         }
                     }
                 }
@@ -214,5 +199,24 @@ class EditProfileFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun setSpinnerContent(array: Int): SpinnerAdapter {
+        return QuestionSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array), MeTuApplication.instance.resources.getString(R.string.spinner_select_district))
+    }
+
+
+    fun setupDistrictSpinner(pos: Int) {
+        binding.spinnerDistrict.adapter = setSpinnerContent(
+                when (pos) {
+                    1 -> R.array.taipei_array
+                    2 -> R.array.new_taipei_array
+                    3 -> R.array.taoyuan_array
+                    4 -> R.array.taichung_array
+                    5 -> R.array.kaohsiung_array
+                    else -> R.array.default_array
+
+                }
+        )
     }
 }

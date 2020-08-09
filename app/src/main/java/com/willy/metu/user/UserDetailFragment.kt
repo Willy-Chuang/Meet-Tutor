@@ -44,6 +44,11 @@ class UserDetailFragment : Fragment() {
 
             setupLayout(it)
 
+            // Get user article to set count on the list
+            viewModel.myArticles.observe(viewLifecycleOwner, Observer { list ->
+                binding.textPosts.text = list.size.toString()
+            })
+
             // Check if the user is in my follow list already, and setup follow button base on the result
             viewModel.myInfo.observe(viewLifecycleOwner, Observer { my ->
 
@@ -56,14 +61,6 @@ class UserDetailFragment : Fragment() {
                 }
 
             })
-
-            // Get user article to set count on the list
-            viewModel.getMyArticle(it.email)
-
-            viewModel.myArticles.observe(viewLifecycleOwner, Observer { list ->
-                binding.textPosts.text = list.size.toString()
-            })
-
 
         })
 

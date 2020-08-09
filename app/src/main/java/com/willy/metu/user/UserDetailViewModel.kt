@@ -73,6 +73,7 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
         Logger.i("------------------------------------")
         getUser(selectedUserEmail)
         getMyUserInfo(UserManager.user.email)
+        getMyArticle(selectedUserEmail)
     }
 
 
@@ -86,12 +87,14 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
         val attendeeTwo = UserInfo().apply {
             userEmail = selectedUserEmail
-            userImage = userInfo.value!!.image
-            userName = userInfo.value!!.name
+
+            userInfo.value?.let {
+                userImage = it.image
+                userName = it.name
+            }
         }
 
-        val attendeeList = listOf(UserManager.user.email, userInfo.value!!.email)
-
+        val attendeeList = listOf(UserManager.user.email, userInfo.value?.email.toString())
 
 
         return ChatRoom(
@@ -107,12 +110,10 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
 
             when (val result = repository.postChatRoom(chatRoom)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
