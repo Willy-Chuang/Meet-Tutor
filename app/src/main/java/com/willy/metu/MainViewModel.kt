@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
+class MainViewModel(repository: MeTuRepository) : ViewModel() {
 
     // user: MainViewModel has User info to provide Drawer UI
     private val _user = MutableLiveData<User>()
@@ -36,7 +36,7 @@ class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
     val noticed = MutableLiveData<Boolean>()
 
     //Notifications
-    val notifications: LiveData<List<Event>> = repository.getLiveMyEventInvitation(UserManager.user.email)
+    private val notifications: LiveData<List<Event>> = repository.getLiveMyEventInvitation(UserManager.user.email)
 
     // Notification Count
     val countInNotify: LiveData<Int> = Transformations.map(notifications) { it.size }
@@ -138,12 +138,6 @@ class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
         }
     }
 
-    fun onRefreshed() {
-        if (!MeTuApplication.instance.isLiveDataDesign()) {
-            _refresh.value = null
-        }
-    }
-
     fun onHomeNavigated() {
         _navigateToHomeByBottomNav.value = null
     }
@@ -174,13 +168,5 @@ class MainViewModel(private val repository: MeTuRepository) : ViewModel() {
         Logger.i("=============")
     }
 
-
-//    fun checkUser() {
-//        if (user.value == null) {
-//            UserManager.userToken?.let {
-//                getUserProfile(it)
-//            }
-//        }
-//    }
 
 }

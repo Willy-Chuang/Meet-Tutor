@@ -46,11 +46,6 @@ fun bindTime(textView: TextView, time: Long?){
     time?.let {textView.text = TimeUtil.stampToTime(time)}
 }
 
-@BindingAdapter("fullTime")
-fun bindFullTime(textView: TextView, time: Long?){
-    time?.let { textView.text = TimeUtil.stampToFullTime(time) }
-}
-
 @BindingAdapter("ago")
 fun bindAgo(textView: TextView, time:Long?){
     time?.let { textView.text = TimeUtil.stampToAgo(time) }

@@ -1,7 +1,6 @@
 package com.willy.metu
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
@@ -33,7 +32,7 @@ import com.willy.metu.util.Logger
 import java.util.*
 
 
-class MainActivity() : BaseActivity() {
+class MainActivity : BaseActivity() {
 
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
@@ -91,7 +90,7 @@ class MainActivity() : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
@@ -147,7 +146,6 @@ class MainActivity() : BaseActivity() {
     }
 
     // Setup side menu for an icon of calendar
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.toolbar_menu, menu)
@@ -168,11 +166,11 @@ class MainActivity() : BaseActivity() {
                 val profileModeMenu = menu.findItem(R.id.item_profile_mode)
                 profileModeMenu.isVisible = when (it) {
                     CurrentFragmentType.PROFILE -> {
-                        profileModeMenu.title = "EDIT"
+                        profileModeMenu.title = getString(R.string.menu_item_title_edit)
                         true
                     }
                     CurrentFragmentType.EDITPROFILE -> {
-                        profileModeMenu.title = "SAVE"
+                        profileModeMenu.title = getString(R.string.menu_item_title_save)
                         true
                     }
                     else -> false
@@ -264,7 +262,7 @@ class MainActivity() : BaseActivity() {
 
     private fun setupDrawer() {
 
-        // set up toolbar
+        // Set up toolbar
         val navController = this.findNavController(R.id.myNavHostFragment)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
@@ -338,7 +336,7 @@ class MainActivity() : BaseActivity() {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             val manager = supportFragmentManager
-            val count = manager.findFragmentById(R.id.myNavHostFragment)!!.childFragmentManager.backStackEntryCount
+            val count = manager.findFragmentById(R.id.myNavHostFragment)?.childFragmentManager?.backStackEntryCount
             if (count == 0) {
                 setDialog()
             } else {
@@ -353,10 +351,10 @@ class MainActivity() : BaseActivity() {
 
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setCancelable(true)
-        alertDialogBuilder.setTitle("Sure To Leave?")
-        alertDialogBuilder.setMessage("Leaving will close the app")
-        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { _, _ -> finish()})
-        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, _ -> which.dismiss() })
+        alertDialogBuilder.setTitle(getString(R.string.dialog_leave_app_title))
+        alertDialogBuilder.setMessage(getString(R.string.dialog_leave_app_content))
+        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> finish() }
+        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.dismiss() }
         alertDialogBuilder.show()
 
     }

@@ -113,7 +113,7 @@ class QuestionnaireTwoFragment : Fragment() {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)
-        alertDialogBuilder.setTitle(getString(R.string.dialog_title_leave))
+        alertDialogBuilder.setTitle(getString(R.string.dialog_leave_title))
         alertDialogBuilder.setMessage(getString(R.string.dialog_leave_content))
         alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) }
         alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.cancel() }
