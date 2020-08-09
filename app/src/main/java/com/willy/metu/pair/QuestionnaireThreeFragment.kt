@@ -82,8 +82,8 @@ class QuestionnaireThreeFragment : Fragment() {
         alertDialogBuilder.setCancelable(true)
         alertDialogBuilder.setTitle(getString(R.string.dialog_title_leave))
         alertDialogBuilder.setMessage(getString(R.string.dialog_leave_content))
-        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_leave_btn_pos)) { _, _ -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) }
-        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_leave_btn_neg)) { which, _ -> which.cancel() }
+        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) }
+        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.cancel() }
         alertDialogBuilder.show()
 
     }

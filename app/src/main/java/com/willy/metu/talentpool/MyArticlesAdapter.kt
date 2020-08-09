@@ -1,6 +1,5 @@
 package com.willy.metu.talentpool
 
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.willy.metu.MeTuApplication
 import com.willy.metu.NavigationDirections
+import com.willy.metu.R
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemMyArticleBinding
 import com.willy.metu.login.UserManager
@@ -26,13 +27,14 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
 
                 val alertDialogBuilder = AlertDialog.Builder(itemView.rootView.context)
                 alertDialogBuilder.setCancelable(true)
-                alertDialogBuilder.setTitle("Sure To Delete?")
-                alertDialogBuilder.setMessage("The article will be deleted permanently")
-                alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { _, _ -> viewModel.delete(article)})
-                alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, _ -> which.dismiss() })
+                alertDialogBuilder.setTitle(MeTuApplication.appContext.getString(R.string.dialog_title_delete))
+                alertDialogBuilder.setMessage(MeTuApplication.appContext.getString(R.string.dialog_delete_content))
+                alertDialogBuilder.setPositiveButton(MeTuApplication.appContext.getString(R.string.dialog_btn_pos)) {
+                    _, _ -> viewModel.delete(article)
+                    viewModel.passDeletedTitle(article.title)
+                }
+                alertDialogBuilder.setNegativeButton(MeTuApplication.appContext.getString(R.string.dialog_btn_neg)) { which, _ -> which.dismiss() }
                 alertDialogBuilder.show()
-
-//                setDialog(viewModel.delete(article))
 
             }
 
@@ -84,12 +86,12 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
             return oldItem.id == newItem.id
         }
 
-        private const val ITEM_VIEW_TYPE_EVENT = 0x00
+        private const val ITEM_VIEW_TYPE_ARTICLE = 0x00
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_EVENT -> ArticleViewHolder(ItemMyArticleBinding.inflate(
+            ITEM_VIEW_TYPE_ARTICLE -> ArticleViewHolder(ItemMyArticleBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -107,7 +109,7 @@ class MyArticleAdapter(val viewModel: TalentPoolViewModel) : ListAdapter<Article
 
 
     override fun getItemViewType(position: Int): Int {
-        return ITEM_VIEW_TYPE_EVENT
+        return ITEM_VIEW_TYPE_ARTICLE
     }
 
 
