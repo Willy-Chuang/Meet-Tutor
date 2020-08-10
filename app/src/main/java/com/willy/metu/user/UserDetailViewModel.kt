@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class UserDetailViewModel(private val repository: MeTuRepository, private val userEmail: String) : ViewModel() {
 
-    private val selectedUserEmail = userEmail
+    val selectedUserEmail = userEmail
 
     private val _userInfo = MutableLiveData<User>()
 
@@ -71,9 +71,17 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        _status.value = LoadApiStatus.LOADING
         getUser(selectedUserEmail)
         getMyUserInfo(UserManager.user.email)
         getMyArticle(selectedUserEmail)
+    }
+
+    private var doneProgressCount = 3
+    private fun doneProgress() {
+
+        doneProgressCount--
+        if (doneProgressCount == 0) _status.value = LoadApiStatus.DONE
     }
 
 
@@ -110,7 +118,6 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
         coroutineScope.launch {
 
-
             when (val result = repository.postChatRoom(chatRoom)) {
                 is Result.Success -> {
                     _error.value = null
@@ -136,14 +143,12 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
     fun getUser(userEmail: String) {
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             val result = repository.getUser(userEmail)
 
             _userInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -168,14 +173,12 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
     fun getMyUserInfo(userEmail: String) {
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             val result = repository.getUser(userEmail)
 
             _myInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -207,12 +210,9 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             when (val result = repository.postUserToFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -236,12 +236,9 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             when (val result = repository.removeUserFromFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -261,18 +258,16 @@ class UserDetailViewModel(private val repository: MeTuRepository, private val us
 
     }
 
-    fun getMyArticle(userEmail: String) {
+    private fun getMyArticle(userEmail: String) {
 
         coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
 
             val result = repository.getMyArticle(userEmail)
 
             _myArticles.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {

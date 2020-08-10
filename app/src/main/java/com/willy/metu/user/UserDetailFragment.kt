@@ -16,6 +16,7 @@ import com.willy.metu.data.User
 import com.willy.metu.databinding.FragmentUserDetailBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
+import com.willy.metu.network.LoadApiStatus
 
 class UserDetailFragment : Fragment() {
 
@@ -36,6 +37,8 @@ class UserDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        var firstTimeEntry = true
+
         // Setup back button
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
@@ -43,7 +46,12 @@ class UserDetailFragment : Fragment() {
 
         viewModel.userInfo.observe(viewLifecycleOwner, Observer {
 
-            setupLayout(it)
+            if (firstTimeEntry) {
+                setupLayout(it)
+                firstTimeEntry = false
+            }
+
+
 
             // Get user article to set count on the list
             viewModel.myArticles.observe(viewLifecycleOwner, Observer { list ->
@@ -63,6 +71,17 @@ class UserDetailFragment : Fragment() {
 
             })
 
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                LoadApiStatus.LOADING -> {
+                    binding.progress.visibility = View.VISIBLE
+                }
+                LoadApiStatus.DONE, LoadApiStatus.ERROR -> {
+                    binding.progress.visibility = View.GONE
+                }
+            }
         })
 
         return binding.root
@@ -103,12 +122,14 @@ class UserDetailFragment : Fragment() {
                 showFollowButton(true)
                 viewModel.removeUserFromFollow(UserManager.user.email, user)
                 viewModel.getMyUserInfo(UserManager.user.email)
+                viewModel.getUser(viewModel.selectedUserEmail)
             }
         } else {
             binding.buttonFollow.setOnClickListener {
                 showFollowButton(false)
                 viewModel.postUserToFollow(UserManager.user.email, user)
                 viewModel.getMyUserInfo(UserManager.user.email)
+                viewModel.getUser(viewModel.selectedUserEmail)
 
             }
 
