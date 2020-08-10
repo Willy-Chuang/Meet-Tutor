@@ -14,8 +14,8 @@ android {
         applicationId "com.willy.metu"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.1.1"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -124,14 +124,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
     androidTestImplementation 'com.google.guava:guava:26.0-android'
-
-//    androidTestImplementation ("androidx.test.ext:truth:1.1.0") {
-//        exclude group: "com.google.truth", module: "truth"
-//    }
-//
-//    androidTestImplementation ("com.google.truth:truth:0.44") {
-//        exclude group: "org.checkerframework", module: "checker-compat-qual"
-//        exclude group: "com.google.errorprone", module: "error_prone_annotations"
-//    }
 
 }
