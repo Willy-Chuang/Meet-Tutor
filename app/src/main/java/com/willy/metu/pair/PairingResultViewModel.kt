@@ -9,6 +9,7 @@ import com.willy.metu.data.Answers
 import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
+import com.willy.metu.ext.sortByTraits
 import com.willy.metu.network.LoadApiStatus
 import com.willy.metu.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class PairingResultViewModel(private val repository: MeTuRepository, answers: Answers) : ViewModel() {
 
-    val previousAnswers = answers
+    private val previousAnswers = answers
 
     // get all users from Firebase
     private var _allUsers = MutableLiveData<List<User>>()
@@ -26,15 +27,22 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
     val allUsers: LiveData<List<User>>
         get() = _allUsers
 
-    var redBg = MutableLiveData<Float>()
+    private var _redBg = MutableLiveData<Float>()
 
-    var blueBg = MutableLiveData<Float>()
+    val redBg: LiveData<Float>
+        get() = _redBg
+
+
+    private var _blueBg = MutableLiveData<Float>()
+
+    val blueBg : LiveData<Float>
+        get() = _blueBg
 
     // list of users after filtering
-    val usersWithMatch = MutableLiveData<List<User>>()
+    private val _usersWithMatch = MutableLiveData<List<User>>()
 
-    // when swipe to follow
-    val swiped = MutableLiveData<Boolean>()
+    val usersWithMatch: LiveData<List<User>>
+        get() = _usersWithMatch
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -73,7 +81,7 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
     }
 
-    fun getAllUsers() {
+    private fun getAllUsers() {
 
         coroutineScope.launch {
 
@@ -135,6 +143,18 @@ class PairingResultViewModel(private val repository: MeTuRepository, answers: An
 
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
+    }
+
+    fun createSortedList(users: List<User>) {
+        _usersWithMatch.value = users.sortByTraits(previousAnswers)
+    }
+
+    fun setRedBg (ratio : Float) {
+        _redBg.value = ratio
+    }
+
+    fun setBlueBg (ratio: Float) {
+        _blueBg.value = ratio
     }
 
     fun onLeft() {

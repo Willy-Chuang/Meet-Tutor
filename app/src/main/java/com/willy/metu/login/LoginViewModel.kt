@@ -3,6 +3,8 @@ package com.willy.metu.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
 import com.willy.metu.data.Result
@@ -20,6 +22,11 @@ class LoginViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     val user: LiveData<User>
         get() = _user
+
+    private val _firebaseUser = MutableLiveData<FirebaseUser>()
+
+    val firebaseUser: LiveData<FirebaseUser>
+        get() = _firebaseUser
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -75,4 +82,40 @@ class LoginViewModel(private val repository: MeTuRepository) : ViewModel() {
         }
 
     }
+
+    fun loginAuth(account: GoogleSignInAccount?) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.firebaseAuthWithGoogle(account)
+
+            _firebaseUser.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = MeTuApplication.instance.getString(R.string.you_shall_not_pass)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
+
+    }
+
+
 }

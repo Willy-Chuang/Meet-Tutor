@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ChatRoomViewModel(private val repository: MeTuRepository, private val userEmail: String, private val userName : String): ViewModel(){
+class ChatRoomViewModel(private val repository: MeTuRepository, userEmail: String, userName: String) : ViewModel() {
 
     val currentChattingUser = userEmail
 
@@ -27,8 +27,6 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
 
     // All live message
     var allLiveMessage = MutableLiveData<List<Message>>()
-
-
 
     private val _leave = MutableLiveData<Boolean>()
 
@@ -67,7 +65,7 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getAllLiveMessage(getUserEmails(UserManager.user.email,currentChattingUser))
+        getAllLiveMessage(getUserEmails(UserManager.user.email, currentChattingUser))
     }
 
     fun postMessage(userEmails: List<String>, message: Message) {
@@ -76,7 +74,7 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.postMessage(userEmails,message)) {
+            when (val result = repository.postMessage(userEmails, message)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -99,12 +97,12 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
 
     }
 
-    fun getUserEmails(user1Email: String, user2Email: String) : List<String> {
+    fun getUserEmails(user1Email: String, user2Email: String): List<String> {
         return listOf(user1Email, user2Email)
     }
 
-    fun getMessage (): Message {
-        return Message (
+    fun getMessage(): Message {
+        return Message(
                 id = "",
                 senderName = UserManager.user.name,
                 senderImage = UserManager.user.image,
@@ -114,7 +112,7 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
         )
     }
 
-    fun getAllLiveMessage(userEmails: List<String>) {
+    private fun getAllLiveMessage(userEmails: List<String>) {
         allLiveMessage = repository.getAllLiveMessage(userEmails)
         _status.value = LoadApiStatus.DONE
     }
@@ -122,7 +120,6 @@ class ChatRoomViewModel(private val repository: MeTuRepository, private val user
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }
-
 
 
 }

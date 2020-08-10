@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.willy.metu.databinding.FragmentArticlesBinding
+import com.willy.metu.databinding.FragmentTalentPoolBinding
 
 class TalentPoolFragment : Fragment() {
 
@@ -16,7 +16,7 @@ class TalentPoolFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        FragmentArticlesBinding.inflate(inflater, container, false).apply {
+        FragmentTalentPoolBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             viewpagerArticles.let {
                 tabsArticles.setupWithViewPager(it)

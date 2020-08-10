@@ -3,11 +3,7 @@ package com.willy.metu.chatlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.willy.metu.MeTuApplication
-import com.willy.metu.R
 import com.willy.metu.data.ChatRoom
-import com.willy.metu.data.Result
-import com.willy.metu.data.UserInfo
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
@@ -15,15 +11,15 @@ import com.willy.metu.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class ChatListViewModel (private val repository: MeTuRepository): ViewModel(){
 
     var allLiveChatRooms = MutableLiveData<List<ChatRoom>>()
 
-    var filteredChatRooms = MutableLiveData<List<ChatRoom>>()
+   private val _filteredChatRooms = MutableLiveData<List<ChatRoom>>()
 
-    var theOtherPersonInfo = MutableLiveData<List<UserInfo>>()
+    val filteredChatRooms : LiveData<List<ChatRoom>>
+        get() = _filteredChatRooms
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -56,9 +52,13 @@ class ChatListViewModel (private val repository: MeTuRepository): ViewModel(){
         getAllLiveChatRoom(UserManager.user.email)
     }
 
-    fun getAllLiveChatRoom(userEmail:String) {
+    private fun getAllLiveChatRoom(userEmail:String) {
         allLiveChatRooms = repository.getLiveChatRooms(userEmail)
         _status.value = LoadApiStatus.DONE
+    }
+
+    fun createFilteredChatRooms(filteredChatRoom: List<ChatRoom>) {
+        _filteredChatRooms.value = filteredChatRoom
     }
 
 

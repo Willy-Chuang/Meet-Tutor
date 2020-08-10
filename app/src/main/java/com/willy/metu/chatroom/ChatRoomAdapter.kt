@@ -11,25 +11,21 @@ import com.willy.metu.databinding.ItemMyMessageBinding
 import com.willy.metu.login.UserManager
 
 
-class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback){
-    class FriendMessageViewHolder(private var binding: ItemFriendMessageBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(message: Message){
+class ChatRoomAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback) {
+    class FriendMessageViewHolder(private var binding: ItemFriendMessageBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message) {
 
             binding.message = message
-
             binding.executePendingBindings()
-
 
         }
     }
 
-    class MyMessageViewHolder(private var binding: ItemMyMessageBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(message: Message){
+    class MyMessageViewHolder(private var binding: ItemMyMessageBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(message: Message) {
 
             binding.message = message
-
             binding.executePendingBindings()
-
 
         }
     }
@@ -38,6 +34,7 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
         override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
             return oldItem.id == newItem.id
         }
@@ -50,7 +47,7 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
         return when (viewType) {
             ITEM_VIEW_TYPE_FRIEND -> FriendMessageViewHolder(ItemFriendMessageBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
-            ITEM_VIEW_TYPE_MY -> MyMessageViewHolder (ItemMyMessageBinding.inflate(
+            ITEM_VIEW_TYPE_MY -> MyMessageViewHolder(ItemMyMessageBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -58,7 +55,7 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(holder) {
+        when (holder) {
             is FriendMessageViewHolder -> {
                 holder.bind((getItem(position) as Message))
             }
@@ -75,7 +72,6 @@ class ChatRoomAdapter () : ListAdapter<Message, RecyclerView.ViewHolder>(DiffCal
             else -> ITEM_VIEW_TYPE_FRIEND
         }
     }
-
 
 
 }

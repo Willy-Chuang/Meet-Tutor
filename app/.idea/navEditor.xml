@@ -25,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="7" />
-                            <option name="y" value="15" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -75,18 +75,6 @@
                           <Point>
                             <option name="x" value="273" />
                             <option name="y" value="918" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="finishInfoDialogFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="485" />
-                            <option name="y" value="911" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -182,17 +170,22 @@
                       <LayoutPositions />
                     </value>
                   </entry>
-                  <entry key="navigate_to_finish_info">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
                   <entry key="navigate_to_follow_list_fragment">
                     <value>
                       <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="navigate_to_home_fragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_new_chat">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="navigate_to_new_member">
                     <value>
                       <LayoutPositions />
                     </value>
@@ -259,6 +252,18 @@
                           <Point>
                             <option name="x" value="695" />
                             <option name="y" value="921" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="newMemberDialogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/talent_pool"
+        android:id="@+id/item_talent_pool"
         android:icon="@drawable/ic_create"
         android:title=""
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/calendarFragment"
+        android:id="@+id/item_calendar"
         android:icon="@drawable/ic_calendar"
         android:title=""
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/profile_mode"
+        android:id="@+id/item_profile_mode"
         android:title="EDIT"
         android:visible="false"
         app:showAsAction="always"

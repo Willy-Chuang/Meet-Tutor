@@ -16,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class NewChatViewModel  (private val repository: MeTuRepository) : ViewModel() {
+class NewChatViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     //For all followed users under user account
     private var _allFollowedList = MutableLiveData<List<User>>()
 
-    val allFollowedList : LiveData<List<User>>
+    val allFollowedList: LiveData<List<User>>
         get() = _allFollowedList
 
     val searchBy = MutableLiveData<String>()
@@ -57,7 +57,7 @@ class NewChatViewModel  (private val repository: MeTuRepository) : ViewModel() {
         getFollowList(UserManager.user.email)
     }
 
-    fun getFollowList(userEmail: String) {
+    private fun getFollowList(userEmail: String) {
 
         coroutineScope.launch {
 

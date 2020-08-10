@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.databinding.FragmentNotifyBinding
 import com.willy.metu.ext.getVmFactory
 
@@ -15,13 +14,15 @@ class NotifyFragment : Fragment() {
 
     private val viewModel by viewModels<NotifyViewModel> { getVmFactory() }
 
+    lateinit var binding: FragmentNotifyBinding
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentNotifyBinding.inflate(inflater, container, false)
+        binding = FragmentNotifyBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
 
@@ -29,15 +30,12 @@ class NotifyFragment : Fragment() {
 
         binding.recyclerNotify.adapter = adapter
         adapter.notifyDataSetChanged()
-        binding.recyclerNotify.layoutManager = LinearLayoutManager(context)
 
         viewModel.allLiveEventInvitations.observe(viewLifecycleOwner, Observer {
             if(it.isEmpty()) {
-                binding.noValue.visibility = View.VISIBLE
-                binding.noValueImage.visibility = View.VISIBLE
+                invitationValueVisibility(false)
             } else {
-                binding.noValue.visibility = View.GONE
-                binding.noValueImage.visibility = View.GONE
+                invitationValueVisibility(true)
             }
             adapter.submitList(it)
 
@@ -45,5 +43,15 @@ class NotifyFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun invitationValueVisibility(withValue: Boolean) {
+        if (withValue) {
+            binding.noValue.visibility = View.GONE
+            binding.noValueImage.visibility = View.GONE
+        } else {
+            binding.noValue.visibility = View.VISIBLE
+            binding.noValueImage.visibility = View.VISIBLE
+        }
     }
 }

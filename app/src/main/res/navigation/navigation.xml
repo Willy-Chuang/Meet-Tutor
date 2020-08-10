@@ -17,7 +17,7 @@
 
     <dialog
         android:id="@+id/post_event_dialog"
-        android:name="com.willy.metu.calendar.PostEventDialogFragment"
+        android:name="com.willy.metu.postevent.PostEventDialogFragment"
         android:label="CalendarBottomSheet"
         tools:layout="@layout/dialog_post_event">
         <argument
@@ -111,7 +111,7 @@
 
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.willy.metu.profile.EditProfileFragment"
+        android:name="com.willy.metu.editprofile.EditProfileFragment"
         android:label="EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile" />
 
@@ -188,7 +188,7 @@
         android:id="@+id/talentPoolFragment"
         android:name="com.willy.metu.talentpool.TalentPoolFragment"
         android:label="TalentPoolFragment"
-        tools:layout="@layout/fragment_talentpool" />
+        tools:layout="@layout/fragment_article" />
 
     <action
         android:id="@+id/navigate_to_talent_pool"
@@ -198,7 +198,7 @@
 
     <dialog
         android:id="@+id/post_article_dialog"
-        android:name="com.willy.metu.dialog.ArticleDialogFragment"
+        android:name="com.willy.metu.postarticle.PostArticleDialogFragment"
         android:label="PostArticleDialog"
         tools:layout="@layout/dialog_post_article" />
     <action
@@ -214,20 +214,6 @@
         android:name="com.willy.metu.followlist.ItemFollowedUsersFragment"
         android:label="ItemFollowedUsersFragment"
         tools:layout="@layout/item_followed_articles" />
-
-    <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.willy.metu.article.ArticleFragment"
-        android:label="ArticleFragment"
-        tools:layout="@layout/fragment_article">
-        <argument
-            android:name="article"
-            app:argType="com.willy.metu.data.Article" />
-    </fragment>
-
-    <action
-        android:id="@+id/navigate_to_article"
-        app:destination="@id/articleFragment" />
 
     <fragment
         android:id="@+id/notifyFragment"
@@ -256,24 +242,24 @@
         app:destination="@id/eventDetailFragment" />
 
     <dialog
-        android:id="@+id/finishInfoDialogFragment"
-        android:name="com.willy.metu.dialog.FinishInfoDialogFragment"
+        android:id="@+id/newMemberDialogFragment"
+        android:name="com.willy.metu.newmember.NewMemberDialogFragment"
         android:label="FinishInfoDialogFragment"
-        tools:layout="@layout/dialog_finish_info" />
+        tools:layout="@layout/dialog_new_member" />
 
     <action
-        android:id="@+id/navigate_to_finish_info"
-        app:destination="@id/finishInfoDialogFragment" />
+        android:id="@+id/navigate_to_new_member"
+        app:destination="@id/newMemberDialogFragment" />
 
     <fragment
         android:id="@+id/newChatFragment"
         android:name="com.willy.metu.newchat.NewChatFragment"
         android:label="NewChatFragment"
-        tools:layout="@layout/fragment_new_chat"/>
+        tools:layout="@layout/fragment_new_chat" />
 
     <action
         android:id="@+id/navigate_to_new_chat"
-        app:destination="@id/newChatFragment"/>
+        app:destination="@id/newChatFragment" />
 
 
 </navigation>

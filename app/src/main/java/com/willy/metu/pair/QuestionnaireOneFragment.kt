@@ -1,6 +1,5 @@
 package com.willy.metu.pair
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,12 +23,14 @@ import com.willy.metu.util.Logger
 class QuestionnaireOneFragment : Fragment() {
 
     private val viewModel by viewModels<QuestionnaireOneViewModel> { getVmFactory() }
+
+    lateinit var binding: FragmentQuestionnaireOneBinding
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentQuestionnaireOneBinding.inflate(inflater, container, false)
+        binding = FragmentQuestionnaireOneBinding.inflate(inflater, container, false)
         val majorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_category)
         val minorIndicator = MeTuApplication.instance.resources.getString(R.string.spinner_select_subject)
         val defaultContent = MeTuApplication.instance.resources.getStringArray(R.array.default_array)
@@ -46,22 +47,12 @@ class QuestionnaireOneFragment : Fragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
-                        when (pos) {
-                            1 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.language_array)
-                            2 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.curriculum_array)
-                            3 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.music_array)
-                            4 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.art_array)
-                            5 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.sport_array)
-                            6 -> binding.spinnerSubjectMinor.adapter = setSpinnerContent(R.array.exam_array)
-                        }
+                        setupMinorSpinner(pos)
+
                         if (parent != null && pos != 0) {
-                            viewModel.selectedMajorSubject.value = parent.selectedItem.toString()
-                            viewModel.navigateToQuestionTwo.value?.category = parent.selectedItem.toString()
+                            viewModel.setupCategory(parent.selectedItem.toString())
                         }
 
                     }
@@ -74,14 +65,10 @@ class QuestionnaireOneFragment : Fragment() {
                     }
 
                     override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            pos: Int,
-                            id: Long
+                            parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
-                            viewModel.selectedMinorSubject.value = parent.selectedItem.toString()
-                            viewModel.navigateToQuestionTwo.value?.subject = parent.selectedItem.toString()
+                            viewModel.setupMinorSubject(parent.selectedItem.toString())
                         }
                     }
                 }
@@ -92,6 +79,14 @@ class QuestionnaireOneFragment : Fragment() {
             setDialog()
         }
 
+        //Setup next button to navigate to the next question, passing the selected answers along
+        binding.buttonNext.setOnClickListener {
+            if (isFinished()) {
+                navigateToNext()
+            }
+        }
+
+        // Observers
         viewModel.selectedMajorSubject.observe(viewLifecycleOwner, Observer {
             Logger.d(it)
         })
@@ -99,24 +94,6 @@ class QuestionnaireOneFragment : Fragment() {
             Logger.d(it)
         })
 
-        viewModel.navigateToQuestionTwo.observe(viewLifecycleOwner, Observer {
-            Logger.d(it.category)
-
-        })
-
-        //Setup next button to navigate to the next question, passing the selected answers along
-        binding.buttonNext.setOnClickListener {
-            if (viewModel.selectedMajorSubject.value == null) {
-                Toast.makeText(MeTuApplication.appContext,"Please select a category",Toast.LENGTH_SHORT).show()
-            } else if (viewModel.selectedMinorSubject.value== null) {
-                Toast.makeText(MeTuApplication.appContext,"Please select a subject",Toast.LENGTH_SHORT).show()
-            } else {
-                findNavController().navigate(NavigationDirections.navigateToQuestionTwo(Answers(
-                        category = viewModel.selectedMajorSubject.value.toString(),
-                        subject = viewModel.selectedMinorSubject.value.toString()
-                )))
-            }
-        }
 
 
 
@@ -124,7 +101,7 @@ class QuestionnaireOneFragment : Fragment() {
         return binding.root
     }
 
-    fun setSpinnerContent(array: Int): SpinnerAdapter {
+    private fun setSpinnerContent(array: Int): SpinnerAdapter {
         return MinorSubjectSpinnerAdapter(MeTuApplication.instance.resources.getStringArray(array))
     }
 
@@ -132,13 +109,55 @@ class QuestionnaireOneFragment : Fragment() {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)
-        alertDialogBuilder.setTitle("Sure To Leave?")
-        alertDialogBuilder.setMessage("Leaving will lead to losing record of the questionnaire")
-        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { which, i -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) })
-        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, i -> which.cancel() })
+        alertDialogBuilder.setTitle(getString(R.string.dialog_leave_title))
+        alertDialogBuilder.setMessage(getString(R.string.dialog_leave_content))
+        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) }
+        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.cancel() }
         alertDialogBuilder.show()
 
     }
 
+    fun setupMinorSpinner(pos: Int) {
+        binding.spinnerSubjectMinor.adapter = setSpinnerContent(
+
+                when (pos) {
+                    1 -> R.array.language_array
+                    2 -> R.array.curriculum_array
+                    3 -> R.array.music_array
+                    4 -> R.array.art_array
+                    5 -> R.array.sport_array
+                    6 -> R.array.exam_array
+                    else -> R.array.default_array
+                }
+
+        )
+    }
+
+    private fun isFinished(): Boolean {
+
+        return when {
+            viewModel.selectedMajorSubject.value == null || viewModel.selectedMajorSubject.value == "" -> {
+                Toast.makeText(MeTuApplication.appContext, getString(R.string.reminder_select_category), Toast.LENGTH_SHORT).show()
+                false
+            }
+            viewModel.selectedMinorSubject.value == null || viewModel.selectedMinorSubject.value == "" -> {
+                Toast.makeText(MeTuApplication.appContext, getString(R.string.reminder_select_subject), Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> {
+                true
+            }
+        }
+
+    }
+
+    private fun navigateToNext() {
+
+        findNavController().navigate(NavigationDirections.navigateToQuestionTwo(Answers(
+                category = viewModel.selectedMajorSubject.value.toString(),
+                subject = viewModel.selectedMinorSubject.value.toString()
+        )))
+
+    }
 
 }

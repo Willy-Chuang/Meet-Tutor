@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.willy.metu.data.Article
 import com.willy.metu.databinding.ItemSavedArticleBinding
 
-class ArticleListAdapter () : ListAdapter<Article, RecyclerView.ViewHolder>(DiffCallback){
+class ArticleListAdapter : ListAdapter<Article, RecyclerView.ViewHolder>(DiffCallback){
     class ArticleViewHolder(private var binding: ItemSavedArticleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article){
             binding.article = article
@@ -25,12 +25,12 @@ class ArticleListAdapter () : ListAdapter<Article, RecyclerView.ViewHolder>(Diff
             return oldItem.id == newItem.id
         }
 
-        private const val ITEM_VIEW_TYPE_EVENT = 0x00
+        private const val ITEM_VIEW_TYPE_ARTICLE = 0x00
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_EVENT -> ArticleViewHolder(ItemSavedArticleBinding.inflate(
+            ITEM_VIEW_TYPE_ARTICLE -> ArticleViewHolder(ItemSavedArticleBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -46,6 +46,6 @@ class ArticleListAdapter () : ListAdapter<Article, RecyclerView.ViewHolder>(Diff
     }
 
     override fun getItemViewType(position: Int): Int {
-        return ITEM_VIEW_TYPE_EVENT
+        return ITEM_VIEW_TYPE_ARTICLE
     }
 }

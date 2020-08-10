@@ -1,6 +1,10 @@
 package com.willy.metu.data.source.remote
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -17,7 +21,6 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
     private const val PATH_EVENTS = "event"
     private const val PATH_USER = "user"
-    private const val KEY_CREATED_TIME = "createdTime"
     private const val PATH_CHATLIST = "chatList"
     private const val PATH_ARTICLES = "article"
     private const val PATH_SAVED_ARTICLES = "savedArticles"
@@ -29,10 +32,8 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<SelectedEvent>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
-
-                            val event = document.toObject(SelectedEvent::class.java)
                         }
                         continuation.resume(Result.Success(list))
                     } else {
@@ -58,11 +59,13 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<SelectedEvent>()
-                    for (document in snapshot!!) {
-                        Logger.d(document.id + " => " + document.data)
+                    if (snapshot != null) {
+                        for (document in snapshot) {
+                            Logger.d(document.id + " => " + document.data)
 
-                        val event = document.toObject(SelectedEvent::class.java)
-                        list.add(event)
+                            val event = document.toObject(SelectedEvent::class.java)
+                            list.add(event)
+                        }
                     }
                     liveData.value = list
                 }
@@ -79,7 +82,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<Event>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val event = document.toObject(Event::class.java)
@@ -109,7 +112,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<Event>()
-                    for (document in snapshot!!) {
+                    snapshot?.forEach { document ->
                         Logger.d(document.id + " => " + document.data)
 
                         val event = document.toObject(Event::class.java)
@@ -161,7 +164,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (result.isEmpty) {
                         document
                                 .set(user)
-                                .addOnSuccessListener { documentReference ->
+                                .addOnSuccessListener {
                                     Logger.d("DocumentSnapshot added with ID: ${users}")
                                 }
                                 .addOnFailureListener { e ->
@@ -178,17 +181,17 @@ object MeTuRemoteDataSource : MeTuDataSource {
     }
 
 
-    override suspend fun updateUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
+    override suspend fun updateUser(user: User): Result<Boolean> = suspendCoroutine {
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
         users.document(user.email)
-                .update("introduction", user.introduction ,
+                .update("introduction", user.introduction,
                         "experience", user.experience,
-                        "city",user.city,
+                        "city", user.city,
                         "district", user.district,
                         "gender", user.gender,
-                        "identity",user.identity,
-                        "tag",user.tag)
-                .addOnSuccessListener { documentReference ->
+                        "identity", user.identity,
+                        "tag", user.tag)
+                .addOnSuccessListener {
                     Logger.d("DocumentSnapshot added with ID: ${users}")
                 }
                 .addOnFailureListener { e ->
@@ -200,14 +203,13 @@ object MeTuRemoteDataSource : MeTuDataSource {
     override suspend fun getUser(userEmail: String): Result<User> = suspendCoroutine { continuation ->
 
         val users = FirebaseFirestore.getInstance().collection(PATH_USER)
-        val document = users.document(userEmail)
 
         users.whereEqualTo("email", userEmail)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         var list = User()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val user = document.toObject(User::class.java)
@@ -234,7 +236,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<User>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val user = document.toObject(User::class.java)
@@ -258,15 +260,15 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         users.document(userEmail).collection("followList").document(user.email)
                 .set(user)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener {
                     Logger.d("DocumentSnapshot added with ID: ${users}")
                 }
                 .addOnFailureListener { e ->
                     Logger.w("Error adding document $e")
                 }
-        users.document(user.email).update("followedBy",FieldValue.arrayUnion(userEmail))
-        users.document(userEmail).update("followingEmail",FieldValue.arrayUnion(user.email))
-        users.document(userEmail).update("followingName",FieldValue.arrayUnion(user.name))
+        users.document(user.email).update("followedBy", FieldValue.arrayUnion(userEmail))
+        users.document(userEmail).update("followingEmail", FieldValue.arrayUnion(user.email))
+        users.document(userEmail).update("followingName", FieldValue.arrayUnion(user.name))
     }
 
     override suspend fun removeUserFromFollow(userEmail: String, user: User): Result<Boolean> = suspendCoroutine { continuation ->
@@ -275,15 +277,15 @@ object MeTuRemoteDataSource : MeTuDataSource {
 
         users.document(userEmail).collection("followList").document(user.email)
                 .delete()
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener {
                     Logger.d("DocumentSnapshot added with ID: ${users}")
                 }
                 .addOnFailureListener { e ->
                     Logger.w("Error adding document $e")
                 }
-        users.document(user.email).update("followedBy",FieldValue.arrayRemove(userEmail))
-        users.document(userEmail).update("followingEmail",FieldValue.arrayRemove(user.email))
-        users.document(userEmail).update("followingName",FieldValue.arrayRemove(user.name))
+        users.document(user.email).update("followedBy", FieldValue.arrayRemove(userEmail))
+        users.document(userEmail).update("followingEmail", FieldValue.arrayRemove(user.email))
+        users.document(userEmail).update("followingName", FieldValue.arrayRemove(user.name))
     }
 
     override suspend fun getFollowList(userEmail: String): Result<List<User>> = suspendCoroutine { continuation ->
@@ -294,7 +296,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<User>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val user = document.toObject(User::class.java)
@@ -363,7 +365,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<ChatRoom>()
-                    for (document in snapshot!!) {
+                    snapshot?.forEach { document ->
                         Logger.d(document.id + " => " + document.data)
 
                         val chatRoom = document.toObject(ChatRoom::class.java)
@@ -388,19 +390,25 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .continueWithTask { task ->
                     if (!task.isSuccessful) {
                         if (task.exception != null) {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")
-                            continuation.resume(Result.Error(task.exception!!))
+                            task.exception?.let {
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                            }
                         } else {
                             continuation.resume(Result.Fail(MeTuApplication.appContext.getString(R.string.you_shall_not_pass)))
                         }
                     }
 
-                    val documentId2 = chat.document(task.result!!.documents[0].id).collection("message").document()
+                    task.result?.let {
+                        val documentId2 = chat.document(it.documents[0].id).collection("message").document()
 
-                    message.createdTime = Calendar.getInstance().timeInMillis
-                    message.id = documentId2.id
+                        message.createdTime = Calendar.getInstance().timeInMillis
+                        message.id = documentId2.id
 
-                    chat.document(task.result!!.documents[0].id).collection("message").add(message)
+                        chat.document(it.documents[0].id).collection("message").add(message)
+
+                    }
+
 
                 }
                 .addOnCompleteListener { taskTwo ->
@@ -430,33 +438,35 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .get()
                 .addOnCompleteListener { task ->
                     if (!task.isSuccessful) {
-                        if (task.exception != null) {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${task.exception!!.message}")
-                        } else {
-                            Logger.d("sda")
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            return@addOnCompleteListener
                         }
                     }
 
-                    chat.document(task.result!!.documents[0].id).collection("message")
+                    task.result?.let {
+                        chat.document(it.documents[0].id).collection("message")
 
-                            .orderBy("createdTime", Query.Direction.ASCENDING)
-                            .addSnapshotListener { snapshot, exception ->
-                                Logger.i("add SnapshotListener detected")
+                                .orderBy("createdTime", Query.Direction.ASCENDING)
+                                .addSnapshotListener { snapshot, exception ->
+                                    Logger.i("add SnapshotListener detected")
 
-                                exception?.let {
-                                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                    exception?.let {
+                                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                    }
+
+                                    val list = mutableListOf<Message>()
+                                    snapshot?.forEach { document ->
+                                        Logger.d(document.id + " => " + document.data)
+
+                                        val message = document.toObject(Message::class.java)
+                                        list.add(message)
+                                    }
+                                    liveData.value = list
+
                                 }
 
-                                val list = mutableListOf<Message>()
-                                for (document in snapshot!!) {
-                                    Logger.d(document.id + " => " + document.data)
-
-                                    val message = document.toObject(Message::class.java)
-                                    list.add(message)
-                                }
-                                liveData.value = list
-
-                            }
+                    }
 
                 }
         return liveData
@@ -519,7 +529,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
 
         articles
-                .orderBy("createdTime",Query.Direction.DESCENDING)
+                .orderBy("createdTime", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, exception ->
                     Logger.i("add SnapshotListener detected")
 
@@ -528,7 +538,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<Article>()
-                    for (document in snapshot!!) {
+                    snapshot?.forEach { document ->
                         Logger.d(document.id + " => " + document.data)
 
                         val article = document.toObject(Article::class.java)
@@ -553,7 +563,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     if (result.isEmpty) {
                         document.document(article.id)
                                 .set(article)
-                                .addOnSuccessListener { documentReference ->
+                                .addOnSuccessListener {
                                     Logger.d("DocumentSnapshot added with ID: ${article}")
                                 }
                                 .addOnFailureListener { e ->
@@ -587,7 +597,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<Article>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val article = document.toObject(Article::class.java)
@@ -623,7 +633,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<Article>()
-                    for (document in snapshot!!) {
+                    snapshot?.forEach { document ->
                         Logger.d(document.id + " => " + document.data)
 
                         val article = document.toObject(Article::class.java)
@@ -662,7 +672,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<User>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val user = document.toObject(User::class.java)
@@ -691,7 +701,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<Article>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val article = document.toObject(Article::class.java)
@@ -716,12 +726,12 @@ object MeTuRemoteDataSource : MeTuDataSource {
         val articles = FirebaseFirestore.getInstance().collection(PATH_ARTICLES)
 
         articles
-                .whereEqualTo("creatorEmail",userEmail)
+                .whereEqualTo("creatorEmail", userEmail)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val list = mutableListOf<Article>()
-                        for (document in task.result!!) {
+                        task.result?.forEach { document ->
                             Logger.d(document.id + " => " + document.data)
 
                             val article = document.toObject(Article::class.java)
@@ -756,7 +766,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                     }
 
                     val list = mutableListOf<Event>()
-                    for (document in snapshot!!) {
+                    snapshot?.forEach { document ->
                         Logger.d(document.id + " => " + document.data)
 
                         val event = document.toObject(Event::class.java)
@@ -776,7 +786,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
         var success = 0
 
         document
-                .update("invitation",FieldValue.arrayRemove(userEmail))
+                .update("invitation", FieldValue.arrayRemove(userEmail))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
@@ -801,7 +811,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
 
         document
-                .update("attendees",FieldValue.arrayUnion(userEmail))
+                .update("attendees", FieldValue.arrayUnion(userEmail))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
@@ -826,7 +836,7 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
 
         document
-                .update("attendeesName",FieldValue.arrayUnion(userName))
+                .update("attendeesName", FieldValue.arrayUnion(userName))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Logger.i("Post: $event")
@@ -875,6 +885,27 @@ object MeTuRemoteDataSource : MeTuDataSource {
                 }
     }
 
+    override suspend fun firebaseAuthWithGoogle(account: GoogleSignInAccount?): Result<FirebaseUser> = suspendCoroutine { continuation ->
+        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+        val auth = FirebaseAuth.getInstance()
+        auth?.signInWithCredential(credential)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $credential")
+                        task.result?.let {
+                            continuation.resume(Result.Success(it.user))
+                        }
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents.")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MeTuApplication.instance.getString(R.string.you_shall_not_pass)))
+                    }
+                }
+    }
 
 
 }

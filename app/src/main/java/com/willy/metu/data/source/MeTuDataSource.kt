@@ -1,6 +1,8 @@
 package com.willy.metu.data.source
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
 import com.willy.metu.data.*
 
 interface MeTuDataSource {
@@ -62,5 +64,7 @@ interface MeTuDataSource {
     suspend fun acceptEvent(event: Event, userEmail: String, userName: String): Result<Boolean>
 
     suspend fun declineEvent(event: Event, userEmail: String): Result<Boolean>
+
+    suspend fun firebaseAuthWithGoogle(account : GoogleSignInAccount?): Result<FirebaseUser>
 
 }

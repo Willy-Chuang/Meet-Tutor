@@ -1,36 +1,29 @@
 package com.willy.metu.login
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import com.willy.metu.R
 import com.willy.metu.data.User
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.splash.SplashActivity
-import com.willy.metu.util.Logger
 import kotlinx.android.synthetic.main.activity_login.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class LoginActivity : AppCompatActivity() {
 
     val viewModel by viewModels<LoginViewModel> { getVmFactory() }
-    var auth : FirebaseAuth? = null
-    var googleSignInClient : GoogleSignInClient? = null
-    var GOOGLE_LOGIN_CODE = 9001
+    private var auth: FirebaseAuth? = null
+    private var googleSignInClient: GoogleSignInClient? = null
+    private var GOOGLE_LOGIN_CODE = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +35,18 @@ class LoginActivity : AppCompatActivity() {
             googleLogin()
         }
 
-        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("906661261750-eq9rl8502jk5v6at1ik754gfj7cm4t80.apps.googleusercontent.com")
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.token_id))
                 .requestEmail()
                 .build()
-        googleSignInClient = GoogleSignIn.getClient(this,gso)
-        //printHashKey()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+
+        viewModel.firebaseUser.observe(this, Observer {
+            it?.let {
+                moveMainPage(it)
+            }
+        })
 
     }
 
@@ -55,68 +54,38 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         moveMainPage(auth?.currentUser)
     }
-    fun printHashKey() {
-        try {
-            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey = String(Base64.encode(md.digest(), 0))
-                Logger.i("printHashKey() Hash Key: $hashKey")
-            }
-        } catch (e: NoSuchAlgorithmException) {
-            Logger.e("$e")
-        } catch (e: Exception) {
-            Logger.e("$e")
-        }
 
-    }
-    fun googleLogin(){
-        var signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent,GOOGLE_LOGIN_CODE)
+    private fun googleLogin() {
+        val signInIntent = googleSignInClient?.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == GOOGLE_LOGIN_CODE){
-            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result.isSuccess){
-                var account = result.signInAccount
+        if (requestCode == GOOGLE_LOGIN_CODE) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result.isSuccess) {
+                val account = result.signInAccount
                 //Second step
-                firebaseAuthWithGoogle(account)
+                viewModel.loginAuth(account)
             }
         }
     }
-    fun firebaseAuthWithGoogle(account : GoogleSignInAccount?){
-        var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
-        auth?.signInWithCredential(credential)
-                ?.addOnCompleteListener {
-                    task ->
-                    if(task.isSuccessful){
-                        //Login
-                        moveMainPage(task.result?.user)
-                    }else{
-                        //Show the error message
-                        Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
-                    }
-                }
-    }
 
-    fun moveMainPage(user:FirebaseUser?){
-        if(user != null){
-            var currentUser = User(image = user.photoUrl.toString(),
+
+    private fun moveMainPage(user: FirebaseUser?) {
+        if (user != null) {
+            val currentUser = User(image = user.photoUrl.toString(),
                     email = user.email.toString(),
                     name = user.displayName.toString())
-
 
             UserManager.user = currentUser
             viewModel.postUser(currentUser)
 
             startActivity(Intent(this, SplashActivity::class.java))
             overridePendingTransition(0, android.R.anim.fade_out)
-
             finish()
         }
     }

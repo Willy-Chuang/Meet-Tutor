@@ -138,6 +138,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -196,6 +197,7 @@
                 android:layout_marginTop="16dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@id/title_new_user"
                 app:layout_constraintTop_toBottomOf="@id/title_new_user"
@@ -232,6 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="@id/title_article"
                 app:layout_constraintTop_toBottomOf="@id/title_article"
                 tools:itemCount="1" />

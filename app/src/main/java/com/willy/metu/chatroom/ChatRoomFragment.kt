@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.willy.metu.MainActivity
 import com.willy.metu.MeTuApplication
+import com.willy.metu.R
 import com.willy.metu.databinding.FragmentChatroomBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -27,6 +28,8 @@ class ChatRoomFragment : Fragment() {
         )
     }
 
+    lateinit var binding: FragmentChatroomBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -38,7 +41,7 @@ class ChatRoomFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentChatroomBinding.inflate(inflater, container, false)
+        binding = FragmentChatroomBinding.inflate(inflater, container, false)
         val adapter = ChatRoomAdapter()
         binding.viewModel = viewModel
         binding.recyclerMessage.adapter = adapter
@@ -47,28 +50,27 @@ class ChatRoomFragment : Fragment() {
         val myUserEmail = UserManager.user.email
         val friendUserEmail = viewModel.currentChattingUser
 
-        viewModel.enterMessage.observe(viewLifecycleOwner, Observer {
-            Logger.d(it)
-        })
-
-        binding.buttonSendText.setOnClickListener {
-            if (viewModel.enterMessage.value == null) {
-                Toast.makeText(MeTuApplication.appContext, " Please send something", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.postMessage(viewModel.getUserEmails(myUserEmail, friendUserEmail), viewModel.getMessage())
-                binding.editMessage.text.clear()
-            }
-        }
-
-        viewModel.allLiveMessage.observe(viewLifecycleOwner, Observer {
-
-            adapter.submitList(it)
-
-        })
-
+        // Setup custom toolbar
         if (activity is MainActivity) {
             (activity as MainActivity).setSupportActionBar(binding.toolbar)
         }
+
+        binding.buttonSendText.setOnClickListener {
+            if (isEmpty()) {
+                Toast.makeText(MeTuApplication.appContext, getString(R.string.reminder_chatroom_message), Toast.LENGTH_SHORT).show()
+            } else {
+                sendMessage(myUserEmail, friendUserEmail)
+            }
+        }
+
+        // Observers
+        viewModel.allLiveMessage.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+
+        viewModel.enterMessage.observe(viewLifecycleOwner, Observer {
+            Logger.d(it)
+        })
 
         return binding.root
 
@@ -81,4 +83,18 @@ class ChatRoomFragment : Fragment() {
         }
         return false
     }
+
+    fun isEmpty(): Boolean {
+        return when (viewModel.enterMessage.value) {
+            null -> true
+            else -> false
+        }
+    }
+
+    private fun sendMessage(myEmail: String, friendEmail: String) {
+        viewModel.postMessage(viewModel.getUserEmails(myEmail, friendEmail), viewModel.getMessage())
+        binding.editMessage.text.clear()
+    }
+
+
 }

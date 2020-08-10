@@ -1,6 +1,5 @@
 package com.willy.metu.pair
 
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +17,7 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.R
 import com.willy.metu.databinding.FragmentQuestionnaireThreeBinding
 import com.willy.metu.ext.getVmFactory
-import com.willy.metu.util.Logger
+import com.willy.metu.util.GenderType
 
 class QuestionnaireThreeFragment : Fragment() {
     private val viewModel by viewModels<QuestionnaireThreeViewModel> {
@@ -26,6 +25,7 @@ class QuestionnaireThreeFragment : Fragment() {
                 QuestionnaireThreeFragmentArgs.fromBundle(requireArguments()).selectedAnswers
         )
     }
+    lateinit var binding: FragmentQuestionnaireThreeBinding
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -34,29 +34,15 @@ class QuestionnaireThreeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentQuestionnaireThreeBinding.inflate(inflater, container, false)
-
-        // Initialize answers from the previous page
-        viewModel.navigateToResult.value = viewModel.previousAnswers
+        binding = FragmentQuestionnaireThreeBinding.inflate(inflater, container, false)
 
 
         // Setup gender selection
-        // Set initial state to false
-        viewModel.isPressed.value = ""
-
         binding.buttonMale.setOnClickListener {
-            if (viewModel.isPressed.value == "Male") {
-                viewModel.isPressed.value = ""
-            } else {
-                viewModel.isPressed.value = "Male"
-            }
+            viewModel.setupMaleButton()
         }
         binding.buttonFemale.setOnClickListener {
-            if (viewModel.isPressed.value == "Female") {
-                viewModel.isPressed.value = ""
-            } else {
-                viewModel.isPressed.value = "Female"
-            }
+            viewModel.setupFemaleButton()
         }
 
         // Setup leave sequence with a dialog
@@ -66,54 +52,83 @@ class QuestionnaireThreeFragment : Fragment() {
 
         // Setup Finish button
         binding.buttonFinish.setOnClickListener {
-            if (viewModel.isPressed.value == "") {
-                Toast.makeText(MeTuApplication.appContext, "Please select a gender", Toast.LENGTH_SHORT).show()
-            } else {
-                Logger.w("viewModel.navigateToResult.value=${viewModel.navigateToResult.value!!.apply {
-                    gender = viewModel.isPressed.value.toString()
-                }}")
-                findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!.apply {
-                    gender = viewModel.isPressed.value.toString()
-                }))
+
+            if (isFinished()) {
+                navigateToNext()
             }
         }
 
         // Setup Skip button
-        binding.buttonSkip.setOnClickListener {
-            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(viewModel.navigateToResult.value!!))
+        binding.buttonSkip.setOnClickListener { _ ->
+            viewModel.navigateToResult.value?.let {
+                findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(it))
+            }
         }
 
 
-        //Observe boolean liveData to set bg color for indication
+        //Observe liveData to set bg drawable for indication
         viewModel.isPressed.observe(viewLifecycleOwner, Observer {
-            if (it == "Male") {
-                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy_picked)
-                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
-            } else if (it == "Female") {
-                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
-                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl_picked)
-            } else {
-                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
-                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
-            }
+            setupDrawable(it)
         })
-
 
 
         return binding.root
 
     }
 
-    fun setDialog() {
+    private fun setDialog() {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setCancelable(true)
-        alertDialogBuilder.setTitle("Sure To Leave?")
-        alertDialogBuilder.setMessage("Leaving will lead to losing record of the questionnaire")
-        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { which, i -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) })
-        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, i -> which.cancel() })
+        alertDialogBuilder.setTitle(getString(R.string.dialog_leave_title))
+        alertDialogBuilder.setMessage(getString(R.string.dialog_leave_content))
+        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> findNavController().navigate(NavigationDirections.navigateToHomeFragment()) }
+        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.cancel() }
         alertDialogBuilder.show()
 
     }
+
+    private fun isFinished(): Boolean {
+        return when (viewModel.isPressed.value) {
+            "" -> {
+                Toast.makeText(MeTuApplication.appContext, getString(R.string.reminder_select_gender), Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
+    private fun navigateToNext() {
+
+        viewModel.navigateToResult.value?.let {
+            findNavController().navigate(NavigationDirections.navigateToPairingResultFragment(it.apply {
+                gender = viewModel.isPressed.value.toString()
+            }))
+        }
+
+    }
+
+    private fun setupDrawable(gender: String) {
+
+        when (gender) {
+            GenderType.TYPE_MALE.value -> {
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy_picked)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
+            }
+            GenderType.TYPE_FEMALE.value -> {
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl_picked)
+            }
+            else -> {
+                binding.buttonMale.background = MeTuApplication.instance.getDrawable(R.drawable.image_boy)
+                binding.buttonFemale.background = MeTuApplication.instance.getDrawable(R.drawable.image_girl)
+            }
+        }
+
+
+    }
+
 
 }

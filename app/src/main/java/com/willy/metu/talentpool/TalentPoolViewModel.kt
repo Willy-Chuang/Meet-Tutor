@@ -16,18 +16,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel(){
+class TalentPoolViewModel(private val repository: MeTuRepository) : ViewModel() {
 
     var allLiveArticles = MutableLiveData<List<Article>>()
 
     var savedArticles = MutableLiveData<List<Article>>()
 
-    var isAdded = MutableLiveData<Boolean>()
+    private var _checked = MutableLiveData<Boolean>()
 
-    var checked = MutableLiveData<Boolean>()
+    val checked: LiveData<Boolean>
+        get() = _checked
 
-    var selectedType = MutableLiveData<String>()
+    private var _selectedType = MutableLiveData<String>()
 
+    val selectedType: LiveData<String>
+        get() = _selectedType
+
+    // Deleted article title for snack bar to show
+    private val _deletedArticleTitle = MutableLiveData<String>()
+
+    val deletedArticleTitle: LiveData<String>
+        get() = _deletedArticleTitle
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private var _status = MutableLiveData<LoadApiStatus>()
@@ -66,12 +75,12 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     }
 
-    fun getAllLiveArticles(){
+    private fun getAllLiveArticles() {
         allLiveArticles = repository.getAllLiveArticle()
         _status.value = LoadApiStatus.DONE
     }
 
-    fun addArticlesToWishlist(article: Article, userEmail: String){
+    fun addArticlesToWishlist(article: Article, userEmail: String) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -80,7 +89,6 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    isAdded.value = result.data
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -98,7 +106,7 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
         }
     }
 
-    fun getAllLiveSavedArticles(userEmail: String) {
+    private fun getAllLiveSavedArticles(userEmail: String) {
         savedArticles = repository.getAllLiveSavedArticles(userEmail)
         _status.value = LoadApiStatus.DONE
     }
@@ -130,9 +138,17 @@ class TalentPoolViewModel (private val repository: MeTuRepository) : ViewModel()
 
     }
 
+    fun setType(type: String) {
+        _selectedType.value = type
+    }
 
+    fun isChecked(value: Boolean) {
+        _checked.value = value
+    }
 
-
+    fun passDeletedTitle(title: String) {
+        _deletedArticleTitle.value = title
+    }
 
 
 }

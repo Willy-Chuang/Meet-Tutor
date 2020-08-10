@@ -15,6 +15,7 @@ import com.google.android.material.chip.Chip
 import com.willy.metu.MainViewModel
 import com.willy.metu.NavigationDirections
 import com.willy.metu.R
+import com.willy.metu.data.User
 import com.willy.metu.databinding.FragmentProfileBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.util.Logger
@@ -23,6 +24,7 @@ import com.willy.metu.util.Logger
 class ProfileFragment : Fragment() {
 
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
+    lateinit var binding: FragmentProfileBinding
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -30,23 +32,11 @@ class ProfileFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentProfileBinding.inflate(inflater, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
         val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-
-        //Setup chips to show user's tags
-//        val chipGroup = binding.chipGroup
-//        val genres = viewModel.personalInfo.value?.tag
-//
-//        if (genres != null) {
-//            for (genre in genres) {
-//                val chip = Chip(chipGroup.getContext())
-//                chip.text = genre
-//                chipGroup.addView(chip)
-//            }
-//        }
 
         // When Edit button is pressed, navigate to edit mode
         mainViewModel.editIsPressed.observe(viewLifecycleOwner, Observer {
@@ -57,24 +47,25 @@ class ProfileFragment : Fragment() {
         })
 
         viewModel.personalInfo.observe(viewLifecycleOwner, Observer {
+
+            setupChips(it)
+
             Logger.i(it.toString())
-            //Setup chips to show user's tags
-            val chipGroup = binding.chipGroup
-
-            val genres = it.tag
-//            val rippleColor = MeTuApplication.instance.getColorStateList(R.color.transparent)
-
-            if (genres != null) {
-                for (genre in genres) {
-//                    val chip = Chip(chipGroup.getContext())
-                    val chip = Chip(context, null, R.attr.CustomChipChoice)
-                    chip.text = genre
-                    chipGroup.addView(chip)
-                }
-            }
         })
 
 
         return binding.root
+    }
+
+    private fun setupChips(user: User) {
+        val chipGroup = binding.chipGroup
+        val subjects = user.tag
+
+        for (subject in subjects) {
+
+            val chip = Chip(context, null, R.attr.CustomChipChoice)
+            chip.text = subject
+            chipGroup.addView(chip)
+        }
     }
 }

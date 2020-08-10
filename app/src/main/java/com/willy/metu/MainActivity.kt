@@ -1,7 +1,6 @@
 package com.willy.metu
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
@@ -33,7 +32,7 @@ import com.willy.metu.util.Logger
 import java.util.*
 
 
-class MainActivity() : BaseActivity() {
+class MainActivity : BaseActivity() {
 
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
@@ -91,7 +90,7 @@ class MainActivity() : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.drawerNavView.setNavigationItemSelectedListener(onDrawerItemSelectedListener)
@@ -147,7 +146,6 @@ class MainActivity() : BaseActivity() {
     }
 
     // Setup side menu for an icon of calendar
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.toolbar_menu, menu)
@@ -155,24 +153,24 @@ class MainActivity() : BaseActivity() {
         // If the current fragment is -- ,calendar button won't inflate
         viewModel.currentFragmentType.observe(this, Observer { type ->
             type?.let {
-                menu.findItem(R.id.talent_pool).isVisible = when (it) {
+                menu.findItem(R.id.item_talent_pool).isVisible = when (it) {
                     CurrentFragmentType.TALENTPOOL -> true
                     else -> false
                 }
-                menu.findItem(R.id.calendarFragment).isVisible = when (it) {
+                menu.findItem(R.id.item_calendar).isVisible = when (it) {
                     CurrentFragmentType.CALENDAR,
                     CurrentFragmentType.PROFILE,
                     CurrentFragmentType.EDITPROFILE -> false
                     else -> true
                 }
-                val profileModeMenu = menu.findItem(R.id.profile_mode)
+                val profileModeMenu = menu.findItem(R.id.item_profile_mode)
                 profileModeMenu.isVisible = when (it) {
                     CurrentFragmentType.PROFILE -> {
-                        profileModeMenu.title = "EDIT"
+                        profileModeMenu.title = getString(R.string.menu_item_title_edit)
                         true
                     }
                     CurrentFragmentType.EDITPROFILE -> {
-                        profileModeMenu.title = "SAVE"
+                        profileModeMenu.title = getString(R.string.menu_item_title_save)
                         true
                     }
                     else -> false
@@ -186,9 +184,9 @@ class MainActivity() : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
-            R.id.calendarFragment -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
-            R.id.profile_mode -> {
+            R.id.item_talent_pool -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostArticleDialog())
+            R.id.item_calendar -> findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCalendarFragment())
+            R.id.item_profile_mode -> {
                 when (item.title.toString().toLowerCase(Locale.ROOT)) {
                     "edit" -> viewModel.editIsPressed.value = true
                     "save" -> viewModel.saveIsPressed.value = true
@@ -208,7 +206,6 @@ class MainActivity() : BaseActivity() {
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
 
                 // Setup BottomNav selected as well as fragment title
-
                 R.id.startPairingFragment -> {
                     val pairing = binding.bottomNavView.menu.findItem(R.id.navigation_pairing)
                     pairing.isChecked = true
@@ -236,7 +233,6 @@ class MainActivity() : BaseActivity() {
                 }
 
                 // Setup fragment title
-
                 R.id.calendarFragment -> CurrentFragmentType.CALENDAR
                 R.id.questionnaireOneFragment -> CurrentFragmentType.PAIRONE
                 R.id.questionnaireTwoFragment -> CurrentFragmentType.PAIRTWO
@@ -266,7 +262,7 @@ class MainActivity() : BaseActivity() {
 
     private fun setupDrawer() {
 
-        // set up toolbar
+        // Set up toolbar
         val navController = this.findNavController(R.id.myNavHostFragment)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = null
@@ -340,7 +336,7 @@ class MainActivity() : BaseActivity() {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             val manager = supportFragmentManager
-            val count = manager.findFragmentById(R.id.myNavHostFragment)!!.childFragmentManager.backStackEntryCount
+            val count = manager.findFragmentById(R.id.myNavHostFragment)?.childFragmentManager?.backStackEntryCount
             if (count == 0) {
                 setDialog()
             } else {
@@ -355,10 +351,10 @@ class MainActivity() : BaseActivity() {
 
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setCancelable(true)
-        alertDialogBuilder.setTitle("Sure To Leave?")
-        alertDialogBuilder.setMessage("Leaving will close the app")
-        alertDialogBuilder.setPositiveButton("Sure", DialogInterface.OnClickListener { _, _ -> finish()})
-        alertDialogBuilder.setNegativeButton("Cancel", DialogInterface.OnClickListener { which, _ -> which.dismiss() })
+        alertDialogBuilder.setTitle(getString(R.string.dialog_leave_app_title))
+        alertDialogBuilder.setMessage(getString(R.string.dialog_leave_app_content))
+        alertDialogBuilder.setPositiveButton(getString(R.string.dialog_btn_pos)) { _, _ -> finish() }
+        alertDialogBuilder.setNegativeButton(getString(R.string.dialog_btn_neg)) { which, _ -> which.dismiss() }
         alertDialogBuilder.show()
 
     }

@@ -23,4 +23,8 @@
     <dimen name="radius_profile_avatar">80dp</dimen>
     <dimen name="full_size_button_height">48dp</dimen>
 
+    <!-- BottomSheet  -->
+    <item name="bottom_sheet_top_margin" format="float" type="dimen">16</item>
+
+
 </resources>

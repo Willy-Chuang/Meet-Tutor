@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserDetailViewModel (private val repository: MeTuRepository, private val userEmail: String): ViewModel(){
+class UserDetailViewModel(private val repository: MeTuRepository, private val userEmail: String) : ViewModel() {
 
     val selectedUserEmail = userEmail
 
@@ -31,7 +31,7 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
     private val _myArticles = MutableLiveData<List<Article>>()
 
-    val myArticles : LiveData<List<Article>>
+    val myArticles: LiveData<List<Article>>
         get() = _myArticles
 
 
@@ -71,33 +71,44 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        _status.value = LoadApiStatus.LOADING
         getUser(selectedUserEmail)
         getMyUserInfo(UserManager.user.email)
+        getMyArticle(selectedUserEmail)
+    }
+
+    private var doneProgressCount = 3
+    private fun doneProgress() {
+
+        doneProgressCount--
+        if (doneProgressCount == 0) _status.value = LoadApiStatus.DONE
     }
 
 
     fun getChatRoom(): ChatRoom {
 
-        var attendeeOne = UserInfo().apply {
+        val attendeeOne = UserInfo().apply {
             userEmail = UserManager.user.email
             userImage = UserManager.user.image
             userName = UserManager.user.name
         }
 
-        var attendeeTwo = UserInfo().apply {
+        val attendeeTwo = UserInfo().apply {
             userEmail = selectedUserEmail
-            userImage = userInfo.value!!.image
-            userName = userInfo.value!!.name
+
+            userInfo.value?.let {
+                userImage = it.image
+                userName = it.name
+            }
         }
 
-        var attendeeList = listOf(UserManager.user.email, userInfo.value!!.email)
-
+        val attendeeList = listOf(UserManager.user.email, userInfo.value?.email.toString())
 
 
         return ChatRoom(
                 chatRoomId = "",
                 latestTime = 0,
-                attendeesInfo = listOf(attendeeOne,attendeeTwo),
+                attendeesInfo = listOf(attendeeOne, attendeeTwo),
                 attendees = attendeeList
         )
     }
@@ -107,12 +118,9 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             when (val result = repository.postChatRoom(chatRoom)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -135,14 +143,12 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
     fun getUser(userEmail: String) {
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             val result = repository.getUser(userEmail)
 
             _userInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -167,14 +173,12 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
     fun getMyUserInfo(userEmail: String) {
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
             val result = repository.getUser(userEmail)
 
             _myInfo.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {
@@ -201,20 +205,14 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
         _leave.value = needRefresh
     }
 
-    fun onLeft() {
-        _leave.value = null
-    }
 
     fun postUserToFollow(userEmail: String, user: User) {
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
-            when (val result = repository.postUserToFollow(userEmail,user)) {
+            when (val result = repository.postUserToFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -238,12 +236,9 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
-
-            when (val result = repository.removeUserFromFollow(userEmail,user)) {
+            when (val result = repository.removeUserFromFollow(userEmail, user)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -263,18 +258,16 @@ class UserDetailViewModel (private val repository: MeTuRepository, private val u
 
     }
 
-    fun getMyArticle(userEmail: String) {
+    private fun getMyArticle(userEmail: String) {
 
         coroutineScope.launch {
-
-            _status.value = LoadApiStatus.LOADING
 
             val result = repository.getMyArticle(userEmail)
 
             _myArticles.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    doneProgress()
                     result.data
                 }
                 is Result.Fail -> {

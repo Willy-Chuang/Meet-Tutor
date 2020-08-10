@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.willy.metu.profile.EditProfileViewModel" />
+            type="com.willy.metu.editprofile.EditProfileViewModel" />
     </data>
 
     <ScrollView

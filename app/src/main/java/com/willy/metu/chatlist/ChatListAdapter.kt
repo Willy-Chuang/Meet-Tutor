@@ -2,26 +2,21 @@ package com.willy.metu.chatlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.net.toUri
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.willy.metu.NavigationDirections
-import com.willy.metu.R
-import com.willy.metu.bindImage
 import com.willy.metu.data.ChatRoom
 import com.willy.metu.databinding.ItemChatListBinding
 
-class ChatListAdapter () : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCallback){
+class ChatListAdapter : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCallback){
     class ChatRoomViewHolder(private var binding: ItemChatListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(chatRoom: ChatRoom){
 
             binding.chatRoom = chatRoom
 
+            // Chat room has been filtered, the attendee info only holds the other user's info
             val friendInfo = chatRoom.attendeesInfo.first()
 
             binding.textChatName.text = friendInfo.userName
@@ -66,19 +61,6 @@ class ChatListAdapter () : ListAdapter<ChatRoom, RecyclerView.ViewHolder>(DiffCa
 
     override fun getItemViewType(position: Int): Int {
         return ITEM_VIEW_TYPE_EVENT
-    }
-
-    fun bindImage(imgView: ImageView, imgUrl: String?) {
-        imgUrl?.let {
-            val imgUri = it.toUri().buildUpon().build()
-            Glide.with(imgView.context)
-                    .load(imgUri)
-                    .apply(
-                            RequestOptions()
-                                    .placeholder(R.drawable.ic_face_black_24)
-                                    .error(R.drawable.ic_face_black_24))
-                    .into(imgView)
-        }
     }
 
 

@@ -10,13 +10,13 @@ import com.willy.metu.NavigationDirections
 import com.willy.metu.data.User
 import com.willy.metu.databinding.ItemNewChatBinding
 
-class NewChatAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback){
-    class UserViewHolder(private var binding: ItemNewChatBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(User: User){
+class NewChatAdapter : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback) {
+    class UserViewHolder(private var binding: ItemNewChatBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(User: User) {
             binding.user = User
 
             binding.layoutCardUser.setOnClickListener {
-                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToChatRoom(User.email,User.name)).onClick(binding.layoutCardUser)
+                Navigation.createNavigateOnClickListener(NavigationDirections.navigateToChatRoom(User.email, User.name)).onClick(binding.layoutCardUser)
             }
 
             binding.executePendingBindings()
@@ -27,16 +27,17 @@ class NewChatAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallbac
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem.id == newItem.id
         }
 
-        private const val ITEM_VIEW_TYPE_EVENT = 0x00
+        private const val ITEM_VIEW_TYPE_CHAT_ROOM = 0x00
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_EVENT -> UserViewHolder(ItemNewChatBinding.inflate(
+            ITEM_VIEW_TYPE_CHAT_ROOM -> UserViewHolder(ItemNewChatBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -44,7 +45,7 @@ class NewChatAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallbac
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        when(holder) {
+        when (holder) {
             is UserViewHolder -> {
                 holder.bind((getItem(position) as User))
             }
@@ -52,6 +53,6 @@ class NewChatAdapter () : ListAdapter<User, RecyclerView.ViewHolder>(DiffCallbac
     }
 
     override fun getItemViewType(position: Int): Int {
-        return ITEM_VIEW_TYPE_EVENT
+        return ITEM_VIEW_TYPE_CHAT_ROOM
     }
 }

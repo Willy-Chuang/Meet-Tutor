@@ -1,6 +1,7 @@
 package com.willy.metu.home
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.willy.metu.MeTuApplication
@@ -10,6 +11,7 @@ import com.willy.metu.data.Result
 import com.willy.metu.data.User
 import com.willy.metu.data.source.MeTuRepository
 import com.willy.metu.ext.excludeUser
+import com.willy.metu.ext.sortArticleBySubject
 import com.willy.metu.ext.sortUserBySubject
 import com.willy.metu.login.UserManager
 import com.willy.metu.network.LoadApiStatus
@@ -26,8 +28,11 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
     val allUsers: LiveData<List<User>>
         get() = _allUsers
 
-    val biasSubject = MutableLiveData<String>()
+    // Bias subject, which is the user's first selected subject
+    private val _biasSubject = MutableLiveData<String>()
 
+    val biasSubject: LiveData<String>
+        get() = _biasSubject
 
     private val _newUsers = MutableLiveData<List<User>>()
 
@@ -86,13 +91,13 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
     }
 
     var doneProgressCount = 4
-    fun doneProgress() {
+    private fun doneProgress() {
 
         doneProgressCount--
         if (doneProgressCount == 0) _status.value = LoadApiStatus.DONE
     }
 
-    fun getNewestFiveUsers() {
+    private fun getNewestFiveUsers() {
 
         coroutineScope.launch {
 
@@ -136,7 +141,6 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
             _allUsers.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-//                    _status.value = LoadApiStatus.DONE
                     doneProgress()
                     result.data
                 }
@@ -193,7 +197,7 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
 
 
     // Articles
-    fun getOneArticle() {
+    private fun getOneArticle() {
 
         coroutineScope.launch {
 
@@ -251,7 +255,7 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
         }
     }
 
-    fun getAllLiveSavedArticles(userEmail: String) {
+    private fun getAllLiveSavedArticles(userEmail: String) {
         savedArticles = repository.getAllLiveSavedArticles(userEmail)
     }
 
@@ -260,12 +264,52 @@ class HomeViewModel(private val repository: MeTuRepository) : ViewModel() {
         return !(userInfo?.identity == "" && userInfo?.tag.isNullOrEmpty())
     }
 
-    fun excludeUserFromList(subject: String) {
-        allUsers.value.excludeUser().sortUserBySubject(subject)
+    fun setBiasSubject(subject: String) {
+        _biasSubject.value = subject
+    }
+
+    val recommendedUserList = MediatorLiveData<List<User>>().apply {
+        addSource(allUsers) { users ->
+            value = when (users) {
+                null -> null
+                else -> when (val string = biasSubject.value) {
+                    null -> null
+                    else -> users.excludeUser().sortUserBySubject(string)
+                }
+            }
+        }
+        addSource(biasSubject) { subject ->
+            value = when (subject) {
+                null -> null
+                else -> when (allUsers.value) {
+                    null -> null
+                    else -> allUsers.value.excludeUser().sortUserBySubject(subject)
+                }
+            }
+        }
+    }
+
+    val recommendedArticleList = MediatorLiveData<List<Article>>().apply {
+        addSource(oneArticle) { articles ->
+            value = when (articles) {
+                null -> null
+                else -> when (val string = biasSubject.value) {
+                    null -> null
+                    else -> articles.sortArticleBySubject(string)
+                }
+            }
+        }
+        addSource(biasSubject) { subject ->
+            value = when (subject) {
+                null -> null
+                else -> when (oneArticle.value) {
+                    null -> null
+                    else -> oneArticle.value.sortArticleBySubject(subject)
+                }
+            }
+
+        }
     }
 
 
-    fun onLoaded() {
-        _status.value = LoadApiStatus.DONE
-    }
 }

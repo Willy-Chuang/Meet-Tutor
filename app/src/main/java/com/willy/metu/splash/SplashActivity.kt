@@ -12,8 +12,7 @@ import com.willy.metu.databinding.ActivitySplashBinding
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
-    private val duration = 1000L
-    private val await = 1500L
+    private val duration = 2500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,21 +21,12 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
 
-            Handler().postDelayed({
+            startActivity(Intent(this, MainActivity::class.java))
 
-                startActivity(Intent(this, MainActivity::class.java))
+            finish()
 
-                leave(this)
-
-            }, duration)
-        }, await)
+        }, duration)
     }
 
-
-
-
-    fun leave(view: SplashActivity) {
-        finish()
-    }
 
 }
