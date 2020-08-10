@@ -33,6 +33,7 @@ class UserDetailFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUserDetailBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
         // Setup back button
@@ -78,30 +79,10 @@ class UserDetailFragment : Fragment() {
             chip.text = genre
             chipGroup.addView(chip)
         }
-        binding.textUserName.text = user.name
-        binding.textUserIdentity.text = user.identity
-        binding.textProfileCity.text = user.city
-        binding.textProfileDistrict.text = user.district
-        binding.textIntroduction.text = user.introduction
-        binding.textExperience.text = user.experience
-        binding.imageUrl = user.image
 
-        binding.buttonMessage.setOnClickListener { _ ->
+        binding.buttonMessage.setOnClickListener {
             viewModel.createChatRoom(viewModel.getChatRoom())
             Handler().postDelayed({ findNavController().navigate(NavigationDirections.navigateToChatRoom(user.email, user.name)) }, 500)
-        }
-
-
-        if (user.followingEmail.isEmpty()) {
-            binding.textFollowing.text = "0"
-        } else {
-            binding.textFollowing.text = user.followingEmail.size.toString()
-        }
-
-        if (user.followedBy.isEmpty()) {
-            binding.textFollowBy.text = "0"
-        } else {
-            binding.textFollowBy.text = user.followedBy.size.toString()
         }
 
     }
