@@ -28,6 +28,12 @@ buildscript {
         }
         
     }
+
+    configurations {
+        androidTestImplementation.exclude module: 'guava'
+        androidTestImplementation.exclude module: 'error_prone_annotations'
+        androidTestImplementation.exclude module: 'checker-qual'
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

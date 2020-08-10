@@ -109,4 +109,29 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.7.0-SNAPSHOT@aar') {
         transitive = true;
     }
+
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.2.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    testImplementation 'com.google.truth:truth:1.0.1'
+
+
+    //Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'com.google.guava:guava:26.0-android'
+
+//    androidTestImplementation ("androidx.test.ext:truth:1.1.0") {
+//        exclude group: "com.google.truth", module: "truth"
+//    }
+//
+//    androidTestImplementation ("com.google.truth:truth:0.44") {
+//        exclude group: "org.checkerframework", module: "checker-compat-qual"
+//        exclude group: "com.google.errorprone", module: "error_prone_annotations"
+//    }
+
 }
