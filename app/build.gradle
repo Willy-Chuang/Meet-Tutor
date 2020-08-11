@@ -110,6 +110,10 @@ dependencies {
         transitive = true;
     }
 
+    //Worker
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+
     // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.12'
     // Optional -- Robolectric environment
