@@ -56,6 +56,12 @@ class PostEventDialogViewModel(
     val invitation : LiveData<String>
         get() = _invitation
 
+    private val _invitationName = MutableLiveData<String>()
+
+    val invitationName : LiveData<String>
+        get() = _invitationName
+
+
     private val _type = MutableLiveData<String>()
 
     val type : LiveData<String>
@@ -132,12 +138,12 @@ class PostEventDialogViewModel(
                 description = description.value.toString(),
                 attendees = attendees,
                 attendeesName = attendeesName,
-                eventTime = eventTime.value ?: -1,
+                eventTime = eventTime.value ?: -1L,
                 invitation = invitation,
                 creatorName = UserManager.user.name,
                 creatorImage = UserManager.user.image,
-                startTime = if (isAllDay.value == false) startTime.value ?: -1 else -1,
-                endTime = if (isAllDay.value == false) endTime.value ?: -1 else -1,
+                startTime = if (isAllDay.value == false) startTime.value ?: -1L else -1L,
+                endTime = if (isAllDay.value == false) endTime.value ?: -1L else -1L,
                 tag = type.value.toString()
         )
     }
@@ -230,8 +236,13 @@ class PostEventDialogViewModel(
         _type.value = selectedType
     }
 
-    fun setInvitation(pos: Int) {
+    fun setInvitation(pos: Int, name: String) {
         _invitation.value = userInfo.value?.followingEmail?.get(pos - 1).toString()
+        _invitationName.value = name
+    }
+
+    fun setInvitedName(pos: Int) {
+        userInfo.value?.followingName
     }
 
     fun checkIfComplete(): Boolean {
