@@ -8,6 +8,8 @@ import com.willy.metu.util.KEY_EVENT_CONTENT
 import com.willy.metu.util.KEY_EVENT_TIME
 import com.willy.metu.util.ServiceLocator
 import com.willy.metu.worker.MyWorker
+import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class MeTuApplication : Application() {
@@ -31,6 +33,9 @@ class MeTuApplication : Application() {
 
     fun setWork (eventTime: Long, eventContent: String) {
 
+        // Set firing time 6 hours early
+        val diffTime = eventTime - 21600000 - Calendar.getInstance().timeInMillis
+
         // Create the Constraints
         val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -43,6 +48,7 @@ class MeTuApplication : Application() {
         val uploadWorkRequest = OneTimeWorkRequestBuilder<MyWorker>()
                 .setInputData(eventData)
                 .setConstraints(constraints)
+                .setInitialDelay(diffTime, TimeUnit.MILLISECONDS)
                 .build()
 
         // Set work

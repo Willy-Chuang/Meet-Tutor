@@ -32,8 +32,8 @@ import java.util.*
 
 class PostEventDialogFragment : AppCompatDialogFragment() {
 
-    val TIME_PICKER_TYPE_START = 0x01
-    val TIME_PICKER_TYPE_END = 0x02
+    private val TIME_PICKER_TYPE_START = 0x01
+    private val TIME_PICKER_TYPE_END = 0x02
 
     private val viewModel by viewModels<PostEventDialogViewModel> {
         getVmFactory(
@@ -130,7 +130,9 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             if (viewModel.checkIfComplete()) {
                 val event = viewModel.getEvent(UserManager.user.email)
 
-                if (viewModel.startTime.value == -1L) {
+                Logger.i("${viewModel.startTime.value}")
+
+                if (viewModel.startTime.value == null) {
                     MeTuApplication.instance.setWork(event.eventTime, getFullTimeEventContent(event).toString())
                 } else {
                     MeTuApplication.instance.setWork(event.eventTime, getStartTimeEventContent(event).toString())
@@ -219,16 +221,15 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
     private fun getFullTimeEventContent(event: Event): SpannableStringBuilder {
         return SpannableStringBuilder()
                 .append(event.title)
-                .append(" with")
+                .append(" with ")
                 .bold { append(viewModel.invitationName.value) }
-                .append(" is starting at ")
-                .bold { append(TimeUtil.stampToDate(event.eventTime)) }
+                .append(" is starting tomorrow ")
     }
 
     private fun getStartTimeEventContent(event: Event): SpannableStringBuilder {
         return SpannableStringBuilder()
                 .append(event.title)
-                .append(" with")
+                .append(" with ")
                 .bold { append(viewModel.invitationName.value) }
                 .append(" is starting at tomorrow ")
                 .bold { append(TimeUtil.stampToTime(event.startTime)) }
