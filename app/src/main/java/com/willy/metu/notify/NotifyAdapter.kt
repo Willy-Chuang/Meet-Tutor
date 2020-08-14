@@ -15,6 +15,7 @@ import com.willy.metu.calendar.CalendarBottomSheetAdapter
 import com.willy.metu.data.Event
 import com.willy.metu.databinding.ItemNotifyEventBinding
 import com.willy.metu.login.UserManager
+import com.willy.metu.util.TimeUtil
 
 class NotifyAdapter(val viewModel: NotifyViewModel) : ListAdapter<Event, RecyclerView.ViewHolder>(CalendarBottomSheetAdapter) {
 
@@ -39,9 +40,34 @@ class NotifyAdapter(val viewModel: NotifyViewModel) : ListAdapter<Event, Recycle
 
             binding.buttonAccept.setOnClickListener {
                 viewModel.acceptEvent(event, UserManager.user.email, UserManager.user.name)
+
+                if (event.startTime == -1L) {
+                    MeTuApplication.instance.setWork(event.eventTime, getFullTimeEventContent(event).toString())
+                } else {
+                    MeTuApplication.instance.setWork(event.eventTime, getStartTimeEventContent(event).toString())
+                }
             }
 
+
+
             binding.executePendingBindings()
+        }
+
+        private fun getFullTimeEventContent(event: Event): SpannableStringBuilder {
+            return SpannableStringBuilder()
+                    .append(event.title)
+                    .append(" with ")
+                    .bold { append(event.creatorName) }
+                    .append(" is starting tomorrow ")
+        }
+
+        private fun getStartTimeEventContent(event: Event): SpannableStringBuilder {
+            return SpannableStringBuilder()
+                    .append(event.title)
+                    .append(" with ")
+                    .bold { append(event.creatorName) }
+                    .append(" is starting at tomorrow ")
+                    .bold { append(TimeUtil.stampToTime(event.startTime)) }
         }
     }
 
