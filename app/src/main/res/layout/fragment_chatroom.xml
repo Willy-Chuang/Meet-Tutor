@@ -55,7 +55,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_chatroom_edittext"
-                android:hint="Message..."
+                android:hint="@string/indicator_message"
                 android:paddingVertical="8dp"
                 android:paddingStart="24dp"
                 android:paddingEnd="56dp"

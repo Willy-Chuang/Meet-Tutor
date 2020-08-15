@@ -15,25 +15,25 @@
             android:id="@+id/title_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
-            android:text="Message"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto"
+            android:text="@string/message"
             android:textColor="@color/black_87_alpha"
             android:textSize="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_chat_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:paddingHorizontal="24dp"
             android:clipChildren="false"
+            android:paddingHorizontal="24dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_message"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_chat_list" />
 
 
@@ -41,11 +41,11 @@
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
-            app:srcCompat="@drawable/ic_add_white_24"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:srcCompat="@drawable/ic_add_white_24" />
 
         <ImageView
             android:id="@+id/no_value_image"
@@ -53,24 +53,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/image_message_no_value"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/image_message_no_value" />
 
         <TextView
             android:id="@+id/no_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="No Message"
-            android:visibility="gone"
-            android:textSize="24sp"
+            android:text="@string/no_message"
             android:textColor="@color/gray_cccccc"
-            app:layout_constraintTop_toBottomOf="@id/no_value_image"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/no_value_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

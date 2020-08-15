@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_profile_basic_section"
@@ -141,7 +141,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Identity"
+                        android:text="@string/identity"
                         android:textColor="@color/black_36_alpha"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Gender"
+                        android:text="@string/gender"
                         android:textColor="@color/black_36_alpha"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:textColor="@color/black_36_alpha"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -233,7 +233,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Introduction"
+                    android:text="@string/introduction"
                     android:textColor="@color/black_36_alpha"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -261,7 +261,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Experience"
+                    android:text="@string/experience"
                     android:textColor="@color/black_36_alpha"
                     android:textSize="16sp"
                     android:textStyle="bold"

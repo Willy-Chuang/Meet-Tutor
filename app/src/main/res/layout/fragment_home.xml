@@ -6,8 +6,10 @@
     <data>
 
         <import type="com.willy.metu.login.UserManager" />
-        <import type="com.willy.metu.network.LoadApiStatus"/>
-        <import type="android.view.View"/>
+
+        <import type="com.willy.metu.network.LoadApiStatus" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -25,8 +27,6 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="36dp"
-                android:text="Welcome back"
+                android:text="@string/welcome_back"
                 android:textColor="@color/black_87_alpha"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="4dp"
-                android:text="A new day of learning begins!"
+                android:text="@string/greetings"
                 android:textColor="@color/black_54_alpha"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/text_welcome"
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto"
-                android:text="Recommendation based on interest:"
+                android:text="@string/recommendation"
                 android:textColor="@color/black_87_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -138,8 +138,8 @@
                     android:layout_marginHorizontal="16dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -149,28 +149,28 @@
                     android:id="@+id/no_value_recommendation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_marginStart="16dp"
-                    android:text="No Recommendations: "
                     android:fontFamily="@font/roboto"
+                    android:text="@string/no_recommendations"
                     android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/no_value_recommendation_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:visibility="gone"
-                    android:textSize="14sp"
-                    android:text="SETUP SUBJECT BIAS"
                     android:fontFamily="@font/roboto"
+                    android:text="@string/btn_setup_subject_bias"
                     android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/no_value_recommendation"
                     app:layout_constraintStart_toEndOf="@id/no_value_recommendation"
-                    app:layout_constraintTop_toTopOf="@id/no_value_recommendation"
-                    app:layout_constraintBottom_toBottomOf="@id/no_value_recommendation"/>
+                    app:layout_constraintTop_toTopOf="@id/no_value_recommendation" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Newly On Board"
+                android:text="@string/newly_on_board"
                 android:textColor="@color/black_87_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -197,8 +197,8 @@
                 android:layout_marginTop="16dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="@id/title_new_user"
                 app:layout_constraintTop_toBottomOf="@id/title_new_user"
                 tools:itemCount="4" />
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto"
-                android:text="Articles About: "
+                android:text="@string/articles_about"
                 android:textColor="@color/black_87_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -244,12 +244,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:visibility="gone"
-                android:text="No Related Articles"
                 android:fontFamily="@font/roboto"
+                android:text="@string/no_related_articles"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/title_article"
-                app:layout_constraintTop_toBottomOf="@id/title_article"/>
+                app:layout_constraintTop_toBottomOf="@id/title_article" />
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -260,7 +260,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_recommendation" />
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

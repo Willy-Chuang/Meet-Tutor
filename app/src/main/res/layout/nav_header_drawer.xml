@@ -52,7 +52,7 @@
             android:fontFamily="@font/noto_sans"
             android:textColor="@color/black_3f3a3a"
             android:textSize="13sp"
-            android:text="Student"
+            android:text="@string/student"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drawer_user_name"

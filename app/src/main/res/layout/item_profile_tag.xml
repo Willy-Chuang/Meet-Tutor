@@ -14,17 +14,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_tag"
             android:paddingHorizontal="8dp"
             android:paddingVertical="1dp"
-            android:background="@drawable/bg_tag"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="English"/>
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="English" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

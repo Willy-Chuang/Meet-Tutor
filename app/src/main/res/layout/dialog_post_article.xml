@@ -45,7 +45,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto"
-                android:text="Create Article"
+                android:text="@string/create_article"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,8 +54,8 @@
                 android:id="@+id/layout_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/title_create_article"
-                app:layout_constraintBottom_toTopOf="@id/button_post">
+                app:layout_constraintBottom_toTopOf="@id/button_post"
+                app:layout_constraintTop_toBottomOf="@id/title_create_article">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_type_study_group"
@@ -69,7 +69,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="TYPE"
+                        android:text="@string/type"
                         android:textColor="@color/black_12_alpha"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -93,7 +93,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="TITLE"
+                        android:text="@string/all_caps_title"
                         android:textColor="@color/black_12_alpha"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -107,7 +107,7 @@
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
-                        android:hint="Enter Title"
+                        android:hint="@string/enter_title"
                         android:paddingStart="16dp"
                         android:text="@={viewModel.articleTitle}"
                         android:textSize="14sp"
@@ -122,7 +122,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="LOCATION"
+                        android:text="@string/all_caps_location"
                         android:textColor="@color/black_12_alpha"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -145,7 +145,7 @@
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
-                        android:hint="Enter more information"
+                        android:hint="@string/enter_more_information"
                         android:paddingStart="16dp"
                         android:text="@={viewModel.articleLocation}"
                         android:textSize="14sp"
@@ -160,7 +160,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="SUBJECT"
+                        android:text="@string/all_caps_subject"
                         android:textColor="@color/black_12_alpha"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -193,7 +193,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto"
-                        android:text="DETAIL"
+                        android:text="@string/all_caps_detail"
                         android:textColor="@color/black_12_alpha"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -209,7 +209,7 @@
                         android:background="@color/gray_light"
                         android:fontFamily="@font/roboto"
                         android:gravity="start"
-                        android:hint="Enter more information"
+                        android:hint="@string/enter_more_information"
                         android:paddingVertical="8dp"
                         android:paddingStart="16dp"
                         android:text="@={viewModel.articleDetail}"
@@ -233,12 +233,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_scroll"/>
+                app:layout_constraintTop_toBottomOf="@id/layout_scroll" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="POST"
+                android:text="@string/btn_post"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@id/button_post"
@@ -252,10 +252,10 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ProgressTheme"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="@id/layout_scroll"
+                app:layout_constraintBottom_toTopOf="@id/button_post"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/button_post" />
+                app:layout_constraintTop_toTopOf="@id/layout_scroll" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
