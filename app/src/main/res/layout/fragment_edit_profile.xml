@@ -62,7 +62,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Account / Email"
+                android:text="@string/account_email"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Gender"
+                android:text="@string/gender"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -109,14 +109,14 @@
                     android:id="@+id/radio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="@string/male"
                     android:textColor="@color/black_54_alpha" />
 
                 <RadioButton
                     android:id="@+id/radio_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Female"
+                    android:text="@string/female"
                     android:textColor="@color/black_54_alpha" />
 
             </RadioGroup>
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Identity"
+                android:text="@string/identity"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -148,14 +148,14 @@
                     android:id="@+id/radio_tutor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tutor"
+                    android:text="@string/tutor"
                     android:textColor="@color/black_54_alpha" />
 
                 <RadioButton
                     android:id="@+id/radio_student"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Student"
+                    android:text="@string/student"
                     android:textColor="@color/black_54_alpha" />
 
             </RadioGroup>
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Location"
+                android:text="@string/location"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Interested Subject"
+                android:text="@string/interested_subject"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -214,8 +214,8 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_edit_profile_title_subject">
 
                 <com.google.android.material.chip.ChipGroup
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Introduction"
+                android:text="@string/introduction"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -255,7 +255,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/gray_light"
                 android:gravity="start"
-                android:hint="Write something about yourself"
+                android:hint="@string/about_yourself"
                 android:imeOptions="actionDone"
                 android:paddingHorizontal="16dp"
                 android:paddingTop="8dp"
@@ -272,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Experience"
+                android:text="@string/experience"
                 android:textColor="@color/black_36_alpha"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -288,7 +288,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/gray_light"
                 android:gravity="start"
-                android:hint="Write something about yourself"
+                android:hint="@string/about_yourself"
                 android:imeOptions="actionDone"
                 android:paddingHorizontal="16dp"
                 android:paddingTop="8dp"

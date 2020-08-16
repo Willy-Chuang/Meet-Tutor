@@ -193,8 +193,6 @@ class PairingResultFragment : Fragment(), CardStackListener {
             viewModel.postUserToFollow(myEmail, requireNotNull(viewModel.usersWithMatch.value)[count])
 
             Toast.makeText(MeTuApplication.appContext, getString(R.string.toast_add_follow), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(MeTuApplication.appContext, getString(R.string.toast_bye), Toast.LENGTH_SHORT).show()
         }
     }
 

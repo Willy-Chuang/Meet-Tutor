@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="user"
             type="com.willy.metu.data.User" />
@@ -14,49 +15,49 @@
         android:id="@+id/layout_card_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/image_follow_avatar"
+                imageUrl="@{user.image}"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:scaleType="centerCrop"
                 android:background="@drawable/bg_all_round_corner"
-                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
-                imageUrl="@{user.image}"
-                tools:src="@drawable/ic_cute_avatar"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_cute_avatar" />
 
             <TextView
                 android:id="@+id/text_follow_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:text="@{user.name}"
-                android:textStyle="bold"
-                android:textColor="@color/black_87_alpha"
                 android:fontFamily="@font/roboto"
+                android:text="@{user.name}"
+                android:textColor="@color/black_87_alpha"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/image_follow_avatar"
                 app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
                 app:layout_constraintTop_toTopOf="@id/image_follow_avatar"
-                app:layout_constraintBottom_toBottomOf="@id/image_follow_avatar"
-                tools:text="Kiara Rig"/>
+                tools:text="Kiara Rig" />
 
             <ImageView
                 android:id="@+id/image_go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/ic_forward"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_forward" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

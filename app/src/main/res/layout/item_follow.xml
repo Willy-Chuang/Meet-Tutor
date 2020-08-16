@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="user"
             type="com.willy.metu.data.User" />
@@ -14,25 +15,25 @@
         android:id="@+id/layout_card_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/image_follow_avatar"
+                imageUrl="@{user.image}"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:scaleType="centerCrop"
                 android:background="@drawable/bg_all_round_corner"
-                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
-                imageUrl="@{user.image}"
-                tools:src="@drawable/ic_cute_avatar"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_cute_avatar" />
 
             <TextView
                 android:id="@+id/text_follow_name"
@@ -40,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text="@{user.name}"
-                android:textStyle="bold"
-                android:textColor="@color/black_87_alpha"
                 android:fontFamily="@font/roboto"
+                android:text="@{user.name}"
+                android:textColor="@color/black_87_alpha"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Kiara Rig"/>
+                tools:text="Kiara Rig" />
 
             <HorizontalScrollView
                 android:id="@+id/scroll_chip"
@@ -56,10 +57,10 @@
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
-                app:layout_constraintTop_toBottomOf="@id/text_follow_name"
-                app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/image_go"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
+                app:layout_constraintTop_toBottomOf="@id/text_follow_name">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroup"
@@ -67,12 +68,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:clickable="false"
+                    android:theme="@style/Theme.MaterialComponents.Light"
                     app:chipSpacingVertical="2dp"
-                    app:layout_constraintTop_toBottomOf="@id/text_follow_name"
-                    app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:theme="@style/Theme.MaterialComponents.Light">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintStart_toEndOf="@id/image_follow_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/text_follow_name"></com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
             <ImageView
@@ -80,10 +80,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/ic_forward"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_forward" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

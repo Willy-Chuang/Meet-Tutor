@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="article"
             type="com.willy.metu.data.Article" />
@@ -17,90 +18,88 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="4dp"
-        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
+        app:cardUseCompatPadding="true"
+        app:contentPadding="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_all"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_creator_image"
+                imageUrl="@{article.creatorImage}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                imageUrl="@{article.creatorImage}"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:srcCompat="@drawable/ic_cute_dino_location"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_cute_dino_location" />
 
             <ImageView
                 android:id="@+id/image_bookmark"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/bookmark_state"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bookmark_state" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:clickable="false"
                 android:text="@{article.type}"
                 android:textColor="@color/white"
-                android:clickable="false"
+                android:theme="@style/Theme.MaterialComponents.Light"
                 app:chipBackgroundColor='@{article.type.equals("Study Group") ? @color/water_green : article.type.equals("Student") ? @color/orange : article.type.equals("Tutor") ? @color/pinkish : @color/blue}'
                 app:chipSpacingVertical="2dp"
-                app:layout_constraintTop_toTopOf="@id/image_bookmark"
-                app:layout_constraintEnd_toStartOf="@id/image_bookmark"
                 app:layout_constraintBottom_toBottomOf="@id/image_bookmark"
-                android:theme="@style/Theme.MaterialComponents.Light">
-            </com.google.android.material.chip.Chip>
+                app:layout_constraintEnd_toStartOf="@id/image_bookmark"
+                app:layout_constraintTop_toTopOf="@id/image_bookmark"></com.google.android.material.chip.Chip>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_user_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/image_creator_image"
                 app:layout_constraintStart_toEndOf="@id/image_creator_image"
-                app:layout_constraintTop_toTopOf="@id/image_creator_image"
-                app:layout_constraintBottom_toBottomOf="@id/image_creator_image">
+                app:layout_constraintTop_toTopOf="@id/image_creator_image">
 
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/roboto"
                     android:text="@{article.creatorName}"
+                    android:textColor="@color/black_87_alpha"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/roboto"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/black_87_alpha"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Willy Chuang"/>
+                    tools:text="Willy Chuang" />
 
                 <TextView
                     android:id="@+id/text_time_ago"
+                    ago="@{article.createdTime}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    ago="@{article.createdTime}"
-                    android:textSize="14sp"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black_36_alpha"
-                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/user_name"
-                    tools:text="one day ago"/>
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text="one day ago" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,46 +108,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/layout_user_info"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_user_info">
 
                 <TextView
                     android:id="@+id/text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{article.title}"
                     android:fontFamily="@font/roboto"
+                    android:text="@{article.title}"
                     android:textColor="@color/black_87_alpha"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Language Partner"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Language Partner" />
 
                 <TextView
                     android:id="@+id/text_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@{article.city}"
                     android:fontFamily="@font/roboto"
+                    android:text="@{article.city}"
                     android:textColor="@color/black_87_alpha"
                     android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/text_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Taipei"/>
+                    app:layout_constraintTop_toBottomOf="@id/text_title"
+                    tools:text="Taipei" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@{article.subject}"
                     android:fontFamily="@font/roboto"
+                    android:text="@{article.subject}"
                     android:textColor="@color/black_87_alpha"
                     android:textSize="14sp"
-                    app:layout_constraintTop_toBottomOf="@id/text_location"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="English"/>
+                    app:layout_constraintTop_toBottomOf="@id/text_location"
+                    tools:text="English" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -157,17 +156,17 @@
                 android:id="@+id/text_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{article.detail}"
-                android:textColor="@color/black_36_alpha"
-                android:ellipsize="end"
-                android:maxLines="2"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/layout_text"
-                app:layout_constraintStart_toStartOf="parent"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{article.detail}"
+                android:textColor="@color/black_36_alpha"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Trying to find some workout buddy, Trying to be big and buff, please contact me if you are interested, we can talk about"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_text"
+                tools:text="Trying to find some workout buddy, Trying to be big and buff, please contact me if you are interested, we can talk about" />
 
             <TextView
                 android:id="@+id/button_read_more"
@@ -175,14 +174,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:layout_marginEnd="16dp"
-                android:visibility="gone"
-                android:text="Read More"
+                android:fontFamily="@font/roboto"
+                android:text="@string/read_more"
                 android:textColor="@color/black_36_alpha"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto"
-                app:layout_constraintTop_toBottomOf="@id/text_detail"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/text_detail" />
 
             <TextView
                 android:id="@+id/button_collapse"
@@ -190,14 +189,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Show Less"
-                android:visibility="gone"
+                android:fontFamily="@font/roboto"
+                android:text="@string/show_less"
                 android:textColor="@color/black_36_alpha"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto"
-                app:layout_constraintTop_toBottomOf="@id/text_detail"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/text_detail" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

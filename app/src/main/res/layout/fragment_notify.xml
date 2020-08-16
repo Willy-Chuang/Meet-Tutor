@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.willy.metu.notify.NotifyViewModel" />
@@ -22,11 +24,11 @@
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3"
-            tools:listitem="@layout/item_notify_event"/>
+            tools:listitem="@layout/item_notify_event" />
 
         <ImageView
             android:id="@+id/no_value_image"
@@ -34,24 +36,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/image_notify_no_value"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/image_notify_no_value" />
 
         <TextView
             android:id="@+id/no_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="No Notification"
-            android:visibility="gone"
-            android:textSize="24sp"
+            android:text="@string/no_notification"
             android:textColor="@color/gray_cccccc"
-            app:layout_constraintTop_toBottomOf="@id/no_value_image"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/no_value_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

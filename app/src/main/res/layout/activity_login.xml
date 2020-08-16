@@ -59,7 +59,7 @@
                 android:drawableStart="@drawable/logo_google"
                 android:gravity="center"
                 android:paddingHorizontal="4dp"
-                android:text="Sign Up With Google"
+                android:text="@string/sign_up_with_google"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
