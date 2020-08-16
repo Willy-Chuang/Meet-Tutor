@@ -3,12 +3,14 @@ package com.willy.metu.postevent
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.text.bold
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.willy.metu.MainViewModel
 import com.willy.metu.MeTuApplication
 import com.willy.metu.R
+import com.willy.metu.data.Event
 import com.willy.metu.databinding.DialogPostEventBinding
 import com.willy.metu.ext.getVmFactory
 import com.willy.metu.login.UserManager
@@ -29,8 +32,8 @@ import java.util.*
 
 class PostEventDialogFragment : AppCompatDialogFragment() {
 
-    val TIME_PICKER_TYPE_START = 0x01
-    val TIME_PICKER_TYPE_END = 0x02
+    private val TIME_PICKER_TYPE_START = 0x01
+    private val TIME_PICKER_TYPE_END = 0x02
 
     private val viewModel by viewModels<PostEventDialogViewModel> {
         getVmFactory(
@@ -98,7 +101,7 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
                             parent: AdapterView<*>?, view: View?, pos: Int, id: Long
                     ) {
                         if (parent != null && pos != 0) {
-                            viewModel.setInvitation(pos)
+                            viewModel.setInvitation(pos, parent.selectedItem.toString())
                         }
                     }
                 }
@@ -126,6 +129,15 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
         binding.buttonSave.setOnClickListener {
             if (viewModel.checkIfComplete()) {
                 val event = viewModel.getEvent(UserManager.user.email)
+
+                Logger.i("${viewModel.startTime.value}")
+
+                if (viewModel.startTime.value == null) {
+                    MeTuApplication.instance.setWork(event.eventTime, getFullTimeEventContent(event).toString())
+                } else {
+                    MeTuApplication.instance.setWork(event.eventTime, getStartTimeEventContent(event).toString())
+                }
+
                 viewModel.post(event)
                 Logger.d("$event")
             } else {
@@ -204,6 +216,23 @@ class PostEventDialogFragment : AppCompatDialogFragment() {
             binding.textSelectStartTime.visibility = View.GONE
             binding.textSelectEndTime.visibility = View.GONE
         }
+    }
+
+    private fun getFullTimeEventContent(event: Event): SpannableStringBuilder {
+        return SpannableStringBuilder()
+                .append(event.title)
+                .append(" with ")
+                .bold { append(viewModel.invitationName.value) }
+                .append(" is starting tomorrow ")
+    }
+
+    private fun getStartTimeEventContent(event: Event): SpannableStringBuilder {
+        return SpannableStringBuilder()
+                .append(event.title)
+                .append(" with ")
+                .bold { append(viewModel.invitationName.value) }
+                .append(" is starting at tomorrow ")
+                .bold { append(TimeUtil.stampToTime(event.startTime)) }
     }
 
     private fun datePicker() {

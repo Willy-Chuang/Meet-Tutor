@@ -110,6 +110,11 @@ dependencies {
         transitive = true;
     }
 
+    //Worker
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+
+
     // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.12'
     // Optional -- Robolectric environment
@@ -117,7 +122,6 @@ dependencies {
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'com.google.truth:truth:1.0.1'
-
 
     //Espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
