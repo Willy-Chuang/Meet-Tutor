@@ -7,12 +7,12 @@ src="https://img.shields.io/badge/platform-Android-brightgreen"/>
 
 MeeTu is an app, a platform, bringing people with needs together to exchange information and meet up for learning sessions.
 
-<p align="center">
-<img src="https://media.giphy.com/media/fZDckf0VOe65zB2How/giphy.gif"  height="500" />
-</p>
+
+<img src="https://github.com/Willy-Chuang/Meet-Tutor/blob/master/screenshot/meetubanner.gif?raw=true" width="900" />
 
 
-[![](https://i.imgur.com/6Rsv9wB.png =150x55)](https://play.google.com/store/apps/details?id=com.willy.metu)
+[<img
+src ="https://i.imgur.com/6Rsv9wB.png"  width="150" />](https://play.google.com/store/apps/details?id=com.willy.metu)
 
 
 
@@ -41,7 +41,7 @@ You will be good to go ❤️
 ### Article
 * Posting articles to find Study Group, Student, Tutor based on location and subject
 
-<img src=https://media.giphy.com/media/QTDTaGpWmPisYJjBxj/giphy.gif  height="500" />
+<img src="https://github.com/Willy-Chuang/Meet-Tutor/blob/master/screenshot/articledemo.gif?raw=true" height=500>
 
 
 
@@ -49,11 +49,11 @@ You will be good to go ❤️
 * Quick recommendation if you have a subject in mind
 * Questionaire to narrow the scope of requirement
 
-<img src=https://media.giphy.com/media/QTaC3hBjd5Q9TAPUp2/giphy.gif  height="500" /><br> 
+<img src="https://github.com/Willy-Chuang/Meet-Tutor/blob/master/screenshot/pairingdemo.gif?raw=true"  height="500" /><br> 
 
 * Instinctive and Fast way to make decisions
 
-<img src=https://media.giphy.com/media/XBjMrkWSqGmfqcSUeU/giphy.gif  height="500" />
+<img src="https://github.com/Willy-Chuang/Meet-Tutor/blob/master/screenshot/swipingdemo.gif?raw=true" height="500" />
 
 
 
@@ -61,50 +61,28 @@ You will be good to go ❤️
 * Chat room allowing you to make an agreement or appointment on the platform
 
 
-<img src=https://i.imgur.com/oO6sseJ.png height="500" />
+<img src=https://i.imgur.com/HqYo8Oe.png height="500" />  <img src=https://i.imgur.com/iteIXXX.png height="500" />
+
+
 
 
 ### Calendar
 * Calendar Schedule for you to be noted of an appointment you made with your learning partner
 
-<img src=https://media.giphy.com/media/KfAp6NVQaztw2Dpgid/giphy.gif  height="500" />
+<img src="https://github.com/Willy-Chuang/Meet-Tutor/blob/master/screenshot/calendardemo.gif?raw=true" height="500" />
 
 
 
 
 ## Implementation
-### Design Pattern
-* MVVM
-* Observer
-* Factory
-
-### User Interface
-* CoordinatorLayout
-* DatePicker
-* TimePicker
-* Snackbar
-* Chip
+* **Design Pattern**: `MVVM`, `Observer`, `Factory`
+*  **User Interface**: `CoordinatorLayout`, `DatePicker`, `TimePicker`, `Snackbar`, `Chip`
+* **Jetpack:** `ViewModel`, `LiveData`, `Lifecycle`, `Data Bindng`, `Navigation`, `WorkManager`
+* **Networking:** `RESTful APIs`, `Retrofit2`,`Moshi`
+* **Firebase:** `Authentication`, `Firestore`
 
 
-### Android Jetpack
-* ViewModel
-* LiveData
-* Lifecycle
-* Data Binding
-* Navigation
-* WorkManager
-
-### Networking
-* RESTful APIs
-* Retrofit2
-* Moshi
-
-### Firebase
-* Authentication
-* Firestore
-
-
-### Third Party Library
+## Third Party Library
 
 * [Lottie](https://github.com/airbnb/lottie-android)
 * [TimeAgo](https://github.com/marlonlom/timeago)
@@ -115,16 +93,16 @@ You will be good to go ❤️
 
 ## Requirements
 
-* Android 6.0+
+
 * Android Studio 3.6.1+
 * SDK Version 23+
 
 
 ## Contact
 
-:::info
+
 **Willy Chuang**: devwillylionheart@gmail.com
-:::
+
 
 
 ## License
