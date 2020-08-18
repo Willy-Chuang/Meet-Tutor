@@ -16,7 +16,6 @@ class CalendarBottomSheetAdapter(val viewModel: CalendarViewModel) : ListAdapter
             binding.event = event
 
             //Setup click to show detail
-//            binding.layoutScheduleDetail.visibility = View.GONE
             binding.layoutCard.setOnClickListener {
                 if (binding.layoutScheduleDetail.visibility == View.GONE) {
                     binding.layoutScheduleDetail.visibility = View.VISIBLE

@@ -136,6 +136,9 @@
     <string name="btn_go">GO</string>
     <string name="btn_maybe_later">MAYBE LATER</string>
     <string name="sign_up_with_google">Sign Up With Google</string>
+    <string name="channel_id">MeeTu</string>
+    <string name="upcoming_appointment">Upcoming Appointment</string>
+    <string name="notification_channel_description">MeeT Tutor</string>
 
 
     <string-array name="tag_array">
