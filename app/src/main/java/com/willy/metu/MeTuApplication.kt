@@ -34,7 +34,13 @@ class MeTuApplication : Application() {
     fun setWork (eventTime: Long, eventContent: String) {
 
         // Set firing time 6 hours early
-        val diffTime = eventTime - 21600000 - Calendar.getInstance().timeInMillis
+        var diffTime = eventTime - 21600000 - Calendar.getInstance().timeInMillis
+
+        diffTime = if (eventTime - Calendar.getInstance().timeInMillis <= 21600000) {
+            60000
+        } else {
+            eventTime - 21600000 - Calendar.getInstance().timeInMillis
+        }
 
         // Create the Constraints
         val constraints = Constraints.Builder()
